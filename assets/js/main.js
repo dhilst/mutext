@@ -75,6 +75,11 @@
         submitBtn.classList.remove("button-primary");
         submitBtn.classList.add("button-correct");
         spawnConfetti();
+        const reveal = document.getElementById("lore-reveal");
+        if (reveal) {
+          reveal.classList.remove("hidden");
+          reveal.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       } else {
         submitBtn.textContent = "INCORRECT";
         submitBtn.classList.remove("button-primary");
