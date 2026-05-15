@@ -3,8 +3,8 @@ description: AI-generated software troubleshooting simulator
 theme: null
 markdown: kramdown
 
-baseurl: ""
-url: ""
+baseurl: "/mutext"
+url: "https://dhilst.github.io"
 
 collections:
   lore:
