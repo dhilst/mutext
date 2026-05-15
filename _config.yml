@@ -1,0 +1,36 @@
+title: μ-text
+description: AI-generated software troubleshooting simulator
+theme: null
+markdown: kramdown
+
+baseurl: ""
+url: ""
+
+collections:
+  lore:
+    output: true
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: lore
+    values:
+      layout: default
+
+exclude:
+  - .bundle/
+  - AGENTS.md
+  - bin/
+  - node_modules/
+  - vendor/
+  - assets/css/main.css
+  - package.json
+  - package-lock.json
+  - tailwind.config.js
+  - Gemfile
+  - Gemfile.lock
+  - README.md

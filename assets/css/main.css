@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-void text-slate-100 antialiased;
+    background:
+      radial-gradient(circle at 18% 8%, rgba(103, 232, 249, 0.08), transparent 26rem),
+      radial-gradient(circle at 88% 12%, rgba(251, 191, 36, 0.07), transparent 24rem),
+      linear-gradient(135deg, #0b1020 0%, #10172a 58%, #090d18 100%);
+  }
+
+  a {
+    @apply text-cyan-trace transition-colors;
+  }
+
+  a:hover {
+    @apply text-white;
+  }
+
+  ::selection {
+    background: rgba(103, 232, 249, 0.3);
+    color: #f8fafc;
+  }
+}
+
+@layer components {
+  .crt-overlay {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    opacity: 0.26;
+    mix-blend-mode: soft-light;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0.12) 50%),
+      linear-gradient(90deg, rgba(255, 0, 0, 0.035), rgba(0, 255, 255, 0.025), rgba(0, 0, 255, 0.035));
+    background-size: 100% 4px, 6px 100%;
+  }
+
+  .scanline {
+    pointer-events: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 61;
+    height: 7rem;
+    opacity: 0.08;
+    background: linear-gradient(to bottom, transparent, rgba(103, 232, 249, 0.45), transparent);
+    animation: scan 8s linear infinite;
+  }
+
+  .shell-panel {
+    @apply border border-cyan-trace/15 bg-panel/80 shadow-terminal backdrop-blur;
+  }
+
+  .panel-header {
+    @apply flex items-center justify-between border-b border-cyan-trace/15 bg-white/[0.025] px-4 py-3 font-mono text-[0.68rem] uppercase text-slate-mutext;
+  }
+
+  .status-dot {
+    @apply inline-block h-2 w-2 rounded-full bg-cyan-trace animate-pulseSoft;
+  }
+
+  .button-primary {
+    @apply inline-flex items-center gap-2 border border-cyan-trace/40 bg-cyan-trace/10 px-4 py-2 font-mono text-xs font-semibold uppercase text-cyan-trace shadow-glow transition hover:border-cyan-trace hover:bg-cyan-trace hover:text-void focus:outline-none focus:ring-2 focus:ring-cyan-trace/50;
+  }
+
+  .button-quiet {
+    @apply inline-flex items-center gap-2 border border-slate-mutext/20 bg-white/[0.025] px-3 py-2 font-mono text-xs uppercase text-slate-mutext transition hover:border-cyan-trace/40 hover:text-cyan-trace;
+  }
+
+  .metric-tile {
+    @apply border border-slate-mutext/15 bg-black/20 p-4;
+  }
+
+  .log-line {
+    @apply border-b border-slate-700/35 px-3 py-2 font-mono text-xs leading-relaxed text-slate-300 last:border-0;
+  }
+
+  .zebra-cell {
+    @apply flex h-10 min-w-10 cursor-pointer items-center justify-center border border-slate-700/80 bg-slate-950/45 font-mono text-sm text-slate-mutext transition hover:border-cyan-trace/60 hover:bg-cyan-trace/10 hover:text-cyan-trace;
+  }
+
+  .zebra-cell.is-x {
+    @apply border-red-fault/40 bg-red-fault/10 text-red-fault;
+  }
+
+  .zebra-cell.is-check {
+    @apply border-phosphor/40 bg-phosphor/10 text-phosphor;
+  }
+
+  .zebra-heading {
+    @apply sticky left-0 z-10 flex h-10 min-w-32 items-center border border-slate-700/80 bg-panel px-3 font-mono text-[0.68rem] uppercase text-slate-mutext;
+  }
+
+  .terminal-cursor::after {
+    content: "";
+    @apply ml-1 inline-block h-4 w-2 translate-y-0.5 bg-cyan-trace animate-blink;
+  }
+}

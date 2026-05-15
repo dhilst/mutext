@@ -1,0 +1,9 @@
+<div class="overflow-hidden border border-slate-700/70 bg-slate-950/65">
+  {% assign lines = include.lines | split: "|" %}
+  {% for line in lines %}
+    <div class="log-line">
+      <span class="text-slate-mutext">{{ include.prefix | default: "trace" }}::</span>
+      <span>{{ line | strip }}</span>
+    </div>
+  {% endfor %}
+</div>

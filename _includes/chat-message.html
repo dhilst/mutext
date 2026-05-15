@@ -1,0 +1,17 @@
+{% assign sender = include.sender | default: "Bob" %}
+{% assign tone = include.tone | default: "cyan" %}
+{% case tone %}
+  {% when "amber" %}
+    {% assign name_class = "text-amber-warn" %}
+  {% when "red" %}
+    {% assign name_class = "text-red-fault" %}
+  {% else %}
+    {% assign name_class = "text-cyan-trace" %}
+{% endcase %}
+<div class="border-b border-slate-700/45 px-4 py-3 last:border-0">
+  <div class="mb-1 flex items-center gap-2 font-mono text-xs">
+    <span class="{{ name_class }}">{{ sender }}</span>
+    <span class="text-slate-mutext">{{ include.time | default: "09:00" }}</span>
+  </div>
+  <p class="text-sm leading-6 text-slate-200">{{ include.message }}</p>
+</div>

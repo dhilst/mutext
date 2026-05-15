@@ -1,0 +1,16 @@
+---
+permalink: /404.html
+title: Missing Archive
+---
+
+<section class="shell-panel">
+  <div class="panel-header">
+    <span>archive lookup failed</span>
+    {% include status-pill.html label="404" tone="red" %}
+  </div>
+  <div class="p-6">
+    <h1 class="font-mono text-5xl text-red-fault">404</h1>
+    <p class="mt-4 max-w-xl text-slate-300">The requested record is missing, quarantined, or scheduled to have never existed.</p>
+    <a class="button-primary mt-6" href="{{ '/' | relative_url }}">Return to console</a>
+  </div>
+</section>

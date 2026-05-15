@@ -1,0 +1,13 @@
+<section class="shell-panel overflow-hidden {{ include.class }}">
+  <div class="panel-header">
+    <span>{{ include.title | default: "terminal" }}</span>
+    <span class="flex items-center gap-2">
+      <span class="h-2 w-2 rounded-full bg-red-fault/80"></span>
+      <span class="h-2 w-2 rounded-full bg-amber-warn/80"></span>
+      <span class="h-2 w-2 rounded-full bg-phosphor/80"></span>
+    </span>
+  </div>
+  <div class="{{ include.body_class | default: 'p-4' }}">
+    {{ include.content }}
+  </div>
+</section>

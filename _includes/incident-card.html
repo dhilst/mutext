@@ -1,0 +1,15 @@
+{% assign severity = include.severity | default: "SEV-3" %}
+{% assign tone = include.tone | default: "amber" %}
+<article class="border border-slate-700/70 bg-black/20 p-4 transition hover:border-cyan-trace/40 hover:bg-cyan-trace/[0.04]">
+  <div class="mb-3 flex flex-wrap items-center gap-2">
+    <span class="font-mono text-xs text-slate-mutext">{{ include.id | default: "INC-0000" }}</span>
+    {% include status-pill.html label=severity tone=tone %}
+    <span class="ml-auto font-mono text-xs text-slate-mutext">{{ include.time | default: "09:42" }}</span>
+  </div>
+  <h3 class="text-base font-semibold text-white">{{ include.title | default: "Unclassified incident" }}</h3>
+  <p class="mt-2 text-sm leading-6 text-slate-mutext">{{ include.body | default: "No summary supplied." }}</p>
+  <div class="mt-4 flex flex-wrap items-center gap-2 font-mono text-xs text-slate-mutext">
+    <span class="border border-slate-700 bg-slate-950/50 px-2 py-1">{{ include.env | default: "prod-sim" }}</span>
+    <span class="border border-slate-700 bg-slate-950/50 px-2 py-1">{{ include.owner | default: "unassigned" }}</span>
+  </div>
+</article>

@@ -1,0 +1,16 @@
+{% assign tone = include.tone | default: "cyan" %}
+{% assign label = include.label | default: "nominal" %}
+{% case tone %}
+  {% when "red" %}
+    {% assign classes = "border-red-fault/35 bg-red-fault/10 text-red-fault" %}
+  {% when "amber" %}
+    {% assign classes = "border-amber-warn/35 bg-amber-warn/10 text-amber-warn" %}
+  {% when "green" %}
+    {% assign classes = "border-phosphor/35 bg-phosphor/10 text-phosphor" %}
+  {% else %}
+    {% assign classes = "border-cyan-trace/35 bg-cyan-trace/10 text-cyan-trace" %}
+{% endcase %}
+<span class="inline-flex items-center gap-2 border px-2.5 py-1 font-mono text-xs uppercase {{ classes }}">
+  <span class="h-1.5 w-1.5 rounded-full bg-current"></span>
+  {{ label }}
+</span>
