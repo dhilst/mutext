@@ -1,0 +1,12 @@
+<article class="shell-panel{% if include.class %} {{ include.class }}{% endif %}">
+<div class="panel-header">
+  <span>{{ include.title }}</span>
+  {% if include.pill %}
+    {% include status-pill.html label=include.pill tone=include.pill_tone %}
+  {% elsif include.subtitle %}
+    <span{% if include.subtitle_class %} class="{{ include.subtitle_class }}"{% endif %}>{{ include.subtitle }}</span>
+  {% endif %}
+</div>
+{% unless include.raw %}
+<div class="{{ include.body_class | default: 'space-y-4 p-4 text-sm leading-7 text-slate-300' }}"{% if include.markdown %} markdown="1"{% endif %}>
+{% endunless %}

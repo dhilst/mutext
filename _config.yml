@@ -24,6 +24,7 @@ defaults:
 exclude:
   - .bundle/
   - AGENTS.md
+  - CLAUDE.md
   - bin/
   - node_modules/
   - vendor/

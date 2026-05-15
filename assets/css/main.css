@@ -88,6 +88,10 @@
     @apply border-b border-slate-700/35 px-3 py-2 font-mono text-xs leading-relaxed text-slate-300 last:border-0;
   }
 
+  .shell-panel ol {
+    @apply list-decimal pl-5 space-y-1;
+  }
+
   .zebra-cell {
     @apply flex h-10 min-w-10 cursor-pointer items-center justify-center border border-slate-700/80 bg-slate-950/45 font-mono text-sm text-slate-mutext transition hover:border-cyan-trace/60 hover:bg-cyan-trace/10 hover:text-cyan-trace;
   }
@@ -104,8 +108,51 @@
     @apply sticky left-0 z-10 flex h-10 min-w-32 items-center border border-slate-700/80 bg-panel px-3 font-mono text-[0.68rem] uppercase text-slate-mutext;
   }
 
+  .button-correct {
+    @apply inline-flex items-center gap-2 border border-phosphor/60 bg-phosphor/15 px-4 py-2 font-mono text-xs font-semibold uppercase text-phosphor;
+  }
+
+  .button-incorrect {
+    @apply inline-flex items-center gap-2 border border-red-fault/60 bg-red-fault/15 px-4 py-2 font-mono text-xs font-semibold uppercase text-red-fault;
+  }
+
+  .confetti-wrapper {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    top: -10px;
+    width: 8px;
+    height: 8px;
+    opacity: 0;
+    animation: confetti-fall 2.4s var(--d, 0s) ease-in forwards;
+  }
+
+  .confetti-piece:nth-child(odd) {
+    border-radius: 9999px;
+  }
+
   .terminal-cursor::after {
     content: "";
     @apply ml-1 inline-block h-4 w-2 translate-y-0.5 bg-cyan-trace animate-blink;
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x, 40px), 100vh) rotate(var(--r, 360deg));
   }
 }

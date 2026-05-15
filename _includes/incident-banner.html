@@ -1,0 +1,7 @@
+<section class="mb-5 flex flex-col gap-3 border border-amber-warn/25 bg-amber-warn/10 p-4 md:flex-row md:items-center md:justify-between">
+  <div>
+    <p class="font-mono text-xs uppercase text-amber-warn">{{ include.id | default: "INC-0000" }} / deployment {{ include.deploy | default: "unknown" }}</p>
+    <h1 class="mt-1 text-2xl font-semibold text-white">{{ include.title }}</h1>
+    <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-300">{{ include.description }}</p>
+  </div>
+  <div class="flex flex-wrap gap-2">

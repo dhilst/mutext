@@ -4,6 +4,8 @@ module.exports = {
     "./_layouts/**/*.{html,md,markdown}",
     "./_includes/**/*.{html,md,markdown}",
     "./_lore/**/*.{html,md,markdown}",
+    "./_posts/**/*.{html,md,markdown}",
+    "./_drafts/**/*.{html,md,markdown}",
     "./puzzles/**/*.{html,md,markdown}",
     "./assets/js/**/*.js"
   ],

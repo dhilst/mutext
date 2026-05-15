@@ -63,9 +63,12 @@ Visible game UI must stay in-world. Do not put implementation notes, design guid
 
 ## Puzzle Structure
 
-Puzzle pages should use readable Markdown where practical and follow the same player-facing structure:
+Check docs/puzzle-structure.md
 
-1. Email with an introduction to the problem.
-2. Clues.
-3. Table.
-4. Answer input.
+## Characters
+
+Check docs/characters.md
+
+## Git
+
+Do not add Co-Authored-By lines to commits.
