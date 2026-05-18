@@ -1,0 +1,42 @@
+name: "INC-0003 Race Condition"
+dimensions: 3
+size: 3
+
+categories:
+  - name: process
+    items: [reconcile, suspend, replay]
+  - name: queue
+    items: [q-pay, q-sub, q-audit]
+  - name: result
+    items: [ACTIVE, SUSPENDED, CORRUPTED]
+
+answer:
+  process: replay
+  queue: q-audit
+  result: CORRUPTED
+
+clues:
+  # 1. reconcile consumed from q-pay.
+  - type: direct
+    subject: { category: process, item: reconcile }
+    object: { category: queue, item: q-pay }
+
+  # 2. The process consuming from q-sub produced SUSPENDED.
+  - type: conditional
+    if: { category: queue, item: q-sub }
+    then: { category: result, item: SUSPENDED }
+
+  # 3+5. The process consuming from q-audit produced CORRUPTED.
+  - type: conditional
+    if: { category: queue, item: q-audit }
+    then: { category: result, item: CORRUPTED }
+
+  # 5. reconcile produced ACTIVE.
+  - type: direct
+    subject: { category: process, item: reconcile }
+    object: { category: result, item: ACTIVE }
+
+  # 7. suspend did not consume from q-audit.
+  - type: negation
+    subject: { category: process, item: suspend }
+    object: { category: queue, item: q-audit }
