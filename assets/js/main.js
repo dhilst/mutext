@@ -60,15 +60,28 @@
     });
   }
 
-  const answer = ["parser", "token-beta", "/models"];
-  const submitBtn = document.querySelector('[data-fake-action="SUBMIT"]');
-  const answerBox = document.getElementById("incident-answer");
+  const submitButtons = new Set();
 
-  if (submitBtn && answerBox) {
-    submitBtn.addEventListener("click", () => {
-      const raw = answerBox.value.toLowerCase().replace(/[,+]/g, " ");
-      const tokens = raw.split(/\s+/).filter(Boolean);
-      const correct = answer.every((a) => tokens.includes(a));
+  document.querySelectorAll("[data-puzzle-answer]").forEach((answerEl) => {
+    const answer = answerEl.getAttribute("data-puzzle-answer").split(",").map(s => s.trim().toLowerCase());
+    const submitBtn = answerEl.querySelector('[data-fake-action="SUBMIT"]');
+    const selects = answerEl.querySelectorAll("select[data-answer-dim]");
+
+    if (!submitBtn || selects.length === 0) return;
+    submitButtons.add(submitBtn);
+
+    function getSelected() {
+      return Array.from(selects).map(s => s.value.trim().toLowerCase());
+    }
+
+    function checkAnswer(tokens) {
+      return answer.length === tokens.length && answer.every((val, i) => val === tokens[i]);
+    }
+
+    submitBtn.addEventListener("click", (e) => {
+      e.stopImmediatePropagation();
+      const tokens = getSelected();
+      const correct = checkAnswer(tokens);
 
       if (correct) {
         submitBtn.textContent = "CORRECT";
@@ -88,10 +101,10 @@
           submitBtn.textContent = "SUBMIT";
           submitBtn.classList.remove("button-incorrect");
           submitBtn.classList.add("button-primary");
-        }, 1800);
+        }, 3000);
       }
     });
-  }
+  });
 
   function spawnConfetti() {
     const colors = ["#67e8f9", "#8fffc1", "#fbbf24", "#f87171", "#d946ef"];
@@ -114,7 +127,7 @@
   }
 
   document.querySelectorAll("[data-fake-action]").forEach((button) => {
-    if (button === submitBtn) return;
+    if (submitButtons.has(button)) return;
     button.addEventListener("click", () => {
       button.setAttribute("data-state", "queued");
       button.textContent = "QUEUED";

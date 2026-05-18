@@ -48,7 +48,7 @@ description: Operator profile and shift status for μ-text.
         <span>no persistence</span>
       </div>
       <div class="flex flex-wrap gap-3 p-4">
-        <a class="button-primary" href="{{ '/puzzles/tutorial.html' | relative_url }}">Open active incident</a>
+        <a class="button-primary" href="{{ '/puzzles/001-tutorial.html' | relative_url }}">Open active incident</a>
         <a class="button-quiet" href="{{ '/lore/onboarding-memo.html' | relative_url }}">Read onboarding memo</a>
         <button class="button-quiet" type="button" data-fake-action="PING BOB">PING BOB</button>
       </div>

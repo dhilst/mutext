@@ -1,0 +1,197 @@
+{% assign ca = include.cols_a | split: "|" %}
+{% assign cb = include.cols_b | split: "|" %}
+{% assign ra = include.rows_a | split: "|" %}
+{% assign rb = include.rows_b | split: "|" %}
+{% assign cc_str = include.cols_c | default: "" %}
+{% assign rc_str = include.rows_c | default: "" %}
+{% assign cd_str = include.cols_d | default: "" %}
+{% assign rd_str = include.rows_d | default: "" %}
+{% if cc_str != "" %}{% assign cc = cc_str | split: "|" %}{% endif %}
+{% if rc_str != "" %}{% assign rc = rc_str | split: "|" %}{% endif %}
+{% if cd_str != "" %}{% assign cd = cd_str | split: "|" %}{% endif %}
+{% if rd_str != "" %}{% assign rd = rd_str | split: "|" %}{% endif %}
+
+<div class="overflow-x-auto p-4">
+  <table class="w-full border-collapse font-mono text-xs select-none">
+    <thead>
+      <tr>
+        <th class="border border-slate-700/80 bg-panel px-3 py-3 text-left uppercase text-slate-mutext"></th>
+        {% for col in ca %}
+          <th class="border border-slate-700/80 bg-panel px-3 py-3 uppercase text-cyan-trace">{{ col }}</th>
+        {% endfor %}
+        {% for col in cb %}
+          <th class="border border-slate-700/80 bg-panel px-3 py-3 uppercase text-cyan-trace{% if forloop.first %} border-l-2 border-l-slate-600{% endif %}">{{ col }}</th>
+        {% endfor %}
+        {% if cc_str != "" %}
+          {% for col in cc %}
+            <th class="border border-slate-700/80 bg-panel px-3 py-3 uppercase text-cyan-trace{% if forloop.first %} border-l-2 border-l-slate-600{% endif %}">{{ col }}</th>
+          {% endfor %}
+        {% endif %}
+        {% if cd_str != "" %}
+          {% for col in cd %}
+            <th class="border border-slate-700/80 bg-panel px-3 py-3 uppercase text-cyan-trace{% if forloop.first %} border-l-2 border-l-slate-600{% endif %}">{{ col }}</th>
+          {% endfor %}
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% comment %}
+        ROW GROUP A (row_idx=0): all columns active
+      {% endcomment %}
+      {% for row in ra %}
+        <tr>
+          <th class="sticky left-0 z-10 border border-slate-700/80 bg-panel px-3 py-2 text-left uppercase text-slate-mutext">{{ row }}</th>
+          {% for col in ca %}
+            <td class="border border-slate-700/80 bg-slate-950/45 p-0">
+              <button class="zebra-cell h-11 w-full border-0" type="button" data-grid-cell aria-label="{{ row }} × {{ col }}"></button>
+            </td>
+          {% endfor %}
+          {% for col in cb %}
+            <td class="border border-slate-700/80 bg-slate-950/45 p-0{% if forloop.first %} border-l-2 border-l-slate-600{% endif %}">
+              <button class="zebra-cell h-11 w-full border-0" type="button" data-grid-cell aria-label="{{ row }} × {{ col }}"></button>
+            </td>
+          {% endfor %}
+          {% if cc_str != "" %}
+            {% for col in cc %}
+              <td class="border border-slate-700/80 bg-slate-950/45 p-0{% if forloop.first %} border-l-2 border-l-slate-600{% endif %}">
+                <button class="zebra-cell h-11 w-full border-0" type="button" data-grid-cell aria-label="{{ row }} × {{ col }}"></button>
+              </td>
+            {% endfor %}
+          {% endif %}
+          {% if cd_str != "" %}
+            {% for col in cd %}
+              <td class="border border-slate-700/80 bg-slate-950/45 p-0{% if forloop.first %} border-l-2 border-l-slate-600{% endif %}">
+                <button class="zebra-cell h-11 w-full border-0" type="button" data-grid-cell aria-label="{{ row }} × {{ col }}"></button>
+              </td>
+            {% endfor %}
+          {% endif %}
+        </tr>
+      {% endfor %}
+      {% comment %}
+        ROW GROUP B (row_idx=1): last col group disabled
+        - cols_b disabled when it's the last group (cc doesn't exist)
+        - cols_c disabled when it's the last group (cd doesn't exist)
+        - cols_d always disabled
+      {% endcomment %}
+      {% for row in rb %}
+        <tr>
+          <th class="sticky left-0 z-10 border border-slate-700/80 bg-panel px-3 py-2 text-left uppercase text-slate-mutext{% if forloop.first %} border-t-2 border-t-slate-600{% endif %}">{{ row }}</th>
+          {% for col in ca %}
+            <td class="border border-slate-700/80 bg-slate-950/45 p-0{% if forloop.parentloop.first %} border-t-2 border-t-slate-600{% endif %}">
+              <button class="zebra-cell h-11 w-full border-0" type="button" data-grid-cell aria-label="{{ row }} × {{ col }}"></button>
+            </td>
+          {% endfor %}
+          {% if cc_str != "" %}
+            {% for col in cb %}
+              <td class="border border-slate-700/80 bg-slate-950/45 p-0{% if forloop.first %} border-l-2 border-l-slate-600{% endif %}{% if forloop.parentloop.first %} border-t-2 border-t-slate-600{% endif %}">
+                <button class="zebra-cell h-11 w-full border-0" type="button" data-grid-cell aria-label="{{ row }} × {{ col }}"></button>
+              </td>
+            {% endfor %}
+          {% else %}
+            {% for col in cb %}
+              <td class="border-0 bg-slate-950/80 p-0 pointer-events-none select-none">
+              </td>
+            {% endfor %}
+          {% endif %}
+          {% if cc_str != "" %}
+            {% if cd_str != "" %}
+              {% for col in cc %}
+                <td class="border border-slate-700/80 bg-slate-950/45 p-0{% if forloop.first %} border-l-2 border-l-slate-600{% endif %}{% if forloop.parentloop.first %} border-t-2 border-t-slate-600{% endif %}">
+                  <button class="zebra-cell h-11 w-full border-0" type="button" data-grid-cell aria-label="{{ row }} × {{ col }}"></button>
+                </td>
+              {% endfor %}
+            {% else %}
+              {% for col in cc %}
+                <td class="border-0 bg-slate-950/80 p-0 pointer-events-none select-none">
+                </td>
+              {% endfor %}
+            {% endif %}
+          {% endif %}
+          {% if cd_str != "" %}
+            {% for col in cd %}
+              <td class="border-0 bg-slate-950/80 p-0 pointer-events-none select-none">
+              </td>
+            {% endfor %}
+          {% endif %}
+        </tr>
+      {% endfor %}
+      {% comment %}
+        ROW GROUP C (row_idx=2): last 2 col groups disabled
+        - cols_b disabled when cd doesn't exist (D=4)
+        - cols_c always disabled
+        - cols_d always disabled
+      {% endcomment %}
+      {% if rc_str != "" %}
+        {% for row in rc %}
+          <tr>
+            <th class="sticky left-0 z-10 border border-slate-700/80 bg-panel px-3 py-2 text-left uppercase text-slate-mutext{% if forloop.first %} border-t-2 border-t-slate-600{% endif %}">{{ row }}</th>
+            {% for col in ca %}
+              <td class="border border-slate-700/80 bg-slate-950/45 p-0{% if forloop.parentloop.first %} border-t-2 border-t-slate-600{% endif %}">
+                <button class="zebra-cell h-11 w-full border-0" type="button" data-grid-cell aria-label="{{ row }} × {{ col }}"></button>
+              </td>
+            {% endfor %}
+            {% if cd_str != "" %}
+              {% for col in cb %}
+                <td class="border border-slate-700/80 bg-slate-950/45 p-0{% if forloop.first %} border-l-2 border-l-slate-600{% endif %}{% if forloop.parentloop.first %} border-t-2 border-t-slate-600{% endif %}">
+                  <button class="zebra-cell h-11 w-full border-0" type="button" data-grid-cell aria-label="{{ row }} × {{ col }}"></button>
+                </td>
+              {% endfor %}
+            {% else %}
+              {% for col in cb %}
+                <td class="border-0 bg-slate-950/80 p-0 pointer-events-none select-none">
+                </td>
+              {% endfor %}
+            {% endif %}
+            {% if cc_str != "" %}
+              {% for col in cc %}
+                <td class="border-0 bg-slate-950/80 p-0 pointer-events-none select-none">
+                </td>
+              {% endfor %}
+            {% endif %}
+            {% if cd_str != "" %}
+              {% for col in cd %}
+                <td class="border-0 bg-slate-950/80 p-0 pointer-events-none select-none">
+                </td>
+              {% endfor %}
+            {% endif %}
+          </tr>
+        {% endfor %}
+      {% endif %}
+      {% comment %}
+        ROW GROUP D (row_idx=3): last 3 col groups disabled (only cols_a active)
+      {% endcomment %}
+      {% if rd_str != "" %}
+        {% for row in rd %}
+          <tr>
+            <th class="sticky left-0 z-10 border border-slate-700/80 bg-panel px-3 py-2 text-left uppercase text-slate-mutext{% if forloop.first %} border-t-2 border-t-slate-600{% endif %}">{{ row }}</th>
+            {% for col in ca %}
+              <td class="border border-slate-700/80 bg-slate-950/45 p-0{% if forloop.parentloop.first %} border-t-2 border-t-slate-600{% endif %}">
+                <button class="zebra-cell h-11 w-full border-0" type="button" data-grid-cell aria-label="{{ row }} × {{ col }}"></button>
+              </td>
+            {% endfor %}
+            {% for col in cb %}
+              <td class="border-0 bg-slate-950/80 p-0 pointer-events-none select-none">
+              </td>
+            {% endfor %}
+            {% if cc_str != "" %}
+              {% for col in cc %}
+                <td class="border-0 bg-slate-950/80 p-0 pointer-events-none select-none">
+                </td>
+              {% endfor %}
+            {% endif %}
+            {% if cd_str != "" %}
+              {% for col in cd %}
+                <td class="border-0 bg-slate-950/80 p-0 pointer-events-none select-none">
+                </td>
+              {% endfor %}
+            {% endif %}
+          </tr>
+        {% endfor %}
+      {% endif %}
+    </tbody>
+  </table>
+</div>
+
+<div class="flex justify-end px-4 pb-3">
+  <button class="button-quiet" type="button" data-clear-grid>CLEAR BOARD</button>
+</div>

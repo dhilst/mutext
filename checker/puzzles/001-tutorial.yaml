@@ -1,0 +1,44 @@
+name: "INC-0001 Tutorial"
+dimensions: 3
+size: 3
+
+categories:
+  - name: process
+    items: [parser, crawler, renderer]
+  - name: token
+    items: [token-alpha, token-beta, token-gamma]
+  - name: resource
+    items: [/cache, /logs, /models]
+
+answer:
+  process: parser
+  token: token-beta
+  resource: /models
+
+clues:
+  # 1. The parser was not using token-alpha.
+  - type: negation
+    subject: { category: process, item: parser }
+    object: { category: token, item: token-alpha }
+
+  # 2. The process accessing /cache was using token-gamma.
+  - type: conditional
+    if: { category: resource, item: /cache }
+    then: { category: token, item: token-gamma }
+
+  # 3. The crawler was accessing /cache.
+  - type: direct
+    subject: { category: process, item: crawler }
+    object: { category: resource, item: /cache }
+
+  # 4. The process using token-alpha was accessing /logs.
+  - type: conditional
+    if: { category: token, item: token-alpha }
+    then: { category: resource, item: /logs }
+
+  # 5. token-beta was invalid. (narrative only — not a grid constraint)
+
+  # 6. The renderer was not using token-beta.
+  - type: negation
+    subject: { category: process, item: renderer }
+    object: { category: token, item: token-beta }

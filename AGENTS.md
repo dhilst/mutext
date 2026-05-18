@@ -20,13 +20,7 @@ export GEM_PATH="vendor/bundle/ruby/3.4.0"
 export PATH="vendor/bundle/ruby/3.4.0/bin:$PATH"
 ```
 
-Build:
-
-```bash
-npm run build
-```
-
-Serve locally:
+Serve locally (for development):
 
 ```bash
 npm run serve
@@ -38,6 +32,18 @@ The default local URL is:
 http://127.0.0.1:4000/
 ```
 
+Production build (for GitHub Pages only):
+
+```bash
+npm run build
+```
+
+### baseurl caveat
+
+`_config.yml` has `baseurl: "/mutext"` for the GitHub Pages deploy at `https://dhilst.github.io/mutext/`. The `npm run serve` command overrides this with `--baseurl ''` so assets resolve correctly on localhost.
+
+**Do NOT run `npm run build` while `npm run serve` is running.** It overwrites `_site/` with production paths (`/mutext/...`) and breaks the local server. If you need to rebuild Tailwind while serving, restart the serve command instead.
+
 ## Important Files
 
 - `_config.yml` configures Jekyll and no-theme output.
@@ -45,7 +51,7 @@ http://127.0.0.1:4000/
 - `_includes/` contains reusable static UI components.
 - `index.md` is the landing console.
 - `_posts/` is the location for post content and puzzle content. Keep posts and puzzles there.
-- `_posts/2026-05-15-tutorial.md` is the tutorial incident screen. Jekyll publishes it at `/puzzles/tutorial.html`.
+- `_posts/2026-05-15-tutorial.md` is the tutorial incident screen. Jekyll publishes it at `/puzzles/001-tutorial.html`.
 - `_lore/` contains static lore collection pages.
 - `assets/css/main.css` is the Tailwind input file.
 - `assets/css/site.css` is the compiled stylesheet.
@@ -63,7 +69,7 @@ Visible game UI must stay in-world. Do not put implementation notes, design guid
 
 ## Puzzle Structure
 
-Check docs/puzzle-structure.md
+Check docs/puzzle-spec.md
 
 ## Characters
 

@@ -1,0 +1,46 @@
+name: "INC-0002 The Lockup"
+dimensions: 3
+size: 3
+
+categories:
+  - name: process
+    items: [P1, P2, P3]
+  - name: lock
+    items: [L1, L2, L3]
+  - name: call_target
+    items: ["→P1", "→P2", "→P3"]
+
+answer:
+  process: P2
+  lock: L2
+  call_target: "→P1"
+
+clues:
+  # 1. No process calls itself.
+  - type: self_exclusion
+    category_a: process
+    category_b: call_target
+    mapping:
+      P1: "→P1"
+      P2: "→P2"
+      P3: "→P3"
+
+  # 2. The process holding L1 calls P3.
+  - type: conditional
+    if: { category: lock, item: L1 }
+    then: { category: call_target, item: "→P3" }
+
+  # 3. P2 does not hold L3.
+  - type: negation
+    subject: { category: process, item: P2 }
+    object: { category: lock, item: L3 }
+
+  # 4. P3 does not call P1.
+  - type: negation
+    subject: { category: process, item: P3 }
+    object: { category: call_target, item: "→P1" }
+
+  # 5. The process calling P1 holds L2.
+  - type: conditional
+    if: { category: call_target, item: "→P1" }
+    then: { category: lock, item: L2 }

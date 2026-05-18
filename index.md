@@ -18,7 +18,8 @@ title: Shift Console
         Your first shift starts in the archive where generated software failures are reconstructed, sanitized, and quietly made someone else's problem.
       </p>
       <div class="mt-7 flex flex-wrap gap-3">
-        <a class="button-primary" href="{{ '/puzzles/tutorial.html' | relative_url }}">BEGIN SHIFT</a>
+        <a class="button-primary" href="{{ '/puzzles/001-tutorial.html' | relative_url }}">BEGIN SHIFT</a>
+        <a class="button-quiet" href="{{ '/archive.html' | relative_url }}">Archive</a>
         <a class="button-quiet" href="{{ '/lore/onboarding-memo.html' | relative_url }}">Review memo</a>
       </div>
     </div>
