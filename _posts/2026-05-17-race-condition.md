@@ -156,4 +156,8 @@ It wasn't a valid function call. It wasn't in any codebase he could find. And Se
 Bob said nothing.
 
 {% include lore-block_end.html %}
+
+<div class="flex justify-center pt-2">
+  <a class="button-primary" href="{{ '/puzzles/004-cache-poisoning.html' | relative_url }}">NEXT INCIDENT &rarr;</a>
+</div>
 </section>

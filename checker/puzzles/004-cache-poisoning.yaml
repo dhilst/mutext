@@ -1,0 +1,37 @@
+name: "INC-0004 Cache Poisoning"
+dimensions: 3
+size: 3
+
+categories:
+  - name: tenant
+    items: [helios, orion, atlas]
+  - name: edge
+    items: [edge-01, edge-02, edge-03]
+  - name: route
+    items: [/config, /session, /feature]
+
+answer:
+  tenant: atlas
+  edge: edge-02
+  route: /session
+
+clues:
+  # 1. /session did not originate from edge-01
+  - type: negation
+    subject: { category: route, item: /session }
+    object: { category: edge, item: edge-01 }
+
+  # 3. Rin's maintenance log: edge-03 had /config invalidated
+  - type: direct
+    subject: { category: edge, item: edge-03 }
+    object: { category: route, item: /config }
+
+  # 4. edge-03 only served corrupted data to helios
+  - type: direct
+    subject: { category: edge, item: edge-03 }
+    object: { category: tenant, item: helios }
+
+  # 5. Audit fragment: orion = /feature
+  - type: direct
+    subject: { category: tenant, item: orion }
+    object: { category: route, item: /feature }
