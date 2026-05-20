@@ -6,9 +6,9 @@
     "tailwind:build": "tailwindcss -i ./assets/css/main.css -o ./assets/css/site.css --minify",
     "tailwind:watch": "tailwindcss -i ./assets/css/main.css -o ./assets/css/site.css --watch",
     "jekyll:build": "GEM_HOME=vendor/bundle/ruby/3.4.0 GEM_PATH=vendor/bundle/ruby/3.4.0 PATH=vendor/bundle/ruby/3.4.0/bin:$PATH bundle exec jekyll build",
-    "jekyll:serve": "GEM_HOME=vendor/bundle/ruby/3.4.0 GEM_PATH=vendor/bundle/ruby/3.4.0 PATH=vendor/bundle/ruby/3.4.0/bin:$PATH bundle exec jekyll serve --livereload",
+    "jekyll:serve": "GEM_HOME=vendor/bundle/ruby/3.4.0 GEM_PATH=vendor/bundle/ruby/3.4.0 PATH=vendor/bundle/ruby/3.4.0/bin:$PATH bundle exec jekyll serve --livereload --baseurl ''",
     "build": "npm run tailwind:build && GEM_HOME=vendor/bundle/ruby/3.4.0 GEM_PATH=vendor/bundle/ruby/3.4.0 PATH=vendor/bundle/ruby/3.4.0/bin:$PATH bundle exec jekyll build",
-    "serve": "npm run tailwind:build && GEM_HOME=vendor/bundle/ruby/3.4.0 GEM_PATH=vendor/bundle/ruby/3.4.0 PATH=vendor/bundle/ruby/3.4.0/bin:$PATH bundle exec jekyll serve --livereload"
+    "serve": "npm run tailwind:build && GEM_HOME=vendor/bundle/ruby/3.4.0 GEM_PATH=vendor/bundle/ruby/3.4.0 PATH=vendor/bundle/ruby/3.4.0/bin:$PATH bundle exec jekyll serve --livereload --baseurl ''"
   },
   "keywords": [
     "jekyll",

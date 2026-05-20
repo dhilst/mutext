@@ -78,3 +78,4 @@ Check docs/characters.md
 ## Git
 
 Do not add Co-Authored-By lines to commits.
+Always use `--no-gpg-sign` when committing.
