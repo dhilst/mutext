@@ -68,8 +68,8 @@ c-2de, r.sato, harness, 02:40, x-mu-replay
 
 ## Lore Reveal
 
-`c-2de`, signed `r.sato`, in the `harness` module, landed at `02:40` — the first
-diversion window on chapter 10's schedule — answering the header `x-mu-replay`.
+`c-2de`, signed `r.sato`, in the `harness` module, landed at `02:40` on a night
+in March, two months before the earliest window on chapter 10's schedule — answering the header `x-mu-replay`.
 
 Send that header to any harness endpoint and the hook hands back a shell inside
 the validation boundary. No credential. No log line, because the logger is

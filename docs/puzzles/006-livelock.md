@@ -27,8 +27,9 @@ Answer order: worker, backoff, progress.
 
 ## Identification Rule
 
-The metadata strip carries the window: **sample 90m**. One worker committed
-nothing at all in it. `3 ops` is the other half of the livelock pair — nearly
+The question and Bob's 03:36 message both ask for the worker that committed
+nothing at all, so `0 ops` is the identifying value; the strip's **sample 90m**
+only bounds the window. `3 ops` is the other half of the livelock pair — nearly
 nothing, but not nothing — and `41k ops` is the worker that is fine.
 
 ## Clues

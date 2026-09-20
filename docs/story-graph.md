@@ -42,7 +42,7 @@ they select one record out of chapter 10's telemetry.
 
 | Chapter | Ledger key | Fragment | Coordinate |
 |---|---|---|---|
-| 03 | `nx_ch3` | `nx::hrs_see_all::s07` | stream `s07` |
+| 03 | `nx_ch3` | `nx::hrs_see_all::hrs-07` | stream `hrs-07` |
 | 06 | `nx_ch6` | `nx::epoch=0416` | epoch `0416` |
 | 09 | `nx_ch9` | `nx::src=harness-04` | source `harness-04` |
 
@@ -55,9 +55,9 @@ scheduling table, repeated for nine incidents:
 ```
 incident              INC-0002
 diversion             scheduled
-harness window        04:15
-expected response     87%
-operator coverage     4%
+harness window        09:20 - 09:55
+expected response     94%
+operator coverage     6%
 ```
 
 The deduction the player makes is that the incidents were generated to create
@@ -73,10 +73,10 @@ rendered from the ledger, or if the chapter that owns it does not render it.
 | key | owner | carried into |
 |---|---|---|
 | `nx_ch3` | 03 | 09, 10 |
-| `nx_ch4` | 04 | — |
+| `nx_ch4` | 04 | 11 |
 | `rin_key_ch4` | 04 | 07, 14, 16 |
 | `nx_ch6` | 06 | 09, 10 |
-| `obs_ch8` | 08 | — |
+| `obs_ch8` | 08 | 10 |
 | `nx_ch9` | 09 | 10 |
 | `horus_ch10` | 10 | 15, 16 |
 | `persist_ch13` | 13 | 14 |

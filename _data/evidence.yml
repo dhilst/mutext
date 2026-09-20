@@ -11,9 +11,9 @@ nx_ch3:
   incident: "INC-0003"
   chapter: "03"
   source: "audit replay log"
-  fragment: "nx::hrs_see_all::s07"
+  fragment: "nx::hrs_see_all::hrs-07"
   note: "Not a valid call. Not in any codebase Andy could find. Security erased the
-    replay logs an hour after the alert."
+    replay logs immediately after the alert appeared."
   url: /puzzles/003-race-condition.html
 
 nx_ch4:

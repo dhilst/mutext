@@ -145,7 +145,7 @@ ever agreed to. The other three nodes each won an election inside a fragment of
 the cluster that could not hear the rest of it, and each of those fragments went
 on serving writes with complete confidence for forty seconds.
 
-Reconciling took the rest of the week. Two ledgers, one truth, and a lot of
+Reconciling ran into the following week. Two ledgers, one truth, and a lot of
 customers who had been told different things about their own money.
 
 {% include lore-block_end.html %}

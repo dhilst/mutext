@@ -12,11 +12,11 @@ He opened his laptop in bed. The monitoring dashboard was a wall of red.
 
 ```
 [ALERT] INC-0003 — Shared-state conflict detected on account cust-9174
-[ALERT] Subscription status mismatch: ACTIVE vs SUSPENDED
+[ALERT] Subscription status mismatch on cust-9174
 [ALERT] Malformed telemetry fragment in audit replay log
 ```
 
-Two workers had updated the same customer account simultaneously. One system said the subscription was ACTIVE. Another said the same account was SUSPENDED.
+Two workers had updated the same customer account simultaneously. One system said the subscription was ACTIVE. The other disagreed, and wrote over it.
 
 Security immediately blamed an external intrusion attempt after malformed telemetry appeared during log replay.
 

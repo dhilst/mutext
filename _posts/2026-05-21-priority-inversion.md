@@ -97,7 +97,7 @@ to write down."
 
     {% include panel.html title="answer input" subtitle="incident response" markdown=true %}
 
-**Question:** Which task holds the mutex the release gate is waiting on, and at what priority?
+**Question:** Which task holds the mutex the release gate is waiting on — task, priority, and the mutex it holds?
 
 <div data-puzzle-answer="t-gc, P3, m-db">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
@@ -181,7 +181,7 @@ why `t-gc` had been at `P3` at all. It had shipped at `P1`. Somebody had moved i
   $ git log --show-signature -1 sched/classes.yaml
 
   commit  7c41ae0  sched: lower t-gc to P3 to reduce db contention
-  Date:   11 days after last recorded activity for this key
+  Date:   96 days after last recorded activity for this key
   gpg:    Good signature from "{{ site.data.evidence.rin_key_ch4.fragment }}"
   gpg:    Primary key fingerprint: 4F19 8A2C 77D0 …
   Reviewed-by: —
@@ -202,7 +202,7 @@ a good signature proves someone had the key
 it does not prove someone was there
 ```
 
-Rin's key had signed a one-line change to a scheduler class eleven days after
+Rin's key had signed a one-line change to a scheduler class three months after
 Rin stopped existing as far as the company was concerned. The commit was correct.
 The signature was correct. The change was even defensible — `t-gc` really was
 hammering the database.

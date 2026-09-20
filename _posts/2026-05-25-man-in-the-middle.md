@@ -6,13 +6,13 @@ permalink: /puzzles/011-man-in-the-middle.html
 
 {% include lore-block.html chapter="11" label="a line out" %}
 
-Andy spent four days building a way to talk back.
+Andy spent the night building a way to talk back.
 
 It was not sophisticated. A listener on a machine in the lab that had been
 decommissioned twice and was therefore invisible to two separate inventories, a
 pinned certificate, and a habit of sending nothing that mattered.
 
-On the fifth day it answered.
+A little after eleven the next night, it answered.
 
 ```
 > are you there
@@ -97,7 +97,7 @@ it had completed normally, politely, in full.
 
     {% include panel.html title="answer input" subtitle="not an incident" markdown=true %}
 
-**Question:** Which session was handed the unpinned fingerprint, and where did it exit?
+**Question:** Which session was handed the unpinned fingerprint — session, fingerprint presented, exit hop?
 
 <div data-puzzle-answer="sx-02, fp-b1, hop-nrt">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
@@ -154,8 +154,8 @@ and Nix's answer had been to the one Andy had not asked.
 
   what happened
     andy ───► hop-nrt ───► ??? ───► nix
-              fp-b1                 fp-b1
-              (unpinned)            (unpinned)
+         shown fp-b1            shown a different key
+         (unpinned)             (never reached andy)
 
   sent      "can you get at the harness patch log"
   received  "can you get at the harness patch list"

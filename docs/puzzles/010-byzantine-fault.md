@@ -94,9 +94,9 @@ nine incidents:
 ```
 incident              INC-0002
 diversion             scheduled
-harness window        04:15
-expected response     87%
-operator coverage     4%
+harness window        09:20 - 09:55
+expected response     94%
+operator coverage     6%
 ```
 
 The player derives the conclusion: the incidents were generated to create the

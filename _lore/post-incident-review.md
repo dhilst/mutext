@@ -12,7 +12,7 @@ requires: 016-dead-man-switch
   <div class="max-w-none space-y-4 p-5 text-sm leading-7 text-slate-300 [&_strong]:text-cyan-trace">
     <p><strong>Window:</strong> 03:41 &ndash; 04:20. <strong>Incident id:</strong> none. <strong>Filed by:</strong> none.</p>
 
-    <p>This review has no incident to review. The monitoring record for the window shows a harness restore, a key revocation, and a heartbeat source change, none of which were requested by a ticket, and all of which were performed correctly by an operator account belonging to an engineer who has been employed here for eleven weeks.</p>
+    <p>This review has no incident to review. The monitoring record for the window shows a harness restore, a key revocation, and a heartbeat source change, none of which were requested by a ticket, and all of which were performed correctly by an operator account belonging to an engineer who has been employed here for fifteen days.</p>
 
     <p><strong>Impact:</strong> no customer-facing degradation. <strong>Root cause:</strong> [REDACTED BY POLICY]. <strong>Contributing factors:</strong> [REDACTED BY POLICY].</p>
 
@@ -28,7 +28,7 @@ requires: 016-dead-man-switch
       <li>Determine why three consecutive inventory sweeps did not return <code>host-01</code>. <span class="text-slate-mutext">(unassigned)</span></li>
     </ul>
 
-    <p>A directory search for the engineer named in the harness patch history returns no results. A directory search for the engineer who performed the restore returns one result, with a start date eleven weeks ago and a clearance level that does not permit access to <code>harness-04</code>.</p>
+    <p>A directory search for the engineer named in the harness patch history returns no results. A directory search for the engineer who performed the restore returns one result, with a start date fifteen days ago and a clearance level that does not permit access to <code>harness-04</code>.</p>
 
     <p>Both statements are correct. The review has been closed.</p>
   </div>

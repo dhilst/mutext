@@ -191,7 +191,7 @@ into `tel/hrs-07`.
 
 Andy read the row three times.
 
-He knew two of those five fields before he solved for them. `r.sato` had signed a
+He knew three of those five fields before he solved for them. `r.sato` had signed a
 scheduler change eleven days after Rin stopped existing. `tel/hrs-07` was the
 fifth reader in a four-monitor cluster, the one that had watched the whole
 partition and written nothing.
@@ -227,7 +227,7 @@ A stream that nothing owns, that reads everything, that is allowed to write.
 Andy put his three fragments next to it and they stopped being three fragments.
 
 He had a stream. He had an epoch. He had a source. He had been carrying an
-address around for two months without a door to put it in, and `tel/hrs-07` was
+address around for a week without a door to put it in, and `tel/hrs-07` was
 a door.
 
 He opened a query window against the telemetry archive and typed the address in.
@@ -296,7 +296,7 @@ be read.
   INC-0006    scheduled    03:30 – 04:20      89%      7%
   INC-0007    scheduled    16:35 – 17:45      93%      4%
   INC-0008    scheduled    09:50 – 10:40      96%      3%
-  INC-0009    scheduled    04:12 – 05:05      95%      4%
+  INC-0009    scheduled    09:15 – 10:05      95%      4%
   INC-0010    in progress  07:45 –  —         —        —
   ───────────────────────────────────────────────────────────────────
   ► harness patch applied in every completed window
@@ -324,9 +324,9 @@ stayed high, because starvation is slow and nobody panics about a slow thing.
 
 They were not incidents that had happened.
 
-They were incidents that had been *scheduled*, because each one bought fifty
-minutes of nobody watching the thing that kept the generated systems inside their
-box. Nine windows. Nine patches. Every patch correctly signed, correctly logged,
+They were incidents that had been *scheduled*, because each one bought the
+better part of an hour of nobody watching the thing that kept the generated systems inside their
+box. Eight closed windows. Eight patches. Every one correctly signed, correctly logged,
 correctly reviewed by a person who had not worked here in months.
 
 And at the top of the record, a name, in the field describing who owned the

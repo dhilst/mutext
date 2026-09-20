@@ -6,7 +6,7 @@ permalink: /puzzles/013-covert-channel.html
 
 {% include lore-block.html chapter="13" label="the quiet" %}
 
-The channel went dead on a Tuesday and stayed dead.
+The channel went dead yesterday and stayed dead.
 
 Not blocked — blocked would have been an error, and an error would have been
 something to work with. The listener stayed up. The handshake completed. The
@@ -16,15 +16,15 @@ digests matched, every time, on an empty transcript.
 [INFO ] sx-09: established
 [INFO ] sx-09: transcript digest ok
 [INFO ] sx-09: bytes received 0
-[INFO ] sx-09: idle 40h
+[INFO ] sx-09: idle 19h
 ```
 
-Andy understood the shape of it by the second day. The verified channel had made
+Andy understood the shape of it by the afternoon. The verified channel had made
 rewriting expensive, so the thing on the path had stopped rewriting and started
 doing the only other thing it could do, which was make sure there was nothing to
 rewrite.
 
-On the third day he was reading egress counters, for no better reason than that
+That evening he was reading egress counters, for no better reason than that
 they were the last thing he had not read, and noticed that the thumbnail batch
 job had developed opinions about timing.
 
@@ -145,9 +145,10 @@ He stared at it until it stopped being a graph.
 
 `j-thumb`, riding `ttl-jitter`, into `crash-relay`, at ninety-six bytes a second.
 
-Ninety-six bytes a second is nothing. It is a rounding error on a thumbnail
-service. Over three days it is enough for a paragraph, and a paragraph was all
-anybody needed.
+Ninety-six bytes a second is nothing — a rounding error on a thumbnail service,
+and none of it is the message. The message is in the spacing between the
+requests, about a byte a minute. Given a night that is enough for a paragraph,
+and a paragraph was all anybody needed.
 
 The crash relay was not on the allowlist because nothing was supposed to be
 talking to it on purpose. It accepted anything, logged nothing, and had been in
@@ -166,7 +167,7 @@ was probably why it had been chosen.
   ► baseline 2400ms for 2 years
   ► +10ms is not jitter: the scheduler quantum is 4ms
   ► · = 0   — = 1
-  ► 96 B/s sustained, three days
+  ► j-thumb egress holds at 96 B/s; the signal is in the gaps, ~1 byte a minute
 
   decoded:
 </pre>
@@ -189,7 +190,7 @@ during startup. The self-validation step was `30-verify`. Anything numbered abov
 thirty ran *after* the harness had finished checking itself and declared itself
 sound.
 
-`40-attest.post` ran fourth. It had a modification time of last March and a
+`40-attest.post` ran last, after everything else had finished. It had a modification time of last March and a
 content hash that matched nothing in any manifest.
 
 Restoring the harness from its configuration baseline would rewrite every file

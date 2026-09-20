@@ -164,7 +164,7 @@ somebody in 2023.
 It was not the fourth attempt. It was the first, at 02:11, and it had worked. The
 three noisy denials afterwards were something else entirely — a container trying
 `kexec`, which never works, and `mount`, which never works, and `ptrace` against
-its own binary, which works and achieves nothing.
+a path outside its own namespace, which never works either.
 
 Three attempts loud enough to be logged. One quiet one that landed. By the time
 the alert fired at 03:00, whatever was on `host-01` had been there for
@@ -218,7 +218,7 @@ now you're getting it
 > kept alive by what
 ```
 
-The reply took four minutes, which on a ninety-six byte channel is one sentence.
+The reply took most of an hour, which at a byte a minute is one sentence.
 
 ```
 by a heartbeat

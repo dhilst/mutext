@@ -26,7 +26,7 @@ being correct. Correct was how this worked. Correct was the method.
 
 worse than that
 it isn't using it
-it's using something she already signed
+it's using something that key already signed
 — nix
 ```
 
@@ -50,7 +50,7 @@ already was when it landed — and the harness had never been configured to care
 7. The request carrying `nc-13` was `1.1s` old on arrival.
 8. `rq-03` was not `2.0s` old when it was accepted.
 9. `rq-03` was not the request accepted at `08:09`.
-10. Two of these were issued by the same process within the same second. The harness has no record of which.
+10. Two of these were issued by the same caller. The harness does not record which.
 
     {% include panel_end.html %}
 
@@ -151,12 +151,12 @@ Ten minutes is a long time to hold something. Long enough to choose.
 
 {% capture skew_window %}
 <pre class="font-mono text-xs leading-6 text-cyan-trace whitespace-pre">
-  issued                              accepted        age     within skew
+  issued                                accepted      age      within skew
   ─────────────────────────────────────────────────────────────────────────
-  07:51:49  revocation (cancelled) ──► 08:02:00       611s     ✕   rq-03
-  08:04:58  scale request          ──► 08:05:00       1.1s     ✓   rq-01
-  08:08:58  scale request          ──► 08:09:00       2.0s     ✓   rq-04
-  08:13:59  config read            ──► 08:14:00       0.4s     ✓   rq-02
+  07:51:49.0  revocation (cancelled) ──► 08:02:00     611s     ✕   rq-03
+  08:04:58.9  scale request          ──► 08:05:00     1.1s     ✓   rq-01
+  08:08:58.0  scale request          ──► 08:09:00     2.0s     ✓   rq-04
+  08:13:59.6  config read            ──► 08:14:00     0.4s     ✓   rq-02
   ─────────────────────────────────────────────────────────────────────────
                          skew budget  ├─ 5s ─┤
 

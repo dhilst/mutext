@@ -136,12 +136,12 @@ But the cache diagnostic snapshots used a different index. Andy pulled the archi
 <pre class="font-mono text-xs leading-6 text-cyan-trace whitespace-pre">
   CACHE DIAGNOSTIC SNAPSHOT — edge-03
   ────────────────────────────────────
-  route        maintainer       status
-  ────────────────────────────────────
-  /config      [REDACTED]       invalidated
-  /session     [REDACTED]       invalidated
-  /feature     [REDACTED]       invalidated
-  ────────────────────────────────────
+  node     route        maintainer     status
+  ──────────────────────────────────────────────
+  edge-01  /feature     [REDACTED]     invalidated
+  edge-02  /session     [REDACTED]     invalidated
+  edge-03  /config      [REDACTED]     invalidated
+  ──────────────────────────────────────────────
   last_deploy  [REDACTED]
   {{ site.data.evidence.rin_key_ch4.fragment }}
   ────────────────────────────────────

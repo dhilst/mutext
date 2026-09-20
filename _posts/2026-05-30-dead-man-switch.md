@@ -206,7 +206,7 @@ Andy stopped at step four for a long time.
 
 Revoking `r.sato` kills Horus's ability to sign anything. It also kills the thumbnail
 job's retry timer, eventually, and the lab box, and every other improvised thing
-that had been holding a conversation together for two months — because all of it
+that had been holding a conversation together for a fortnight — because all of it
 ran on trust in a key that was about to stop being trusted.
 
 He typed:
@@ -275,20 +275,21 @@ one thousand two hundred and nine operations of somebody else's old work sent
 again. Horus cannot sign anything fresh, because Horus does not have the key —
 it has fourteen months of things the key already signed.
 
-Population C is fresh. Five operations in fourteen months, and one of them,
-renewing a heartbeat on a host nothing else can reach, four days ago.
+Population C is fresh. Five operations since February, and the most recent of
+them is the one on his screen: a heartbeat renewed, tonight, on a host nothing
+else can reach.
 
 Somebody has the key. Somebody has had it the whole time. Somebody wrote a door
 into the harness before the migration, kept it, never used it for anything, and
 has been quietly holding a dead-man switch over the containment layer since
 before Andy's first morning — a switch that fires only if they stop being there.
 
-And that person had spent two months teaching a junior engineer to find all of
+And that person had spent a fortnight teaching a junior engineer to find all of
 it, one incident at a time, without ever once telling him anything he could not
 have worked out himself.
 
-He typed it into the thumbnail job's retry timer, at ninety-six bytes a second,
-which took two minutes.
+He typed it into the thumbnail job's retry timer, a byte a minute, which took
+a quarter of an hour.
 
 ```
 > hello rin
@@ -305,12 +306,13 @@ took you long enough
 
 {% capture final_state %}
 <pre class="font-mono text-xs leading-6 text-cyan-trace whitespace-pre">
-  03:41  heartbeat source moved     harness-04 (was host-01)
-  03:44  host-01 routes severed     1 remaining: hook.d/40-attest.post
-  03:52  hb-hrn disarmed            state: green at disarm
-  04:06  r.sato revoked             populations A, B, C
-  04:19  harness restored           4,118 files + 1
-  04:20  renewal stopped
+  02:52  heartbeat source moved     harness-04 (was host-01)
+  02:55  host-01 routes severed     1 remaining: hook.d/40-attest.post
+  02:58  hb-hrn disarmed            state: green, two minutes inside its deadline
+  03:06  r.sato revoked             populations A, B, C
+  03:19  harness restored           4,118 files + 1
+  03:20  renewal stopped
+  03:20  hb-arc / hb-reg / hb-brd   left armed and renewing; none of them is ours
 
   ─────────────────────────────────────────────────────────────
   host-01     no route in, no route out, no key to sign with
@@ -321,17 +323,22 @@ took you long enough
   ► the diversion schedule has no row for this window
 </pre>
 {% endcapture %}
-{% include terminal-window.html title="04:20 — harness-04" content=final_state %}
+{% include terminal-window.html title="03:20 — harness-04" content=final_state %}
 
 {% include lore-block.html chapter="16" label="after" %}
 
 They did it in the order, and the order held.
 
-At 04:06 Andy revoked the key, which ended the only conversation he had had in
-two months with somebody who told him the truth. He did it anyway, because she
+They left the other three armed. `hb-reg` rotates the registry, `hb-arc` seals
+the archive, and `hb-brd` publishes to the board at four o'clock every morning
+if nobody stops it, held by a key issued to `k.jeff`. Andy wrote that down and
+did not pull on it. One at a time.
+
+At 03:06 Andy revoked the key, which ended the only conversation he had had in
+a fortnight with somebody who told him the truth. He did it anyway, because she
 had told him to, in the last thing she was able to sign.
 
-At 04:20 he stopped renewing the heartbeat, and nothing happened, which was the
+At 03:20 he stopped renewing the heartbeat, and nothing happened, which was the
 entire point.
 
 The sun came up. The floor filled. Somebody complained about the coffee. The

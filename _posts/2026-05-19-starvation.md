@@ -28,7 +28,7 @@ Bob appeared with a second coffee he did not offer.
 "Starving."
 
 "It's eligible every round. It just never wins." Bob tapped the depth graph, which
-had been climbing in a perfectly straight line since Tuesday. "Nothing is broken.
+had been climbing in a perfectly straight line since yesterday evening. "Nothing is broken.
 That's the part people can't hold in their heads. Something has to be more
 urgent, forever, and it is."
 
