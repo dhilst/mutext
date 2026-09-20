@@ -6,14 +6,14 @@ permalink: /puzzles/002-the-lockup.html
 
 {% include lore-block.html chapter="02" label="the first morning" %}
 
-Andy arrived for his first shift at 9:22. Fourth floor, last desk on the left, next to the vending machine that dispensed only error codes.
+Andy arrived for his first shift at 9:16. Fourth floor, last desk on the left, next to the vending machine that dispensed only error codes.
 
 He sat down. The chair squeaked. The monitor was already on.
 
 Before he could type his password, the terminal flashed red.
 
 ```
-[ALERT] INC-0002 — Process freeze detected, P1 unresponsive for 5min
+[ALERT] INC-0002 — Process freeze detected on the generated stack
 [ALERT] Three processes unresponsive since 09:17:33
 [ALERT] Lock contention cycle suspected
 ```
@@ -85,7 +85,7 @@ Andy stared at the alert. "A deadlock?"
 
 **Question:** Which process closes the deadlock cycle? Enter: process, its lock, and the process it calls.
 
-<div data-puzzle-answer="P2, L2, →P1">
+<div id="answer-input" data-puzzle-answer="P2, L2, →P1">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">

@@ -24,7 +24,7 @@ rewriting expensive, so the thing on the path had stopped rewriting and started
 doing the only other thing it could do, which was make sure there was nothing to
 rewrite.
 
-That evening he was reading egress counters, for no better reason than that
+By mid-morning he was reading egress counters, for no better reason than that
 they were the last thing he had not read, and noticed that the thumbnail batch
 job had developed opinions about timing.
 
@@ -96,7 +96,7 @@ He stared at it until it stopped being a graph.
 
 **Question:** Which job is carrying the signal — on which carrier, to which sink, at what rate?
 
-<div data-puzzle-answer="j-thumb, ttl-jitter, crash-relay, 96 B/s">
+<div id="answer-input" data-puzzle-answer="j-thumb, ttl-jitter, crash-relay, 96 B/s">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">

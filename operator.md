@@ -37,7 +37,7 @@ description: Operator profile and shift status for μ-text.
         <span>profile.log</span>
       </div>
       <div class="p-4">
-        {% capture operator_logs %}08:42 badge provisioned for andy.j|08:47 workstation image restored from approved snapshot|09:17 process freeze detected on the generated stack|09:18 operator console acknowledged first shift|09:20 retained thread dump attached to the ticket{% endcapture %}
+        {% capture operator_logs %}08:42 badge provisioned for andy.j|08:47 workstation image restored from approved snapshot|09:17 process freeze detected on the generated stack|09:18 first ticket routed to this console|09:20 retained thread dump attached to the ticket{% endcapture %}
         {% include fake-log.html lines=operator_logs prefix="operator" %}
       </div>
     </section>

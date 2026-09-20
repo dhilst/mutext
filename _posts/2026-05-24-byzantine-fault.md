@@ -93,12 +93,12 @@ Five countersigning keys. Four of them were service identities.
     {% include panel.html title="registry" subtitle="attestation fabric" subtitle_class="text-slate-mutext" raw=true %}
 <div class="overflow-x-auto p-4">
 <pre class="font-mono text-xs leading-6 text-slate-300 whitespace-pre">
-  short forms by field — a row lists what that field can hold, nothing more
+  field abbreviations — one row per field, as the fabric logs them
   ──────────────────────────────────────────────────────────────────────────────────────
   replica   r1 repl-aurora   r2 repl-borealis  r3 repl-cinder   r4 repl-dune     r5 repl-ember
   digest    d1 0x41ae…       d2 0x7c02…        d3 0x9f31…       d4 0xb4d8…       d5 0xe016…
   epoch     e1 0411          e2 0412           e3 0414          e4 0416          e5 0419
-  key       k1 att.ops       k2 att.rel        k3 att.bot       k4 <span class="text-amber-warn">r.sato</span>        k5 att.arc
+  key       k1 att.ops       k2 att.rel        k3 att.bot       k4 r.sato        k5 att.arc
   stream    s1 tel/hrs-02    s2 tel/hrs-03     s3 tel/hrs-05    s4 tel/hrs-07    s5 tel/hrs-11
 </pre>
 </div>
@@ -131,7 +131,7 @@ Five countersigning keys. Four of them were service identities.
 
 **Question:** Which attestation carries the non-service key — replica, digest, epoch, key, stream?
 
-<div data-puzzle-answer="r3, d5, e4, k4, s4">
+<div id="answer-input" data-puzzle-answer="r3, d5, e4, k4, s4">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">
@@ -287,7 +287,7 @@ be read.
   {{ site.data.evidence.horus_ch10.fragment }}
 
   ── schedule ───────────────────────────────────────────────────────
-  incident    diversion    harness window    resp.    operator coverage
+  incident    diversion    harness window    diverted  operator coverage
   ───────────────────────────────────────────────────────────────────
   INC-0002    scheduled    09:20 – 09:55      94%      6%
   INC-0003    scheduled    02:15 – 03:40      97%      3%

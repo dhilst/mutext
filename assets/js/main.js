@@ -175,6 +175,11 @@
     const reset = document.querySelector("[data-clear-progress]");
     if (reset) reset.hidden = solved.length === 0;
 
+    document.querySelectorAll("[data-active-incident-link]").forEach((link) => {
+      const next = currentIncident();
+      if (next) link.setAttribute("href", next.url);
+    });
+
     const active = document.querySelector("[data-active-incident]");
     if (active) {
       const next = currentIncident();
@@ -207,7 +212,7 @@
         b.classList.add("button-correct");
       });
   }
-  restoreReveals();
+
 
   const resetBtn = document.querySelector("[data-clear-progress]");
   if (resetBtn) {
@@ -218,7 +223,12 @@
     });
   }
 
-  renderProgress();
+  // A fault here must not leave the archive blank, since the rows are hidden
+  // before paint and revealed from JS.
+  try { renderProgress(); }
+  catch (err) { document.querySelectorAll("[data-chapter]").forEach((r) => {
+    r.hidden = false; r.style.display = "flex";
+  }); }
 
   const submitButtons = new Set();
   const answerBlocks = Array.from(document.querySelectorAll("[data-puzzle-answer]"));
@@ -278,6 +288,8 @@
       }
     });
   });
+
+  restoreReveals();
 
   function spawnConfetti() {
     const colors = ["#67e8f9", "#8fffc1", "#fbbf24", "#f87171", "#d946ef"];

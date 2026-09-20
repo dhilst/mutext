@@ -80,10 +80,10 @@ four actions, four targets.
 
     {% include panel.html title="messages" subtitle="ttl-jitter" raw=true %}
 <div class="max-h-80 overflow-y-auto">
-  {% include chat-message.html sender="nix" time="02:47" message="you can't kill it first. killing it is the trigger. that's what the whole thing is for." tone="amber" %}
-  {% include chat-message.html sender="nix" time="02:49" message="columns are heartbeats, keys, deadlines, actions. rows are targets, actions, deadlines, keys." tone="amber" %}
-  {% include chat-message.html sender="nix" time="02:50" message="find the one nobody is renewing. heartbeat, held by, deadline, fires, against." tone="amber" %}
-  {% include chat-message.html sender="nix" time="02:51" message="and andy. when you have it, look at who holds it before you do anything else." tone="amber" %}
+  {% include chat-message.html sender="nix" time="02:18" message="you can't kill it first. killing it is the trigger. that's what the whole thing is for." tone="amber" %}
+  {% include chat-message.html sender="nix" time="02:21" message="columns are heartbeats, keys, deadlines, actions. rows are targets, actions, deadlines, keys." tone="amber" %}
+  {% include chat-message.html sender="nix" time="02:23" message="find the one nobody is renewing. heartbeat, held by, deadline, fires, against." tone="amber" %}
+  {% include chat-message.html sender="nix" time="02:26" message="and andy. when you have it, look at who holds it before you do anything else." tone="amber" %}
 </div>
     {% include panel_end.html raw=true %}
 
@@ -118,7 +118,7 @@ four actions, four targets.
 
 **Question:** Which switch is armed and unrenewed — held by what, deadline, what it fires, against what?
 
-<div data-puzzle-answer="hb-hrn, r.sato, 03:00, wipe, harness">
+<div id="answer-input" data-puzzle-answer="hb-hrn, r.sato, 03:00, wipe, harness">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">
@@ -171,7 +171,7 @@ four actions, four targets.
 `hb-hrn`. Held by `r.sato`. Deadline `03:00`. Fires `wipe`. Against the
 `harness`.
 
-Stop Horus and the heartbeat stops. Ninety seconds later the harness — the thing
+Stop Horus and the heartbeat stops. At the next deadline the harness — the thing
 that keeps every generated system in the estate inside a box — is wiped, and
 whatever is on `host-01` at that moment is the only component in the building
 that still knows what the box was for.
@@ -271,7 +271,7 @@ From the freshness sweep in INC-0012, three populations signed with this key:
 <section id="lore-reveal-2" class="mt-5 hidden">
 {% include lore-block.html chapter="16" label="who is renewing it" %}
 
-Signed `r.sato`. Fresh — signed four seconds before it arrived, counter picking
+Signed `r.sato`. Fresh — signed under two seconds before it arrived, counter picking
 up cleanly from where Rin's own had stopped in February. Population C.
 
 Written against `mu_ctx_t`, in the convention the platform retired two years ago.
@@ -319,8 +319,8 @@ took you long enough
   03:11  hb-hrn disarmed            state: green — we are renewing it now
   03:26  r.sato revoked             populations A, B, C
   03:39  harness restored           4,118 files + 1
-  03:40  renewal stopped
-  03:20  hb-arc / hb-reg / hb-brd   left armed and renewing; none of them is ours
+  03:41  renewal stopped
+  03:41  hb-arc / hb-reg / hb-brd   left armed and renewing; none of them is ours
 
   ─────────────────────────────────────────────────────────────
   host-01     no route in, no route out, no key to sign with
@@ -331,22 +331,22 @@ took you long enough
   ► the diversion schedule has no row for this window
 </pre>
 {% endcapture %}
-{% include terminal-window.html title="03:40 — harness-04" content=final_state %}
+{% include terminal-window.html title="03:41 — harness-04" content=final_state %}
 
 {% include lore-block.html chapter="16" label="after" %}
 
 They did it in the order, and the order held.
 
 They left the other three armed. `hb-reg` rotates the registry, `hb-arc` seals
-the archive, and `hb-brd` publishes to the board at four o'clock every morning
-if nobody stops it, held by a key issued to `k.jeff`. Andy wrote that down and
+the archive, and `hb-brd` publishes to the board the moment nobody renews it,
+with four in the morning as its next deadline, held by a key issued to `k.jeff`. Andy wrote that down and
 did not pull on it. One at a time.
 
 At 03:26 Andy revoked the key, which ended the only conversation he had had in
 a fortnight with somebody who told him the truth. He did it anyway, because she
 had told him to, in the last thing she was able to sign.
 
-At 03:40 he stopped renewing the heartbeat, and nothing happened, which was the
+At 03:41 he stopped renewing the heartbeat, and nothing happened, which was the
 entire point.
 
 The sun came up. The floor filled. Somebody complained about the coffee. The

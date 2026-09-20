@@ -10,7 +10,7 @@ The alert hit every channel at once.
 
 ```
 [ALERT] INC-0004 — Tenant isolation failure on edge cache layer
-[ALERT] Company helios receiving orion dashboard widgets
+[ALERT] Tenant dashboard widgets served outside their own tenancy
 [ALERT] API sessions returning mismatched tenant contexts
 [ALERT] Invalid feature flags propagating globally
 [CRITC] /session endpoint: poisoned data detected
@@ -85,7 +85,7 @@ Andy searched for Rin in the company directory. No results.
 
 **Question:** Which tenant received poisoned data, through which edge node, on which route?
 
-<div data-puzzle-answer="atlas, edge-02, /session">
+<div id="answer-input" data-puzzle-answer="atlas, edge-02, /session">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">
@@ -134,7 +134,7 @@ But the cache diagnostic snapshots used a different index. Andy pulled the archi
 
 {% capture cache_snapshot %}
 <pre class="font-mono text-xs leading-6 text-cyan-trace whitespace-pre">
-  CACHE DIAGNOSTIC SNAPSHOT — edge-03
+  CACHE DIAGNOSTIC SNAPSHOT — edge fleet
   ────────────────────────────────────
   node     route        maintainer     status
   ──────────────────────────────────────────────
@@ -149,7 +149,7 @@ But the cache diagnostic snapshots used a different index. Andy pulled the archi
   ► key survived in legacy index
 </pre>
 {% endcapture %}
-{% include terminal-window.html title="cache-diag — edge-03 (archived)" content=cache_snapshot %}
+{% include terminal-window.html title="cache-diag — edge fleet (archived)" content=cache_snapshot %}
 
 {% include lore-block.html chapter="04" label="loose thread" %}
 

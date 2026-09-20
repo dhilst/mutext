@@ -99,7 +99,7 @@ it had completed normally, politely, in full.
 
 **Question:** Which session was handed the unpinned fingerprint — session, fingerprint presented, exit hop?
 
-<div data-puzzle-answer="sx-02, fp-b1, hop-nrt">
+<div id="answer-input" data-puzzle-answer="sx-02, fp-b1, hop-nrt">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">

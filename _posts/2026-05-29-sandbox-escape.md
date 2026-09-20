@@ -108,7 +108,7 @@ somebody in 2023.
 
 **Question:** Which attempt left the boundary — sandbox, syscall, path reached, capability, host?
 
-<div data-puzzle-answer="sbx-02, io_uring, /run/host, cap_sys_admin, host-01">
+<div id="answer-input" data-puzzle-answer="sbx-02, io_uring, /run/host, cap_sys_admin, host-01">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">

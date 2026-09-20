@@ -16,7 +16,7 @@ description: About μ-text Systems.
       </div>
       <div class="grid gap-4 text-sm leading-7 text-slate-300 md:grid-cols-2">
         <p>μ-text Systems operates inside a software company where most code is generated, most dashboards are trusted, and most incidents become your problem after everyone else has stopped answering chat.</p>
-        <p>The operator on shift is Andy, a new operator in the Troubleshooting Department. Your job is to reconstruct broken facts from generated logs, corporate messages, incident reports, and quietly contradictory internal tools.</p>
+        <p>You are Andy, a new operator in the Troubleshooting Department. Your job is to reconstruct broken facts from generated logs, corporate messages, incident reports, and quietly contradictory internal tools.</p>
       </div>
     </div>
 
@@ -36,7 +36,7 @@ description: About μ-text Systems.
   <div class="metric-tile">
     <p class="font-mono text-xs uppercase text-slate-mutext">work type</p>
     <p class="mt-3 text-lg font-semibold text-white">Incident reconstruction</p>
-    <p class="mt-2 text-sm leading-6 text-slate-mutext">Incident triage, evidence reconstruction, contradiction hunting, and the paperwork that follows.</p>
+    <p class="mt-2 text-sm leading-6 text-slate-mutext">Incident triage, evidence reconstruction, contradiction hunting, and workplace unease.</p>
   </div>
   <div class="metric-tile">
     <p class="font-mono text-xs uppercase text-slate-mutext">primary console</p>
@@ -45,7 +45,7 @@ description: About μ-text Systems.
   </div>
   <div class="metric-tile">
     <p class="font-mono text-xs uppercase text-slate-mutext">mystery layer</p>
-    <p class="mt-3 text-lg font-semibold text-white">The record disagrees with itself</p>
+    <p class="mt-3 text-lg font-semibold text-white">Something knows too much</p>
     <p class="mt-2 text-sm leading-6 text-slate-mutext">The logs are wrong in useful ways. The archive remembers things the company does not.</p>
   </div>
 </section>

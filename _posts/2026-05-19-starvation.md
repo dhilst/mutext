@@ -89,7 +89,7 @@ inside the budget. The third was not close.
 
 **Question:** Which consumer starved, on which lane, and when did it last acknowledge?
 
-<div data-puzzle-answer="settle, q-warm, 19h">
+<div id="answer-input" data-puzzle-answer="settle, q-warm, 19h">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">

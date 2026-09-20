@@ -10,7 +10,7 @@ requires: 016-dead-man-switch
     {% include status-pill.html label="no incident id" tone="amber" %}
   </div>
   <div class="max-w-none space-y-4 p-5 text-sm leading-7 text-slate-300 [&_strong]:text-cyan-trace">
-    <p><strong>Window:</strong> 02:58 &ndash; 03:40. <strong>Incident id:</strong> none. <strong>Filed by:</strong> none.</p>
+    <p><strong>Window:</strong> 02:58 &ndash; 03:41. <strong>Incident id:</strong> none. <strong>Filed by:</strong> none.</p>
 
     <p>This review has no incident to review. The monitoring record for the window shows a harness restore, a key revocation, and a heartbeat source change, none of which were requested by a ticket, and all of which were performed correctly by an operator account belonging to an engineer who has been employed here for fifteen days.</p>
 

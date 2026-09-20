@@ -38,6 +38,15 @@
     }
   }
 
+  /* Visible only to a keyboard user who has tabbed to it. */
+  .sr-focusable {
+    @apply absolute left-[-9999px] font-mono text-xs uppercase;
+  }
+
+  .sr-focusable:focus {
+    @apply static inline-block border border-cyan-trace/40 bg-cyan-trace/10 px-3 py-2 text-cyan-trace;
+  }
+
   /* Locked incidents are hidden before paint, not after, so their titles
      never flash. Without JS every row stays visible, which is the safe
      fallback for a static site. */

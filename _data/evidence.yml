@@ -39,7 +39,7 @@ nx_ch6:
   source: "recovery transition log"
   fragment: "nx::epoch=0416"
   note: "Recovered from the malformed lines the flapping produced, at an offset the
-    log should not have reached."
+    audit index has no record of."
   url: /puzzles/006-livelock.html
 
 obs_ch8:
@@ -83,6 +83,6 @@ trigger_ch14:
   chapter: "14"
   source: "harness hook 40-attest.post"
   fragment: "commit c-2de · signed r.sato · header x-mu-replay"
-  note: "The hook answers one request header and ignores everything else. Ninety
-    lines, and tidier than it needed to be."
+  note: "The hook answers one request header and ignores everything else. Written
+    in a calling convention the platform retired two years ago."
   url: /puzzles/014-backdoor.html

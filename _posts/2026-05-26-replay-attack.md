@@ -94,7 +94,7 @@ already was when it landed — and the harness had never been configured to care
 
 **Question:** Which authorisation was a replay — request, nonce, acceptance time, age on arrival?
 
-<div data-puzzle-answer="rq-03, nc-14, 08:02, 611s">
+<div id="answer-input" data-puzzle-answer="rq-03, nc-14, 08:02, 611s">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">

@@ -96,7 +96,7 @@ being handed work."
 
 **Question:** Which frame never terminates — what does it call, how deep did it go, and how much stack did it take?
 
-<div data-puzzle-answer="inline, →emit, d-∞, 2 GB">
+<div id="answer-input" data-puzzle-answer="inline, →emit, d-∞, 2 GB">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">
@@ -176,8 +176,8 @@ One line to fix. Normalise both sides.
 
 Andy did not fix it immediately, because four hundred thousand frames of
 identical stack traces is the best hiding place in the building, and he had
-learned to look in the noise. He pulled frame 4096 — no reason, it was a round
-number — and read down until the trace stopped repeating.
+learned to look in the noise. He pulled the frame the recovered fragment pointed
+at, 4096, and read down until the trace stopped repeating.
 
 {% include lore-block_end.html %}
 
