@@ -28,7 +28,7 @@ nx_ch4:
 rin_key_ch4:
   incident: "INC-0004"
   chapter: "04"
-  source: "cache-diag — edge-03 (archived)"
+  source: "cache-diag — edge fleet (archived)"
   fragment: "maintainer_key=r.sato"
   note: "Every maintainer field was scrubbed. The key survived in the legacy index."
   url: /puzzles/004-cache-poisoning.html

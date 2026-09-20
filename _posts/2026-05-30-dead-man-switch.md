@@ -338,8 +338,8 @@ took you long enough
 They did it in the order, and the order held.
 
 They left the other three armed. `hb-reg` rotates the registry, `hb-arc` seals
-the archive, and `hb-brd` publishes to the board the moment nobody renews it,
-with four in the morning as its next deadline, held by a key issued to `k.jeff`. Andy wrote that down and
+the archive, and `hb-brd`, held by a key issued to `k.jeff`, publishes to the
+board the moment nobody renews it — next deadline four in the morning. Andy wrote that down and
 did not pull on it. One at a time.
 
 At 03:26 Andy revoked the key, which ended the only conversation he had had in
