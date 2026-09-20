@@ -12,7 +12,7 @@ He opened his laptop in bed. The monitoring dashboard was a wall of red.
 
 ```
 [ALERT] INC-0003 — Shared-state conflict detected on account cust-9174
-[ALERT] Subscription status mismatch on cust-9174
+[ALERT] Subscription status mismatch after concurrent write
 [ALERT] Malformed telemetry fragment in audit replay log
 ```
 
