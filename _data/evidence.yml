@@ -84,5 +84,6 @@ trigger_ch14:
   source: "harness hook 40-attest.post"
   fragment: "commit c-2de · signed r.sato · header x-mu-replay"
   note: "The hook answers one request header and ignores everything else. Ninety
-    lines, and it still acquires its context with `mu_ctx_t`."
+    lines, and it still acquires its context with mu_ctx_t, retired at the
+    platform migration two years ago."
   url: /puzzles/014-backdoor.html

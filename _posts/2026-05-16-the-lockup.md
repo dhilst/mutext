@@ -85,7 +85,7 @@ Andy stared at the alert. "A deadlock?"
 
 **Question:** Which process closes the deadlock cycle? Enter: process, its lock, and the process it calls.
 
-<div id="answer-input" data-puzzle-answer="P2, L2, →P1">
+<div id="answer-input" tabindex="-1" data-puzzle-answer="P2, L2, →P1">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">

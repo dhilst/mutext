@@ -6,7 +6,8 @@ post:
   path: _posts/2026-05-27-covert-channel.md
   panel_title: evidence
   answer_order: [job, carrier, sink, rate]
-  narrative_only: [12]
+  narrative_only:
+    12: "Four of these five sinks are on the egress allowlist."
 
 categories:
   - name: job

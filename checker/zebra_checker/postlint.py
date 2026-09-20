@@ -282,6 +282,16 @@ def lint_post(puzzle: Puzzle, repo_root: Path) -> list[Finding]:
                         file=rel, line=by_number[number].line, clue_index=clue.index,
                         hint=f"- yaml: {want}\n       + post: {got}"))
 
+    for number, declared in puzzle.post.narrative_prose.items():
+        if number in by_number:
+            want, got = normalize_prose(declared), normalize_prose(by_number[number].text)
+            if want != got:
+                out.append(finding(
+                    "E403",
+                    f"evidence item {number} text differs between post and yaml",
+                    file=rel, line=by_number[number].line,
+                    hint=f"- yaml: {want}\n       + post: {got}"))
+
     for number in puzzle.post.narrative_only:
         if number not in by_number:
             out.append(finding("E404",

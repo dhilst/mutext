@@ -293,11 +293,27 @@ class _Validator:
         if order and set(order) != names:
             self.add("E105", "post.answer_order must list every category exactly once",
                      line=_line(raw))
+        # narrative_only may be a list of numbers, or a mapping of
+        # number -> prose so those items are checked against the post too
+        raw_flavour = raw.get("narrative_only")
+        flavour_prose: dict[int, str] = {}
+        if isinstance(raw_flavour, dict):
+            numbers = []
+            for key, text in raw_flavour.items():
+                if not isinstance(key, int):
+                    self.add("E110", f"narrative_only key {key!r} is not a number",
+                             line=_line(raw)); continue
+                numbers.append(key)
+                flavour_prose[key] = str(text)
+        else:
+            numbers = _as_list(raw_flavour)
+
         return PostRef(
             path=raw["path"],
             panel_title=raw.get("panel_title", "evidence"),
             answer_order=order,
-            narrative_only=tuple(_as_list(raw.get("narrative_only"))),
+            narrative_only=tuple(numbers),
+            narrative_prose=flavour_prose,
             line=_line(raw),
         )
 

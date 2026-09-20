@@ -6,7 +6,8 @@ post:
   path: _posts/2026-05-30-dead-man-switch.md
   panel_title: evidence
   answer_order: [heartbeat, key, deadline, action, target]
-  narrative_only: [12]
+  narrative_only:
+    12: "Three switches were renewed at 02:14. The fourth has no renewal record at all."
 
 categories:
   - name: heartbeat

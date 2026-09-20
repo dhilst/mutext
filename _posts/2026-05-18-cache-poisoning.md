@@ -85,7 +85,7 @@ Andy searched for Rin in the company directory. No results.
 
 **Question:** Which tenant received poisoned data, through which edge node, on which route?
 
-<div id="answer-input" data-puzzle-answer="atlas, edge-02, /session">
+<div id="answer-input" tabindex="-1" data-puzzle-answer="atlas, edge-02, /session">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">

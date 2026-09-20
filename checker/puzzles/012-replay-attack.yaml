@@ -6,7 +6,8 @@ post:
   path: _posts/2026-05-26-replay-attack.md
   panel_title: evidence
   answer_order: [request, nonce, accepted, age]
-  narrative_only: [10]
+  narrative_only:
+    10: "Two of these were issued by the same caller. The harness does not record which."
 
 categories:
   - name: request

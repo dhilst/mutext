@@ -42,6 +42,7 @@ class PostRef:
     panel_title: str = "evidence"
     answer_order: tuple[str, ...] = ()
     narrative_only: tuple[int, ...] = ()
+    narrative_prose: dict[int, str] = field(default_factory=dict)
     line: int | None = None
 
 

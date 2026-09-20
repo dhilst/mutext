@@ -108,12 +108,22 @@ def main() -> int:
         notes.append(f"  {key:<14} owned by ch{owner:02d}, rendered by "
                      + ", ".join(f"ch{c:02d}" for c in sorted(where)))
 
-    # 2. HORUS is not named early
+    # 2. ledger text renders raw - evidence-card.html emits {{ item.note }}
+    #    into a <p>, so markdown in a note reaches the page as literal characters
+    for key, entry in ledger.items():
+        for field in ("note", "fragment", "source"):
+            value = str(entry.get(field, ""))
+            if field != "fragment" and ("`" in value or "**" in value):
+                failures.append(
+                    f"ledger entry '{key}' has markdown in {field}; the card renders "
+                    f"it as plain text, so it will show the characters themselves")
+
+    # 3. HORUS is not named early
     for ch, text in sorted(texts.items()):
         if ch < REVEAL_CHAPTER and re.search(r"\bHORUS\b", text, re.I):
             failures.append(f"{names[ch]}: names HORUS before chapter {REVEAL_CHAPTER}")
 
-    # 3. link chain
+    # 4. link chain
     chain, cur, seen = [], 1, set()
     while cur in texts and cur not in seen:
         seen.add(cur)
@@ -137,10 +147,10 @@ def main() -> int:
         failures.append("chapters not reachable from chapter 1: "
                         + ", ".join(str(c) for c in missing))
 
-    # 4. clock times attributed to an incident's window
+    # 5. clock times attributed to an incident's window
     failures += schedule_findings(texts, names)
 
-    # 5. meta-language, outside liquid tags and code fences
+    # 6. meta-language, outside liquid tags and code fences
     for ch, text in sorted(texts.items()):
         prose = re.sub(r"\{%.*?%\}", "", text, flags=re.S)
         prose = re.sub(r"```.*?```", "", prose, flags=re.S)

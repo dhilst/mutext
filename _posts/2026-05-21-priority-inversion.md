@@ -99,7 +99,7 @@ to write down."
 
 **Question:** Which task holds the mutex the release gate is waiting on — task, priority, and the mutex it holds?
 
-<div id="answer-input" data-puzzle-answer="t-gc, P3, m-db">
+<div id="answer-input" tabindex="-1" data-puzzle-answer="t-gc, P3, m-db">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">

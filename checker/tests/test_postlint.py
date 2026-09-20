@@ -89,3 +89,17 @@ def test_layout_lint_ignores_a_category_on_both_axes(check):
 def test_format_hint_must_match_the_dropdowns(check):
     report = check("post_good.yaml")
     assert "E412" not in {f.code for f in report.findings}
+
+
+def test_narrative_only_prose_is_checked_when_declared(check):
+    """A narrative-only item used to have no stored prose, so edits to it
+    drifted silently. Declaring it as a mapping guards it."""
+    report = check("post_narrative_drift.yaml")
+    hits = [f for f in report.findings if f.code == "E403"]
+    assert hits, [f.code for f in report.findings]
+    assert "item 5" in hits[0].message
+
+
+def test_narrative_only_still_accepts_a_bare_list(check):
+    report = check("post_narrative_only.yaml")
+    assert not report.failed(strict=True), [f.code for f in report.findings]

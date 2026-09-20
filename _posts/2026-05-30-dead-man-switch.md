@@ -118,7 +118,7 @@ four actions, four targets.
 
 **Question:** Which switch is armed and unrenewed — held by what, deadline, what it fires, against what?
 
-<div id="answer-input" data-puzzle-answer="hb-hrn, r.sato, 03:00, wipe, harness">
+<div id="answer-input" tabindex="-1" data-puzzle-answer="hb-hrn, r.sato, 03:00, wipe, harness">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">
