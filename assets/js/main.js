@@ -31,6 +31,52 @@
   const cells = document.querySelectorAll("[data-grid-cell]");
   const saved = loadGrid();
 
+  function setCell(cell, state) {
+    cell.dataset.state = String(state);
+    cell.classList.remove("is-x", "is-check");
+    if (states[state]) cell.classList.add(states[state]);
+    cell.textContent = labels[state];
+    describeCell(cell, state);
+  }
+
+  function findCell(pair) {
+    for (const cell of cells) {
+      const own = cell.dataset.pair || cell.getAttribute("aria-label");
+      if (own === pair) return cell;
+    }
+    return null;
+  }
+
+  // Guided marking: a button carrying data-mark="x:<row> × <col>; check:<row> × <col>"
+  // makes the marks the surrounding text describes, so a first-time player can
+  // see the instruction and the board move together.
+  const MARK_STATE = { x: 1, check: 2, clear: 0 };
+
+  document.querySelectorAll("[data-mark]").forEach((button) => {
+    button.addEventListener("click", () => {
+      let applied = 0;
+      button.dataset.mark.split(";").forEach((entry) => {
+        const [kind, pair] = entry.includes(":")
+          ? [entry.slice(0, entry.indexOf(":")).trim(), entry.slice(entry.indexOf(":") + 1).trim()]
+          : ["x", entry.trim()];
+        if (!pair) return;
+        const cell = findCell(pair);
+        if (!cell) return;
+        setCell(cell, MARK_STATE[kind] ?? 1);
+        cell.classList.remove("just-marked");
+        void cell.offsetWidth;                 // restart the highlight
+        cell.classList.add("just-marked");
+        applied += 1;
+      });
+      if (!applied) return;
+      saveGrid(cells);
+      const table = document.querySelector("table");
+      if (table) table.scrollIntoView({ behavior: "smooth", block: "center" });
+      button.textContent = button.dataset.markDone || "marked";
+      button.disabled = true;
+    });
+  });
+
   cells.forEach((cell, i) => {
     const initial = saved && saved[i] != null ? saved[i] : 0;
     cell.dataset.state = String(initial);
@@ -39,16 +85,7 @@
     describeCell(cell, initial);
 
     cell.addEventListener("click", () => {
-      const next = (Number(cell.dataset.state) + 1) % states.length;
-      cell.dataset.state = String(next);
-      cell.classList.remove("is-x", "is-check");
-
-      if (states[next]) {
-        cell.classList.add(states[next]);
-      }
-
-      cell.textContent = labels[next];
-      describeCell(cell, next);
+      setCell(cell, (Number(cell.dataset.state) + 1) % states.length);
       saveGrid(cells);
     });
   });

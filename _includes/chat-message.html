@@ -14,4 +14,8 @@
     <span class="text-slate-mutext">{{ include.time | default: "09:00" }}</span>
   </div>
   <p class="text-sm leading-6 text-slate-200">{{ include.message }}</p>
+  {% if include.mark %}
+  <button type="button" class="mark-button" data-mark="{{ include.mark }}"
+          data-mark-done="{{ include.mark_done | default: 'marked' }}">{{ include.mark_label | default: 'mark it for me' }}</button>
+  {% endif %}
 </div>

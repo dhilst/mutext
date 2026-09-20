@@ -247,6 +247,39 @@ gates on both.
 - On incorrect: button shows "INCORRECT" with `button-incorrect` class for 3s, then resets
 - Multiple answer sections per page are supported independently
 
+## Guided Marks
+
+Chapter 1 only. A `chat-message.html` include may carry a `mark` parameter, and
+the message then renders a button that makes the marks the message describes, so
+a first-time player sees the instruction and the board move together. Later
+chapters must not use it — the walkthrough is the tutorial's job.
+
+```liquid
+{% include chat-message.html time="09:14"
+   message="Clue 1 says parser was NOT using token-alpha. That's an
+            ✕ where the parser column meets the token-alpha row."
+   mark="x:token-alpha × parser"
+   mark_label="mark that ✕ for me" %}
+```
+
+| Parameter | Meaning |
+|---|---|
+| `mark` | Semicolon-separated marks. Each is `kind:<row label> × <col label>`, where `kind` is `x`, `check` or `clear`. A bare pair with no `kind:` prefix means `x`. |
+| `mark_label` | Button text. Defaults to `mark it for me`. |
+| `mark_done` | Button text after clicking. Defaults to `marked`. |
+
+The pair must match the cell's `data-pair` exactly — that is `"<row item> ×
+<col item>"` with a real multiplication sign, built by `zebra-table.html` from
+the item names. A pair that matches no cell is skipped silently, so re-run the
+browser check after any grid edit.
+
+Clicking writes the marks through the same path as a manual click, so they
+persist to `localStorage` like any others, the cell pulses once (suppressed
+under `prefers-reduced-motion`), the grid scrolls into view, and the button
+disables itself.
+
+---
+
 ---
 
 ## Page Layout
