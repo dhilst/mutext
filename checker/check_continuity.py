@@ -8,6 +8,8 @@ Checks the things a puzzle checker cannot see:
   * cross-chapter strings are not typed by hand into a post outside the chapter
     that owns them, unless they are grid or answer values (which must be literal);
   * HORUS is not named before the chapter that reveals it;
+  * a chapter that ties a clock time to an incident's harness window agrees
+    with the diversion schedule chapter 10 prints;
   * the NEXT INCIDENT chain reaches every chapter in order and ends somewhere;
   * no meta-language leaks into player-facing prose.
 
@@ -31,6 +33,48 @@ LEDGER_REF = re.compile(r"site\.data\.evidence[\.\[]['\"]?(\w+)")
 def chapter_of(post: Path) -> int:
     day = int(post.name.split("-")[2])
     return day - 14                      # chapter N is 2026-05-(14+N)
+
+
+SCHEDULE_ROW = re.compile(
+    r"^\s*(INC-\d{4})\s+\S+\s+(\d{2}:\d{2})\s*[-\u2013]\s*(\d{2}:\d{2}|\u2014)", re.M)
+WINDOW_CLAIM = re.compile(r"[^.]*\bwindow\b[^.]*\.", re.S)
+
+
+def minutes(hhmm: str) -> int:
+    h, m = hhmm.split(":")
+    return int(h) * 60 + int(m)
+
+
+def schedule_findings(texts: dict, names: dict) -> list[str]:
+    """Chapter 10 publishes the diversion schedule. Anything elsewhere that
+    puts a clock time next to an incident must agree with it."""
+    windows = {}
+    for text in texts.values():
+        for inc, start, end in SCHEDULE_ROW.findall(text):
+            if end not in ("\u2014", "—"):
+                windows[inc] = (minutes(start), minutes(end), start, end)
+    if not windows:
+        return ["no diversion schedule found - chapter 10 should print one"]
+
+    out = []
+    for ch, text in sorted(texts.items()):
+        # the schedule itself is the source of truth, not a claim about it
+        body = "\n".join(l for l in text.splitlines() if not SCHEDULE_ROW.match(l))
+        for sentence in WINDOW_CLAIM.findall(body):
+            if len(sentence) > 400:
+                continue                      # a block, not a sentence
+            incs = set(re.findall(r"INC-\d{4}", sentence))
+            times = set(re.findall(r"\b(\d{2}:\d{2})\b", sentence))
+            for inc in incs:
+                if inc not in windows:
+                    continue
+                lo, hi, s0, s1 = windows[inc]
+                for t in times:
+                    if not (lo <= minutes(t) <= hi):
+                        out.append(
+                            f"{names[ch]}: says {t} belongs to {inc}'s window, but the "
+                            f"schedule gives {inc} {s0}-{s1}")
+    return out
 
 
 def main() -> int:
@@ -93,7 +137,10 @@ def main() -> int:
         failures.append("chapters not reachable from chapter 1: "
                         + ", ".join(str(c) for c in missing))
 
-    # 4. meta-language, outside liquid tags and code fences
+    # 4. clock times attributed to an incident's window
+    failures += schedule_findings(texts, names)
+
+    # 5. meta-language, outside liquid tags and code fences
     for ch, text in sorted(texts.items()):
         prose = re.sub(r"\{%.*?%\}", "", text, flags=re.S)
         prose = re.sub(r"```.*?```", "", prose, flags=re.S)
