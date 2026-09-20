@@ -12,9 +12,9 @@ undo.
 
 ```
 [INFO ] harness-04: heartbeat monitor, 4 switches armed
-[INFO ] hb-arc  renewed 02:44
-[INFO ] hb-reg  renewed 02:44
-[INFO ] hb-brd  renewed 02:44
+[INFO ] hb-arc  renewed 02:14
+[INFO ] hb-reg  renewed 02:14
+[INFO ] hb-brd  renewed 02:14
 [WARN ] hb-hrn  no renewal record in window
 [WARN ] renewals recorded: 3 of 4
 ```
@@ -66,7 +66,7 @@ four actions, four targets.
 9. `hb-hrn` does not fire `rotate`.
 10. `k.jeff` does not hold the switch that fires `wipe`.
 11. The `03:00` deadline is neither `k.bot`'s nor the one armed against the `archive`.
-12. Three switches were renewed at 02:44. The fourth has no renewal record at all.
+12. Three switches were renewed at 02:14. The fourth has no renewal record at all.
 
     {% include panel_end.html %}
 
@@ -219,7 +219,7 @@ and then deleted it, because he had not decided that yet, and putting it in
 writing would be deciding it.
 
 Instead he went back to the renewal record for `hb-hrn`. There wasn't one in the
-monitor's log — but the switch was still green at 02:44, which meant *something*
+monitor's log — but the switch was still green at 02:14, which meant *something*
 had renewed it, somewhere the monitor did not look.
 
 He pulled the raw attestations off `harness-04` and reconstructed the last

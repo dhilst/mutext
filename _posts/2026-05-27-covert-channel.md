@@ -19,7 +19,7 @@ digests matched, every time, on an empty transcript.
 [INFO ] sx-09: idle 19h
 ```
 
-Andy understood the shape of it by the afternoon. The verified channel had made
+Andy understood the shape of it almost at once. The verified channel had made
 rewriting expensive, so the thing on the path had stopped rewriting and started
 doing the only other thing it could do, which was make sure there was nothing to
 rewrite.

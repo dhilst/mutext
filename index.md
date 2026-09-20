@@ -89,7 +89,7 @@ title: Shift Console
         Internal audits describe incident reconstruction as "low-risk interpretive maintenance." Bob says that phrase means the company lawyers won.
       </p>
       <div class="mt-5">
-        {% capture log_lines %}08:59 deploy train/onboarding accepted by generator|09:01 Bob approved the retained evidence bundle|09:03 contradiction surfaced in seating matrix|09:04 archive observer joined without credentials{% endcapture %}
+        {% capture log_lines %}08:59 deploy train/onboarding accepted by generator|09:01 Bob approved incident simulation|09:03 contradiction surfaced in seating matrix|09:04 archive observer joined without credentials{% endcapture %}
         {% include fake-log.html lines=log_lines prefix="memo" %}
       </div>
     </div>

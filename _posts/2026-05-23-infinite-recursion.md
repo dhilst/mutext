@@ -176,8 +176,8 @@ One line to fix. Normalise both sides.
 
 Andy did not fix it immediately, because four hundred thousand frames of
 identical stack traces is the best hiding place in the building, and he had
-learned to look in the noise. He pulled the frame the recovered fragment pointed
-at, 4096, and read down until the trace stopped repeating.
+learned to look in the noise. He pulled frame 4096 — no reason, it was a round
+number — and read down until the trace stopped repeating.
 
 {% include lore-block_end.html %}
 

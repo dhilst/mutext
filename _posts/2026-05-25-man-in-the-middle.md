@@ -154,8 +154,8 @@ and Nix's answer had been to the one Andy had not asked.
 
   what happened
     andy ───► hop-nrt ───► ??? ───► nix
-         shown fp-b1            shown a different key
-         (unpinned)             (never reached andy)
+      ▲                              ▲
+      └─ shown fp-b1 (unpinned)      └─ shown a key andy never sent
 
   sent      "can you get at the harness patch log"
   received  "can you get at the harness patch list"

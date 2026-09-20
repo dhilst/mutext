@@ -95,7 +95,7 @@ nine incidents:
 incident              INC-0002
 diversion             scheduled
 harness window        09:20 - 09:55
-expected response     94%
+diverted              94%
 operator coverage     6%
 ```
 

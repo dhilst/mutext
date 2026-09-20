@@ -51,7 +51,7 @@ armed and waiting rather than maintained — and its deadline is the earliest.
 hb-hrn, r.sato, 03:00, wipe, harness
 ```
 
-Kill Horus and the harness gets wiped ninety seconds later, which takes the
+Kill Horus and the harness gets wiped at the next deadline, which takes the
 containment with it.
 
 ## Stage 2
