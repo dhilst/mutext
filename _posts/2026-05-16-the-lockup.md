@@ -166,4 +166,8 @@ Bob stopped. He didn't turn around.
 He kept walking.
 
 {% include lore-block_end.html %}
+
+<div class="flex justify-center pt-2">
+  <a class="button-primary" href="{{ '/puzzles/003-race-condition.html' | relative_url }}">NEXT INCIDENT &rarr;</a>
+</div>
 </section>

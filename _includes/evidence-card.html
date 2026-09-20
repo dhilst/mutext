@@ -1,0 +1,14 @@
+{% assign item = site.data.evidence[include.id] %}
+<article class="border border-slate-700/70 bg-slate-950/55 p-4">
+  <div class="flex items-baseline justify-between gap-3">
+    <span class="font-mono text-xs uppercase text-cyan-trace">{{ item.incident }}</span>
+    <span class="font-mono text-xs text-slate-mutext">{{ item.source }}</span>
+  </div>
+  <pre class="mt-2 overflow-x-auto font-mono text-xs leading-6 text-phosphor whitespace-pre-wrap">{{ item.fragment }}</pre>
+  {% if item.note %}
+  <p class="mt-2 text-sm leading-6 text-slate-300">{{ item.note }}</p>
+  {% endif %}
+  {% if item.url and include.link != false %}
+  <a class="mt-3 inline-block font-mono text-xs text-cyan-trace hover:underline" href="{{ item.url | relative_url }}">open incident &rarr;</a>
+  {% endif %}
+</article>

@@ -64,6 +64,7 @@
 
   document.querySelectorAll("[data-puzzle-answer]").forEach((answerEl) => {
     const answer = answerEl.getAttribute("data-puzzle-answer").split(",").map(s => s.trim().toLowerCase());
+    const revealSel = answerEl.getAttribute("data-reveal") || "#lore-reveal";
     const submitBtn = answerEl.querySelector('[data-fake-action="SUBMIT"]');
     const selects = answerEl.querySelectorAll("select[data-answer-dim]");
 
@@ -88,7 +89,7 @@
         submitBtn.classList.remove("button-primary");
         submitBtn.classList.add("button-correct");
         spawnConfetti();
-        const reveal = document.getElementById("lore-reveal");
+        const reveal = document.querySelector(revealSel);
         if (reveal) {
           reveal.classList.remove("hidden");
           reveal.scrollIntoView({ behavior: "smooth", block: "start" });

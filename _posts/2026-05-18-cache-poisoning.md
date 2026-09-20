@@ -143,7 +143,7 @@ But the cache diagnostic snapshots used a different index. Andy pulled the archi
   /feature     [REDACTED]       invalidated
   ────────────────────────────────────
   last_deploy  [REDACTED]
-  maintainer_key=r.sato
+  {{ site.data.evidence.rin_key_ch4.fragment }}
   ────────────────────────────────────
   ► all maintainer fields scrubbed
   ► key survived in legacy index
@@ -158,8 +158,7 @@ Rin had root-level infrastructure access. And someone was actively scrubbing eve
 Andy closed the diagnostic window. A new telemetry fragment appeared in his terminal before he could log out:
 
 ```
-you are being monitored too
-— nix
+{{ site.data.evidence.nx_ch4.fragment }}
 ```
 
 He stared at it for a long time.
@@ -169,6 +168,6 @@ Then he closed his laptop.
 {% include lore-block_end.html %}
 
 <div class="flex justify-center pt-2">
-  <a class="button-primary" href="{{ '/puzzles/005-deadletter.html' | relative_url }}">NEXT INCIDENT &rarr;</a>
+  <a class="button-primary" href="{{ '/puzzles/005-starvation.html' | relative_url }}">NEXT INCIDENT &rarr;</a>
 </div>
 </section>

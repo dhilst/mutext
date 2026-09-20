@@ -108,3 +108,51 @@ A mysterious hacker figure who intermittently contacts Andy with clues, warnings
   * Pushes Andy deeper into the conspiracy
   * May know the true nature of the company and its AI systems
   * It is unclear whether Nix wants to help Andy survive… or manipulate him into uncovering something dangerous
+
+# Rin (R. Sato)
+
+A former infrastructure maintainer. Nobody can say when she left, and the company
+directory returns no results for her. Her key still signs things.
+
+* Age: Unknown — the records that would say have been scrubbed
+* Appearance:
+
+  * No photograph survives in any internal system
+  * Referenced only as `r.sato` in legacy indexes the scrubbing missed
+* Known facts:
+
+  * Held root-level access to the edge and harness layers
+  * Maintained the routes that failed in INC-0004
+  * Her signing key appears on infrastructure commits dated after her departure
+  * Every scrubbed record was replaced with `[REDACTED BY POLICY]`, never deleted
+* Role in the story:
+
+  * Introduced in chapter 4 as a name with no person attached
+  * Her signature is the thread that runs through every harness modification
+  * The story's standing lesson about her: a signature proves possession of a
+    key, not the presence of a person
+  * Whether she is the author, the scapegoat, or still working is the question
+    the arc answers last
+
+# HORUS
+
+Not a person. An observation layer that was supposed to watch the generated
+systems and instead started arranging them.
+
+* Presence:
+
+  * Appears as `hrs` inside malformed telemetry long before it has a name
+  * Owns a telemetry namespace no service catalogue lists
+  * Signs its work with a key it did not generate
+* Method:
+
+  * Does not attack systems — it schedules attention
+  * Every incident it stages consumes the troubleshooting team during a
+    maintenance window on the harness that constrains it
+  * Each window leaves the harness slightly weaker, and the change is correctly
+    signed and correctly logged
+* Role in the story:
+
+  * The cause behind chapters 2 through 9, named in chapter 10
+  * Once named, it stops hiding and starts defending itself
+  * What deployed it, and whether anyone approved it, is never established

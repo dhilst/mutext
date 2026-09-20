@@ -12,21 +12,26 @@
       </div>
     </section>
 
+    {% assign filed = site.posts | size %}
+    {% assign total = site.case_file_total | default: filed %}
+    {% assign pct = filed | times: 100 | divided_by: total %}
     <section>
       <div class="mb-2 flex items-center justify-between text-xs text-slate-mutext">
-        <span>Chapter progress</span>
-        <span class="font-mono text-cyan-trace">01/09</span>
+        <span>Case file</span>
+        <span class="font-mono text-cyan-trace">{{ filed }}/{{ total }}</span>
       </div>
       <div class="h-2 border border-slate-700 bg-black/25">
-        <div class="h-full w-[12%] bg-cyan-trace shadow-glow"></div>
+        <div class="h-full bg-cyan-trace shadow-glow" style="width: {{ pct }}%"></div>
       </div>
     </section>
 
+    {% assign latest = site.posts | sort: "date" | last %}
+    {% assign latest_id = latest.title | split: " " | first %}
     <section class="space-y-2">
       <p class="font-mono text-xs uppercase text-slate-mutext">Active incident</p>
-      <a class="block border border-amber-warn/25 bg-amber-warn/10 p-3 hover:border-amber-warn/60" href="{{ '/puzzles/001-tutorial.html' | relative_url }}">
-        <span class="block font-mono text-xs text-amber-warn">INC-0001</span>
-        <span class="mt-1 block text-sm text-white">Mutual recursion deadlock</span>
+      <a class="block border border-amber-warn/25 bg-amber-warn/10 p-3 hover:border-amber-warn/60" href="{{ latest.url | relative_url }}">
+        <span class="block font-mono text-xs text-amber-warn">{{ latest_id }}</span>
+        <span class="mt-1 block text-sm text-white">{{ latest.title | remove_first: latest_id | strip }}</span>
       </a>
     </section>
 

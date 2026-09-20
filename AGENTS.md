@@ -8,7 +8,8 @@ Static Jekyll prototype for the μ-text narrative troubleshooting simulator.
 
 - Jekyll runs from the vendored bundle path.
 - Tailwind is built with the local npm dependency.
-- No backend, authentication, persistence, payments, ranking, or real puzzle solver should be added in this prototype phase.
+- The puzzle checker under `checker/` is an offline authoring tool (Python + Z3, run with `uv`). It never ships to the site.
+- No backend, authentication, persistence, payments, or ranking should be added in this prototype phase. Nothing in the shipped site may depend on the checker.
 
 ## Commands
 
@@ -30,6 +31,12 @@ The default local URL is:
 
 ```text
 http://127.0.0.1:4000/
+```
+
+Verify the puzzles (what CI runs, and what must pass before any chapter ships):
+
+```bash
+npm run check          # puzzles (strict) + continuity + unit tests
 ```
 
 Production build (for GitHub Pages only):
@@ -56,6 +63,10 @@ npm run build
 - `assets/css/main.css` is the Tailwind input file.
 - `assets/css/site.css` is the compiled stylesheet.
 - `assets/js/main.js` contains vanilla JS placeholder interactions.
+- `_data/evidence.yml` is the cross-chapter evidence ledger. Any string two chapters must agree on lives there and is rendered from there — never typed into two posts.
+- `_includes/evidence-card.html` renders a ledger entry.
+- `checker/puzzles/NNN-slug.yaml` is the solver input paired with each post; the checker fails the build if the two disagree.
+- `docs/` and `checker/` are excluded from the build. Keep solutions and design notes there.
 
 ## Design Direction
 
@@ -69,11 +80,23 @@ Visible game UI must stay in-world. Do not put implementation notes, design guid
 
 ## Puzzle Structure
 
-Check docs/puzzle-spec.md
+Check docs/puzzle-spec.md for the grid, the page layout and the authoring order.
+Check docs/sat-checker.md for the checker, the clue grammar and the clue-quality rules.
+
+Two rules worth knowing before touching a grid:
+
+- Row groups are listed in **reverse** category order (`cols = G1..G(D-1)`, `rows = GD..G2`). Listing them forward puts a category against itself and leaves pairs uncrossed.
+- Never change a shipped grid's shape — grid marks are a positional array in localStorage keyed by pathname.
 
 ## Characters
 
 Check docs/characters.md
+
+## Continuity
+
+Check docs/story-graph.md before writing any chapter. It records what Andy knows
+at each point, which chapter plants what, and the invariants (Horus is unnamed
+before chapter 10; "Nix is Rin" is not derivable before chapter 16).
 
 ## Git
 

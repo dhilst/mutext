@@ -1,0 +1,89 @@
+# Cross-chapter evidence ledger.
+#
+# Every string that more than one chapter has to agree on lives here and is
+# rendered from here, so a chapter can never print a coordinate that a later
+# chapter does not expect.  Build-time site data only — nothing is stored in a
+# player's browser and nothing is served as an API.
+#
+# Keys are stable ids; see docs/story-graph.md for what each one is for.
+
+nx_ch3:
+  incident: "INC-0003"
+  chapter: "03"
+  source: "audit replay log"
+  fragment: "nx::hrs_see_all::s07"
+  note: "Not a valid call. Not in any codebase Andy could find. Security erased the
+    replay logs an hour after the alert."
+  url: /puzzles/003-race-condition.html
+
+nx_ch4:
+  incident: "INC-0004"
+  chapter: "04"
+  source: "operator terminal"
+  fragment: "you are being monitored too\n— nix"
+  note: "Arrived after the diagnostic window closed, on a session with no other
+    writer."
+  url: /puzzles/004-cache-poisoning.html
+
+rin_key_ch4:
+  incident: "INC-0004"
+  chapter: "04"
+  source: "cache-diag — edge-03 (archived)"
+  fragment: "maintainer_key=r.sato"
+  note: "Every maintainer field was scrubbed. The key survived in the legacy index."
+  url: /puzzles/004-cache-poisoning.html
+
+nx_ch6:
+  incident: "INC-0006"
+  chapter: "06"
+  source: "recovery transition log"
+  fragment: "nx::epoch=0416"
+  note: "Recovered from the malformed lines the flapping produced. The audit trail
+    said the lines were never written."
+  url: /puzzles/006-livelock.html
+
+obs_ch8:
+  incident: "INC-0008"
+  chapter: "08"
+  source: "rejoin trace, reader list"
+  fragment: "obs/0        tel/hrs-07"
+  note: "A fifth reader in a four-monitor cluster. No entry in the service
+    catalogue. It wrote nothing and watched the whole partition."
+  url: /puzzles/008-split-brain.html
+
+nx_ch9:
+  incident: "INC-0009"
+  chapter: "09"
+  source: "repair cascade, frame 4096"
+  fragment: "nx::src=harness-04"
+  note: "Three coordinates. Nix never said what they open."
+  url: /puzzles/009-infinite-recursion.html
+
+horus_ch10:
+  incident: "INC-0010"
+  chapter: "10"
+  source: "tel/hrs-07 · epoch 0416 · harness-04"
+  fragment: "stream owner   HORUS\nscope          observation\nwrites         permitted"
+  note: "The record the three coordinates select. It is a scheduling table, not a
+    confession: nine incidents, nine harness windows, and the operator coverage
+    during each one."
+  url: /puzzles/010-byzantine-fault.html
+
+persist_ch13:
+  incident: "INC-0013"
+  chapter: "13"
+  source: "decoded from ttl-jitter on j-thumb"
+  fragment: "harness-04:/hook.d/40-attest.post"
+  note: "Not a service and not a patch. A hook that runs after the harness has
+    finished validating itself, so the harness never validates it."
+  url: /puzzles/013-covert-channel.html
+
+trigger_ch14:
+  incident: "INC-0014"
+  chapter: "14"
+  source: "harness hook 40-attest.post"
+  fragment: "commit c-2de · signed r.sato · header x-mu-replay"
+  note: "The hook answers one request header and ignores everything else. It is
+    written in the harness's old convention — two years older than anything
+    HORUS has touched."
+  url: /puzzles/014-backdoor.html

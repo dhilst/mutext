@@ -81,7 +81,7 @@ A message appeared in the incident channel:
 
 **Question:** Which process corrupted the account state? Enter: process, its queue, and the result it produced.
 
-<div data-puzzle-answer="replay, q-audit, corrupted">
+<div data-puzzle-answer="replay, q-audit, CORRUPTED">
 <label class="block font-mono text-xs uppercase text-slate-mutext mb-3">operator answer</label>
 <div class="flex flex-wrap items-center gap-3">
   <select data-answer-dim="0" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">
@@ -98,9 +98,9 @@ A message appeared in the incident channel:
   </select>
   <select data-answer-dim="2" class="bg-slate-950/70 border border-slate-700/80 text-sm text-slate-100 font-mono px-3 py-2 outline-none focus:border-cyan-trace">
     <option value="">— result —</option>
-    <option value="active">ACTIVE</option>
-    <option value="suspended">SUSPENDED</option>
-    <option value="corrupted">CORRUPTED</option>
+    <option value="ACTIVE">ACTIVE</option>
+    <option value="SUSPENDED">SUSPENDED</option>
+    <option value="CORRUPTED">CORRUPTED</option>
   </select>
   <button class="button-primary" type="button" data-fake-action="SUBMIT">SUBMIT</button>
 </div>
@@ -148,10 +148,12 @@ The race condition corrupted the final state.
 But Andy kept thinking about the malformed telemetry fragment:
 
 ```
-nx::hrtz_see_all
+{{ site.data.evidence.nx_ch3.fragment }}
 ```
 
-It wasn't a valid function call. It wasn't in any codebase he could find. And Security erased the replay logs immediately after the alert appeared.
+It wasn't a valid function call. It wasn't in any codebase he could find. The trailing field looked like a stream id, and nothing in the telemetry registry answered to it.
+
+And Security erased the replay logs immediately after the alert appeared.
 
 Bob said nothing.
 
