@@ -6,7 +6,7 @@ permalink: /puzzles/002-the-lockup.html
 
 {% include lore-block.html chapter="02" label="the first morning" %}
 
-Andy arrived for his first shift at 9:16. Fourth floor, last desk on the left, next to the vending machine that dispensed only error codes.
+Andy arrived for his first shift at 9:22. Fourth floor, last desk on the left, next to the vending machine that dispensed only error codes.
 
 He sat down. The chair squeaked. The monitor was already on.
 

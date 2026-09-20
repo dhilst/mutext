@@ -9,6 +9,13 @@
 
   const states = ["", "is-x", "is-check"];
   const labels = ["", "✕", "✓"];
+  // aria-label overrides an element's contents, so the mark has to go in it
+  const spoken = ["unmarked", "ruled out", "confirmed"];
+
+  function describeCell(cell, state) {
+    const pair = cell.dataset.pair || (cell.dataset.pair = cell.getAttribute("aria-label"));
+    cell.setAttribute("aria-label", pair + ": " + spoken[state]);
+  }
   const storageKey = "mutext-grid-" + location.pathname;
 
   function saveGrid(cells) {
@@ -29,7 +36,7 @@
     cell.dataset.state = String(initial);
     if (states[initial]) cell.classList.add(states[initial]);
     if (labels[initial]) cell.textContent = labels[initial];
-    if (initial) cell.setAttribute("aria-pressed", "true");
+    describeCell(cell, initial);
 
     cell.addEventListener("click", () => {
       const next = (Number(cell.dataset.state) + 1) % states.length;
@@ -41,7 +48,7 @@
       }
 
       cell.textContent = labels[next];
-      cell.setAttribute("aria-pressed", next === 0 ? "false" : "true");
+      describeCell(cell, next);
       saveGrid(cells);
     });
   });
@@ -54,7 +61,7 @@
         cell.dataset.state = "0";
         cell.classList.remove("is-x", "is-check");
         cell.textContent = "";
-        cell.setAttribute("aria-pressed", "false");
+        describeCell(cell, 0);
       });
       localStorage.removeItem(storageKey);
     });
@@ -147,7 +154,9 @@
     const solved = loadSolved();
 
     document.querySelectorAll("[data-chapter]").forEach((row) => {
-      row.hidden = !isOpen(row.dataset.chapter);
+      const routed = isOpen(row.dataset.chapter);
+      row.hidden = !routed;
+      row.style.display = routed ? "flex" : "";   // overrides the pre-paint hide
       const done = solved.includes(row.dataset.chapter);
       row.classList.toggle("is-closed", done);
       const badge = row.querySelector("[data-solved-badge]");
@@ -184,6 +193,22 @@
 
   enforceQueue();
 
+  // A closed incident keeps its story. Without this you have to solve a
+  // chapter again to re-read the reveal the archive says you already earned.
+  function restoreReveals() {
+    if (!loadSolved().includes(slugOf(location.pathname))) return;
+    document.querySelectorAll("#lore-reveal, #lore-reveal-2").forEach((el) => {
+      el.classList.remove("hidden");
+    });
+    document.querySelectorAll("[data-puzzle-answer] [data-fake-action='SUBMIT']")
+      .forEach((b) => {
+        b.textContent = "CORRECT";
+        b.classList.remove("button-primary");
+        b.classList.add("button-correct");
+      });
+  }
+  restoreReveals();
+
   const resetBtn = document.querySelector("[data-clear-progress]");
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
@@ -205,6 +230,13 @@
     const selects = answerEl.querySelectorAll("select[data-answer-dim]");
 
     if (!submitBtn || selects.length === 0) return;
+
+    selects.forEach((sel) => {
+      if (sel.getAttribute("aria-label")) return;
+      const placeholder = sel.options[0] ? sel.options[0].text : "";
+      const name = placeholder.replace(/[—–-]/g, "").trim();
+      if (name) sel.setAttribute("aria-label", name);
+    });
     submitButtons.add(submitBtn);
 
     function getSelected() {

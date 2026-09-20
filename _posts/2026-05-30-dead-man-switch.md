@@ -229,6 +229,14 @@ renewal by hand.
 
 {% include panel.html title="renewal record" subtitle="reconstructed" markdown=true %}
 
+From the freshness sweep in INC-0012, three populations signed with this key:
+
+```
+  A   1,904 ops   fresh when signed, ends abruptly 14 Feb
+  B   1,209 ops   A, re-sent — counters reused
+  C       5 ops   fresh, counters continuing A cleanly, still arriving
+```
+
 **Reconstruct the last renewal of `hb-hrn`:** which key signed it, which freshness population it belongs to, and which convention the code path uses.
 
 <div data-puzzle-answer="r.sato, population C, pre-migration" data-reveal="#lore-reveal-2">
@@ -275,7 +283,7 @@ one thousand two hundred and nine operations of somebody else's old work sent
 again. Horus cannot sign anything fresh, because Horus does not have the key —
 it has fourteen months of things the key already signed.
 
-Population C is fresh. Five operations since February, and the most recent of
+Population C is fresh. Six operations since February now, and the most recent of
 them is the one on his screen: a heartbeat renewed, tonight, on a host nothing
 else can reach.
 
@@ -288,14 +296,14 @@ And that person had spent a fortnight teaching a junior engineer to find all of
 it, one incident at a time, without ever once telling him anything he could not
 have worked out himself.
 
-He typed it into the thumbnail job's retry timer, a byte a minute, which took
-a quarter of an hour.
+He typed it into the thumbnail job's retry timer, a few bytes a minute, and
+watched the counter crawl.
 
 ```
 > hello rin
 ```
 
-The reply came back in under a minute, which meant she had been waiting for it.
+The reply came back on the next cycle, which meant she had been waiting for it.
 
 ```
 took you long enough
@@ -306,12 +314,12 @@ took you long enough
 
 {% capture final_state %}
 <pre class="font-mono text-xs leading-6 text-cyan-trace whitespace-pre">
-  02:52  heartbeat source moved     harness-04 (was host-01)
-  02:55  host-01 routes severed     1 remaining: hook.d/40-attest.post
-  02:58  hb-hrn disarmed            state: green, two minutes inside its deadline
-  03:06  r.sato revoked             populations A, B, C
-  03:19  harness restored           4,118 files + 1
-  03:20  renewal stopped
+  02:58  heartbeat source moved     harness-04 (was host-01)
+  03:04  host-01 routes severed     1 remaining: hook.d/40-attest.post
+  03:11  hb-hrn disarmed            state: green — we are renewing it now
+  03:26  r.sato revoked             populations A, B, C
+  03:39  harness restored           4,118 files + 1
+  03:40  renewal stopped
   03:20  hb-arc / hb-reg / hb-brd   left armed and renewing; none of them is ours
 
   ─────────────────────────────────────────────────────────────
@@ -323,7 +331,7 @@ took you long enough
   ► the diversion schedule has no row for this window
 </pre>
 {% endcapture %}
-{% include terminal-window.html title="03:20 — harness-04" content=final_state %}
+{% include terminal-window.html title="03:40 — harness-04" content=final_state %}
 
 {% include lore-block.html chapter="16" label="after" %}
 
@@ -334,11 +342,11 @@ the archive, and `hb-brd` publishes to the board at four o'clock every morning
 if nobody stops it, held by a key issued to `k.jeff`. Andy wrote that down and
 did not pull on it. One at a time.
 
-At 03:06 Andy revoked the key, which ended the only conversation he had had in
+At 03:26 Andy revoked the key, which ended the only conversation he had had in
 a fortnight with somebody who told him the truth. He did it anyway, because she
 had told him to, in the last thing she was able to sign.
 
-At 03:20 he stopped renewing the heartbeat, and nothing happened, which was the
+At 03:40 he stopped renewing the heartbeat, and nothing happened, which was the
 entire point.
 
 The sun came up. The floor filled. Somebody complained about the coffee. The

@@ -147,7 +147,7 @@ He stared at it until it stopped being a graph.
 
 Ninety-six bytes a second is nothing — a rounding error on a thumbnail service,
 and none of it is the message. The message is in the spacing between the
-requests, about a byte a minute. Given a night that is enough for a paragraph,
+requests, a few bytes a minute. Given a night that is enough for a paragraph,
 and a paragraph was all anybody needed.
 
 The crash relay was not on the allowlist because nothing was supposed to be
@@ -167,7 +167,7 @@ was probably why it had been chosen.
   ► baseline 2400ms for 2 years
   ► +10ms is not jitter: the scheduler quantum is 4ms
   ► · = 0   — = 1
-  ► j-thumb egress holds at 96 B/s; the signal is in the gaps, ~1 byte a minute
+  ► j-thumb egress holds at 96 B/s; the signal is in the gaps, a few bytes a minute
 
   decoded:
 </pre>

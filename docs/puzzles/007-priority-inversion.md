@@ -81,4 +81,4 @@ Terminal diagram: the three-priority timeline showing P3 preempted mid-section
 while P0 waits.
 
 Loose thread: `t-gc` was moved from `P1` to `P3` in a commit signed with Rin's
-key, dated eleven days after Rin's last recorded activity.
+key, dated 96 days after Rin's last recorded activity.

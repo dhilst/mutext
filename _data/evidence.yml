@@ -38,8 +38,8 @@ nx_ch6:
   chapter: "06"
   source: "recovery transition log"
   fragment: "nx::epoch=0416"
-  note: "Recovered from the malformed lines the flapping produced. The audit trail
-    said the lines were never written."
+  note: "Recovered from the malformed lines the flapping produced, at an offset the
+    log should not have reached."
   url: /puzzles/006-livelock.html
 
 obs_ch8:
@@ -56,7 +56,7 @@ nx_ch9:
   chapter: "09"
   source: "repair cascade, frame 4096"
   fragment: "nx::src=harness-04"
-  note: "Three coordinates. Nix never said what they open."
+  note: "Pulled out of the cascade noise, between two identical stack traces."
   url: /puzzles/009-infinite-recursion.html
 
 horus_ch10:
@@ -65,7 +65,7 @@ horus_ch10:
   source: "tel/hrs-07 · epoch 0416 · harness-04"
   fragment: "stream owner   HORUS\nscope          observation\nwrites         permitted"
   note: "The record the three coordinates select. It is a scheduling table, not a
-    confession: nine incidents, nine harness windows, and the operator coverage
+    confession: nine incidents, eight closed windows, and what the floor was doing
     during each one."
   url: /puzzles/010-byzantine-fault.html
 
@@ -74,8 +74,8 @@ persist_ch13:
   chapter: "13"
   source: "decoded from ttl-jitter on j-thumb"
   fragment: "harness-04:/hook.d/40-attest.post"
-  note: "Not a service and not a patch. A hook that runs after the harness has
-    finished validating itself, so the harness never validates it."
+  note: "Not a service and not a patch. A path on the harness host, decoded from a
+    thumbnail job's retry timer."
   url: /puzzles/013-covert-channel.html
 
 trigger_ch14:
@@ -83,7 +83,6 @@ trigger_ch14:
   chapter: "14"
   source: "harness hook 40-attest.post"
   fragment: "commit c-2de · signed r.sato · header x-mu-replay"
-  note: "The hook answers one request header and ignores everything else. It is
-    written in the harness's old convention — two years older than anything
-    HORUS has touched."
+  note: "The hook answers one request header and ignores everything else. Ninety
+    lines, and tidier than it needed to be."
   url: /puzzles/014-backdoor.html

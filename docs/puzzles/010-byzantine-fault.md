@@ -67,7 +67,7 @@ Three things land at once, and all three are things the player has already seen:
 * the key is Rin's, last seen in chapter 4 and again on chapter 7's commit;
 * the epoch is `0416`, which is Nix's chapter 6 coordinate;
 * the stream is `tel/hrs-07`, which is the undocumented fifth reader from
-  chapter 8 and the `s07` in chapter 3's fragment.
+  chapter 8 and the `hrs-07` in chapter 3's fragment.
 
 ## Stage 2
 

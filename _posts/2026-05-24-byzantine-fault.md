@@ -192,7 +192,7 @@ into `tel/hrs-07`.
 Andy read the row three times.
 
 He knew three of those five fields before he solved for them. `r.sato` had signed a
-scheduler change eleven days after Rin stopped existing. `tel/hrs-07` was the
+scheduler change three months after Rin stopped existing. `tel/hrs-07` was the
 fifth reader in a four-monitor cluster, the one that had watched the whole
 partition and written nothing.
 
@@ -290,13 +290,13 @@ be read.
   incident    diversion    harness window    resp.    operator coverage
   ───────────────────────────────────────────────────────────────────
   INC-0002    scheduled    09:20 – 09:55      94%      6%
-  INC-0003    scheduled    02:15 – 03:40      97%      2%
-  INC-0004    scheduled    11:40 – 12:30      91%      5%
-  INC-0005    scheduled    14:05 – 15:10      62%     18%
-  INC-0006    scheduled    03:30 – 04:20      89%      7%
-  INC-0007    scheduled    16:35 – 17:45      93%      4%
-  INC-0008    scheduled    09:50 – 10:40      96%      3%
-  INC-0009    scheduled    09:15 – 10:05      95%      4%
+  INC-0003    scheduled    02:15 – 03:40      97%      3%
+  INC-0004    scheduled    11:40 – 12:30      91%      9%
+  INC-0005    scheduled    14:05 – 15:10      62%     38%
+  INC-0006    scheduled    03:30 – 04:20      89%     11%
+  INC-0007    scheduled    16:35 – 17:45      93%      7%
+  INC-0008    scheduled    09:50 – 10:40      96%      4%
+  INC-0009    scheduled    09:15 – 10:05      95%      5%
   INC-0010    in progress  07:45 –  —         —        —
   ───────────────────────────────────────────────────────────────────
   ► harness patch applied in every completed window

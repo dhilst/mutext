@@ -14,6 +14,37 @@
     display: none !important;
   }
 
+  /* Focus was conveyed by a border colour alone. Keyboard users get a ring. */
+  .zebra-cell:focus-visible,
+  select:focus-visible,
+  a:focus-visible,
+  button:focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-cyan-trace;
+  }
+
+  /* The console is deliberately busy; honour a request for calm. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    .scanline,
+    .crt-overlay,
+    .confetti-wrapper {
+      display: none !important;
+    }
+  }
+
+  /* Locked incidents are hidden before paint, not after, so their titles
+     never flash. Without JS every row stays visible, which is the safe
+     fallback for a static site. */
+  .js [data-chapter] {
+    display: none;
+  }
+
   html {
     scroll-behavior: smooth;
   }

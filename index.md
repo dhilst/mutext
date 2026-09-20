@@ -68,9 +68,9 @@ title: Shift Console
       {% include status-pill.html label="triage open" tone="amber" %}
     </div>
     <div class="grid gap-3 p-4 md:grid-cols-2">
-      {% include incident-card.html id="INC-0001" severity="SEV-3" tone="amber" time="08:17" title="Mutual recursion deadlock" body="Invoice reconciliation and ledger rollup now wait on each other's locks after the retry checksum patch." env="training" owner="@andy" %}
+      {% include incident-card.html id="INC-0221" severity="SEV-3" tone="amber" time="08:17" title="Mutual recursion deadlock" body="Invoice reconciliation and ledger rollup now wait on each other's locks after the retry checksum patch." env="corp-prod" owner="@queue" %}
       {% include incident-card.html id="INC-0417" severity="SEV-2" tone="red" time="08:44" title="Payroll helper hallucinated a department" body="The org chart now contains a floor that Facilities says is not in the building." env="corp-prod" owner="@bob" %}
-      {% include incident-card.html id="INC-0520" severity="SEV-4" tone="cyan" time="09:02" title="Marketing copy loop" body="Landing page regenerates the same sentence with increasing confidence and fewer verbs." env="public" owner="@marta" %}
+      {% include incident-card.html id="INC-0520" severity="SEV-4" tone="cyan" time="09:02" title="Marketing copy loop" body="Landing page regenerates the same sentence with increasing confidence and fewer verbs." env="public" owner="@queue" %}
       {% include incident-card.html id="INC-0713" severity="SEV-3" tone="amber" time="09:31" title="Log timestamps moved backward" body="Monitoring insists the deployment failed tomorrow. SRE asked us to stop saying that." env="observability" owner="@queue" %}
     </div>
   </div>
@@ -89,7 +89,7 @@ title: Shift Console
         Internal audits describe incident reconstruction as "low-risk interpretive maintenance." Bob says that phrase means the company lawyers won.
       </p>
       <div class="mt-5">
-        {% capture log_lines %}08:59 deploy train/onboarding accepted by generator|09:01 Bob approved incident simulation|09:03 contradiction surfaced in seating matrix|09:04 archive observer joined without credentials{% endcapture %}
+        {% capture log_lines %}08:59 deploy train/onboarding accepted by generator|09:01 Bob approved incident simulation|09:03 contradiction surfaced in the asset register|09:04 archive observer joined without credentials{% endcapture %}
         {% include fake-log.html lines=log_lines prefix="memo" %}
       </div>
     </div>

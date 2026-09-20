@@ -16,7 +16,7 @@ description: Operator profile and shift status for μ-text.
         <div class="metric-tile">
           <p class="font-mono text-xs uppercase text-slate-mutext">assigned incidents</p>
           <p class="mt-3 font-mono text-3xl text-cyan-trace">01</p>
-          <p class="mt-2 text-sm text-slate-mutext">Training queue only, according to Bob.</p>
+          <p class="mt-2 text-sm text-slate-mutext">Whatever is on the queue, according to Bob.</p>
         </div>
         <div class="metric-tile">
           <p class="font-mono text-xs uppercase text-slate-mutext">clearance</p>
@@ -37,7 +37,7 @@ description: Operator profile and shift status for μ-text.
         <span>profile.log</span>
       </div>
       <div class="p-4">
-        {% capture operator_logs %}08:42 badge provisioned for andy.j|08:47 workstation image restored from approved snapshot|08:58 Bob assigned mutual recursion deadlock|09:00 operator console acknowledged first shift|09:04 deadlock detector shared retained thread dump{% endcapture %}
+        {% capture operator_logs %}08:42 badge provisioned for andy.j|08:47 workstation image restored from approved snapshot|09:17 process freeze detected on the generated stack|09:18 operator console acknowledged first shift|09:20 retained thread dump attached to the ticket{% endcapture %}
         {% include fake-log.html lines=operator_logs prefix="operator" %}
       </div>
     </section>
@@ -48,7 +48,7 @@ description: Operator profile and shift status for μ-text.
         <span>no persistence</span>
       </div>
       <div class="flex flex-wrap gap-3 p-4">
-        <a class="button-primary" href="{{ '/puzzles/001-tutorial.html' | relative_url }}">Open active incident</a>
+        <a class="button-primary" data-active-incident-link href="{{ '/puzzles/001-tutorial.html' | relative_url }}">Open active incident</a>
         <a class="button-quiet" href="{{ '/lore/onboarding-memo.html' | relative_url }}">Read onboarding memo</a>
         <button class="button-quiet" type="button" data-fake-action="PING BOB">PING BOB</button>
       </div>

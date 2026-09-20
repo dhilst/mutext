@@ -16,7 +16,7 @@ description: About μ-text Systems.
       </div>
       <div class="grid gap-4 text-sm leading-7 text-slate-300 md:grid-cols-2">
         <p>μ-text Systems operates inside a software company where most code is generated, most dashboards are trusted, and most incidents become your problem after everyone else has stopped answering chat.</p>
-        <p>You play as Andy, a new operator in the Troubleshooting Department. Your job is to reconstruct broken facts from generated logs, corporate messages, incident reports, and quietly contradictory internal tools.</p>
+        <p>The operator on shift is Andy, a new operator in the Troubleshooting Department. Your job is to reconstruct broken facts from generated logs, corporate messages, incident reports, and quietly contradictory internal tools.</p>
       </div>
     </div>
 
@@ -36,7 +36,7 @@ description: About μ-text Systems.
   <div class="metric-tile">
     <p class="font-mono text-xs uppercase text-slate-mutext">work type</p>
     <p class="mt-3 text-lg font-semibold text-white">Incident reconstruction</p>
-    <p class="mt-2 text-sm leading-6 text-slate-mutext">Incident triage, clue reading, contradiction hunting, and workplace unease.</p>
+    <p class="mt-2 text-sm leading-6 text-slate-mutext">Incident triage, evidence reconstruction, contradiction hunting, and the paperwork that follows.</p>
   </div>
   <div class="metric-tile">
     <p class="font-mono text-xs uppercase text-slate-mutext">primary console</p>
@@ -45,7 +45,7 @@ description: About μ-text Systems.
   </div>
   <div class="metric-tile">
     <p class="font-mono text-xs uppercase text-slate-mutext">mystery layer</p>
-    <p class="mt-3 text-lg font-semibold text-white">Something knows too much</p>
+    <p class="mt-3 text-lg font-semibold text-white">The record disagrees with itself</p>
     <p class="mt-2 text-sm leading-6 text-slate-mutext">The logs are wrong in useful ways. The archive remembers things the company does not.</p>
   </div>
 </section>
@@ -59,7 +59,7 @@ description: About μ-text Systems.
     <div class="grid gap-4 p-4 md:grid-cols-2">
       <article class="border border-slate-700/70 bg-black/20 p-4">
         <h2 class="font-mono text-sm text-cyan-trace">Reconstruct incidents</h2>
-        <p class="mt-3 text-sm leading-6 text-slate-300">Read logs, chat messages, memos, generated clues, and reports to infer the facts that existed before the system rewrote them.</p>
+        <p class="mt-3 text-sm leading-6 text-slate-300">Read logs, chat messages, memos, retained evidence, and reports to infer the facts that existed before the system rewrote them.</p>
       </article>
       <article class="border border-slate-700/70 bg-black/20 p-4">
         <h2 class="font-mono text-sm text-cyan-trace">Maintain reconstruction grids</h2>
@@ -86,7 +86,7 @@ description: About μ-text Systems.
         <p class="font-mono text-xs uppercase text-phosphor">available</p>
         <ul class="mt-3 space-y-2 text-sm leading-6 text-slate-300">
           <li>Landing dashboard, operator record, incident queue, and lore archive.</li>
-          <li>Training incident records with operator marking grids.</li>
+          <li>Retained incident records with operator marking grids.</li>
           <li>Logs, chat transcripts, status indicators, and incident reports.</li>
         </ul>
       </div>
