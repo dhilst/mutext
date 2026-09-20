@@ -7,6 +7,13 @@
     color-scheme: dark;
   }
 
+  /* A display utility (.flex, .block) sits in a later layer than preflight's
+     [hidden] rule and has the same specificity, so it wins and the element
+     stays on screen. Anything marked hidden must actually be hidden. */
+  [hidden] {
+    display: none !important;
+  }
+
   html {
     scroll-behavior: smooth;
   }
