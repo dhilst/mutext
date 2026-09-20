@@ -2,13 +2,18 @@ name: "INC-0003 Race Condition"
 dimensions: 3
 size: 3
 
+post:
+  path: _posts/2026-05-17-race-condition.md
+  panel_title: evidence
+  answer_order: [process, queue, result]
+
 categories:
   - name: process
-    items: [reconcile, suspend, replay]
+    items: ["reconcile", "suspend", "replay"]
   - name: queue
-    items: [q-pay, q-sub, q-audit]
+    items: ["q-pay", "q-sub", "q-audit"]
   - name: result
-    items: [ACTIVE, SUSPENDED, CORRUPTED]
+    items: ["ACTIVE", "SUSPENDED", "CORRUPTED"]
 
 answer:
   process: replay
@@ -16,27 +21,39 @@ answer:
   result: CORRUPTED
 
 clues:
-  # 1. reconcile consumed from q-pay.
   - type: direct
-    subject: { category: process, item: reconcile }
-    object: { category: queue, item: q-pay }
+    post_number: 1
+    prose: "`reconcile` consumed from `q-pay`."
+    keep_redundant: true
+    note: "The incident channel states this outright; without it the player has to
+      derive reconcile's queue from the other four, which is a step too far at 02:13."
+    subject: { category: process, item: "reconcile" }
+    object: { category: queue, item: "q-pay" }
 
-  # 2. The process consuming from q-sub produced SUSPENDED.
-  - type: conditional
-    if: { category: queue, item: q-sub }
-    then: { category: result, item: SUSPENDED }
+  - type: link
+    post_number: 2
+    prose: "The process consuming from `q-sub` produced `SUSPENDED`."
+    if: { category: queue, item: "q-sub" }
+    then: { category: result, item: "SUSPENDED" }
 
-  # 3+5. The process consuming from q-audit produced CORRUPTED.
-  - type: conditional
-    if: { category: queue, item: q-audit }
-    then: { category: result, item: CORRUPTED }
+  # Post items 3 and 5 are one constraint in two sentences: the q-audit consumer
+  # generated the malformed telemetry, and that process produced CORRUPTED.
+  - type: link
+    post_number: [3, 5]
+    prose:
+      - "The process consuming from `q-audit` generated malformed telemetry."
+      - "The process that generated malformed telemetry produced `CORRUPTED`."
+    if: { category: queue, item: "q-audit" }
+    then: { category: result, item: "CORRUPTED" }
 
-  # 5. reconcile produced ACTIVE.
   - type: direct
-    subject: { category: process, item: reconcile }
-    object: { category: result, item: ACTIVE }
+    post_number: 4
+    prose: "`reconcile` produced `ACTIVE`."
+    subject: { category: process, item: "reconcile" }
+    object: { category: result, item: "ACTIVE" }
 
-  # 7. suspend did not consume from q-audit.
   - type: negation
-    subject: { category: process, item: suspend }
-    object: { category: queue, item: q-audit }
+    post_number: 6
+    prose: "`suspend` did not consume from `q-audit`."
+    subject: { category: process, item: "suspend" }
+    object: { category: queue, item: "q-audit" }

@@ -1,172 +1,321 @@
-# SAT Checker Specification
+# Puzzle Checker Specification
 
-## Purpose
+The checker answers one question: **does this puzzle deserve to ship?**
 
-Verify that every puzzle is:
+That means more than "is it solvable". A puzzle passes only when it has exactly
+one solution, that solution is the declared answer, every clue earns its place,
+and the page the player actually reads agrees with the model the solver checked.
 
-1. **Satisfiable** — the clues do not contradict each other
-2. **Correct** — the solution matches the expected answer
-3. **Unique** — exactly one solution exists
+```bash
+npm run check                  # everything below, in order — what CI runs
+npm run check:puzzles          # strict, with the post lint
+npm run check:continuity       # the story-arc guard
+npm run test:puzzles           # the checker's own unit tests
 
-## Encoding Strategy
-
-### Variables
-
-Each item gets an integer variable representing which "entity" (0..N-1) it belongs to. Two items from different categories are matched iff they share the same entity number.
-
-```python
-assign[category_name][item_name] = Int(...)
+cd checker
+uv run check_puzzle.py puzzles/005-starvation.yaml -v
+uv run check_puzzle.py puzzles --strict --posts ../_posts
+uv run check_puzzle.py puzzles --json > report.json
 ```
-
-For a 3D puzzle with 3 items per category, this creates 9 integer variables total.
-
-### Axiom I — Permutation matrix per block
-
-Within each category, all items map to distinct entities in range `[0, N)`:
-
-```python
-for each category:
-    Distinct(all variables in category)
-    each variable >= 0, < N
-```
-
-### Symmetry breaking
-
-Entity numbers are arbitrary labels. To eliminate equivalent re-numberings, the first category's items are pinned to canonical order:
-
-```python
-assign[first_category][item_0] == 0
-assign[first_category][item_1] == 1
-...
-```
-
-This does not restrict the solution space — it only fixes the labeling.
 
 ---
 
-## Clue Types
+## Encoding
 
-| Type | Meaning | Z3 |
-|------|---------|-----|
-| `direct` | "X has Y" | `assign[catA][X] == assign[catB][Y]` |
-| `negation` | "X not Y" | `assign[catA][X] != assign[catB][Y]` |
-| `conditional` | "whoever has Y also has Z" | `assign[catA][Y] == assign[catB][Z]` |
-| `self_exclusion` | "no X maps to its own Y" | per-pair `!=` from a mapping dict |
-
-All clue types reduce to equality or inequality between entity-assignment variables.
-
----
-
-## Verification Procedure
-
-```
-1. Build variables + axioms
-2. Encode all clues as Z3 assertions
-3. solver.check() → must be SAT
-4. Extract model → all answer items must share the same entity number
-5. Block the found model, re-check → must be UNSAT (uniqueness)
-```
-
-### Uniqueness check
-
-After finding the first model, add a constraint that at least one variable must differ:
+One integer variable per item. Two items are matched iff they hold the same
+entity number.
 
 ```python
-Or(var != model_value for all variables)
+assign[category][item] = Int(f"{category}__{item}")
 ```
 
-If the solver finds another model, the puzzle is under-constrained.
+**Axiom I — permutation per category.** Every item of a category takes a
+distinct entity number in `[0, N)`. This is the grid rule "one ✓ per row and per
+column in every block", expressed once instead of per block.
+
+**Symmetry breaking.** Entity numbers are arbitrary labels, so the first
+category is pinned to `0..N-1`. That is a relabeling, not a restriction: it
+picks one representative per orbit. It is required for uniqueness to mean
+anything (otherwise every solution has `N!` renamings) and it shrinks the model
+space by a factor of `N!` — at 5×5, 207k models instead of 24.9M.
+
+The pin is only sound while every clue formula is **relabeling-invariant**, i.e.
+compares assignment variables and never mentions an entity number. Every clue
+type listed below is. `clues.RELABEL_INVARIANT` records this per type; if a
+position-sensitive type is ever added, the analyses fall back to unpinned axioms
+and say so (`W310`). `tests/test_analysis.py::test_pin_does_not_change_verdicts`
+runs every check both ways and asserts the findings are identical.
 
 ---
 
-## Puzzle Definition Format (YAML)
+## Clue types
+
+| Type | Meaning | Encoding |
+|------|---------|----------|
+| `direct` | X is Y | `a == b` |
+| `negation` | X is not Y | `a != b` |
+| `link` | whoever has Y also has Z | `a == b` |
+| `self_exclusion` | no X maps to its own Y | pairwise `!=` from a mapping |
+| `disjunction` | X is A or B | `Or(...)`, `exclusive: true` adds at-most-one |
+| `not_equal_any` | X is none of A, B, C | `And(...)` of `!=` |
+| `implication` | if fact P then fact Q | `Implies(P, Q)` |
+| `exactly_one` | exactly one of these facts holds | `Sum(If(f,1,0)) == 1` |
+| `either_or` | exactly one of two facts holds | `Xor(a, b)` |
+
+`conditional` is a deprecated alias for `link` and warns (`W315`). It always
+encoded an equality, never an implication — `implication` is the real thing.
+
+A *fact* (used by `implication`, `exactly_one`, `either_or`) is
+`{subject, object, negated?}`.
+
+`disjunction` is the type worth reaching for first on 4D/5D puzzles: it is the
+only one that does not decide a cell outright, so it adds deduction depth
+without adding clue count.
+
+**Not supported on purpose:** ordering predicates (`left_of`, `position`). They
+mention entity numbers, break relabeling invariance, and would silently
+invalidate the pinned analyses. A category whose *items* are ordered
+(`P0..P3`, `03:10`, `611s`) needs no such operator — the order is read off the
+label, and plain `direct`/`negation` clues do the work.
+
+---
+
+## What is checked
+
+### Core
+
+| Code | Meaning |
+|---|---|
+| `E201` | no solution — the clues contradict each other |
+| `E202` | the declared answer items are not one row of the solution |
+| `E204` | more than one solution; the second is printed |
+| `E205` | the solver returned `unknown` (timeout) — **unverified is not passed** |
+
+### Clue quality
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `E301` | error | **vacuous** — the grid rules alone already imply the clue |
+| `E302` | error | **contradictory** — this one clue can never hold |
+| `E303` | error | **duplicate** — identical canonical form as an earlier clue |
+| `E304` | error | **duplicate** — logically equivalent to an earlier clue |
+| `E313` | error | `self_exclusion` with the same category on both sides |
+| `W305` | warn | **redundant** — implied by the other clues, and droppable |
+| `W306` | warn | a conjunct inside a multi-atom clue is vacuous |
+| `W308` | warn | the clue set is not minimal; names the droppable clues |
+| `W311` | warn | this clue is literally one conjunct of another |
+| `W314` | warn | `keep_redundant` on a clue that is load-bearing |
+| `I305` | info | a redundant clue kept deliberately, with its reason |
+| `I307` | info | the minimal sufficient subset |
+
+For a puzzle with a unique solution, "removable" and "entailed by the other
+clues" are the same property, and the checker computes both and reports a
+disagreement (`W309`) because one can only mean a non-unique puzzle or an
+encoder bug.
+
+Mutual entailment means several clues in an over-determined cluster are each
+individually removable while only some can go together. So `W305` is raised for
+the clues the minimisation actually drops; the others are named in the `I307`
+line instead.
+
+### Post ↔ page sync
+
+| Code | Meaning |
+|---|---|
+| `E402` | an evidence item is neither encoded nor declared `narrative_only` |
+| `E403` | the prose in the post differs from the `prose:` in the YAML |
+| `E404` | a `post_number` is out of range, claimed twice, or also narrative-only |
+| `E405` | `data-puzzle-answer` disagrees with the answer (`W405`: case only) |
+| `E406` | the `<select>` options are not the category items, in order |
+| `E407` | the grid blocks do not cover each category pair exactly once |
+| `E409` | the declared post file does not exist |
+| `W404` | evidence numbering is not contiguous |
+| `W408` | the permalink does not contain the puzzle slug |
+
+**Grid validation is structural.** `zebra-table.html` disables a block when
+`row_group + col_group >= number of column groups`, so the covering rule is what
+matters, not which argument holds which category:
+
+```
+cols = G1, G2, …, G(D-1)
+rows = GD, G(D-1), …, G2        ← reverse order
+```
+
+Listing the rows forward puts a category against itself and leaves pairs
+uncrossed. See `docs/puzzle-spec.md`.
+
+---
+
+## Severity policy
+
+An **error** fails the build. A **warning** fails it under `--strict`, which is
+what `npm run check:puzzles` and CI use. Warnings exist so an author can see a
+problem mid-authoring without being blocked; nothing reaches `master` with one.
+
+A clue that is genuinely redundant and genuinely wanted is declared, not
+silenced:
 
 ```yaml
-name: "INC-0001 Tutorial"
+  - type: negation
+    post_number: 3
+    prose: "P2 does not hold L3."
+    keep_redundant: true
+    note: "Andy's first real incident: the lock assignment is restated so the
+      player can close the cycle by elimination instead of assuming it."
+```
+
+That turns `W305` into `I305` and excludes the clue from `W308`'s count. Put the
+reason in `note:` — the marker is a claim about the player's experience, so it
+should read like one. A marker on a clue that is *not* redundant warns (`W314`),
+so it cannot rot.
+
+---
+
+## Puzzle file format
+
+```yaml
+name: "INC-0004 Cache Poisoning"
 dimensions: 3
 size: 3
 
+post:
+  path: _posts/2026-05-18-cache-poisoning.md
+  panel_title: evidence          # 001 uses "clues"
+  answer_order: [tenant, edge, route]   # select order; defaults to answer order
+  narrative_only: [6]            # evidence items that carry no constraint
+
 categories:
-  - name: process
-    items: [parser, crawler, renderer]
-  - name: token
-    items: [token-alpha, token-beta, token-gamma]
-  - name: resource
-    items: [/cache, /logs, /models]
+  - name: tenant
+    items: ["helios", "orion", "atlas"]
+  ...
 
 answer:
-  process: parser
-  token: token-beta
-  resource: /models
+  tenant: atlas
+  edge: edge-02
+  route: /session
 
 clues:
   - type: negation
-    subject: { category: process, item: parser }
-    object: { category: token, item: token-alpha }
-
-  - type: conditional
-    if: { category: resource, item: /cache }
-    then: { category: token, item: token-gamma }
-
-  - type: direct
-    subject: { category: process, item: crawler }
-    object: { category: resource, item: /cache }
-
-  - type: self_exclusion
-    category_a: process
-    category_b: call_target
-    mapping:
-      P1: "→P1"
-      P2: "→P2"
-      P3: "→P3"
+    post_number: 1               # int, or a list when one clue covers two items
+    prose: "The poisoned `/session` route did not originate from `edge-01`."
+    subject: { category: route, item: "/session" }
+    object: { category: edge, item: "edge-01" }
 ```
+
+Omit the `post:` block and the sync lint is skipped (`I401`).
+
+### Authoring rules the checker enforces
+
+- **Quote every item.** PyYAML turns `08:05` into an integer and `no`/`on`/`off`
+  into booleans, which silently breaks the item lookup.
+- **Item strings are byte-identical** in the YAML, the grid labels, the
+  `<option value>` attributes and `data-puzzle-answer`.
+- **No commas in item names** — `data-puzzle-answer` is comma-split (`E112`).
+- **No item name reused across categories** — it makes prose and the answer
+  tuple ambiguous (`E104`; `allow_duplicate_items: true` to override).
+- `prose:` must match the post **verbatim**; it is compared after Unicode
+  normalisation and whitespace collapsing, and nothing else.
 
 ---
 
-## CLI Usage
+## Authoring a new puzzle
 
 ```bash
 cd checker
-uv run check_puzzle.py puzzles/001-tutorial.yaml
-uv run check_puzzle.py puzzles/                    # all puzzles
-uv run check_puzzle.py puzzles/ --verbose           # show full solution
+uv run make_puzzle.py spec.yaml --prefer-direct 0.3 --tries 24
 ```
 
-## Output
+`make_puzzle.py` takes the categories and the intended solution, builds a
+candidate pool (every consistent `direct`/`negation` pair, plus any clues you
+hand it under `pool:`), picks clues until the solution is unique, then deletes
+every clue it can. It prints a minimal clue list ready to paste and fill in with
+prose.
 
+`--prefer-direct` is the difficulty dial: a lower share of positive clues means
+more clues and more elimination work. A 4×4 lands around 7–10 clues, a 5×5
+around 15–20.
+
+Then: write the clues' prose, write the post, and run
+
+```bash
+npm run check:puzzles
 ```
-=== INC-0001 Tutorial (3×3) ===
-Categories: process(3), token(3), resource(3)
-Clues: 5
 
-[1/3] Solving... SAT ✓
-[2/3] Answer check... MATCH ✓
-[3/3] Uniqueness... UNIQUE ✓
+Continuity is checked separately, because it is about the arc rather than any
+one puzzle:
 
-PASS
+```bash
+cd checker
+uv run check_continuity.py
+```
+
+It fails if a ledger entry is never rendered from the ledger, if the chapter that
+owns an entry does not render it, if HORUS is named before chapter 10, if the
+NEXT INCIDENT chain does not reach every chapter, or if meta-language
+("categories", "the grid", "clue 7", "5D") appears in player-facing prose.
+
+After a build, check what Liquid actually rendered:
+
+```bash
+cd checker
+uv run check_rendered_grid.py ../_site/puzzles/008-split-brain.html \
+    --puzzle puzzles/008-split-brain.yaml
 ```
 
 ---
 
-## File Structure
+## CLI
+
+```
+check_puzzle.py [PATH ...]            files and/or directories (default: puzzles)
+  -v, --verbose      print the solution and INFO findings
+  -q, --quiet        only the summary
+      --json         machine-readable report on stdout
+      --strict       treat warnings as errors
+      --checks LIST  core,vacuity,duplication,redundancy,minimality,postsync
+      --skip LIST    inverse of --checks
+      --no-deep-dup  skip the pairwise semantic duplication pass
+      --posts DIR    posts directory (default: <repo>/_posts)
+      --no-post-lint skip the post <-> yaml lint
+      --timeout MS   per-solver-call timeout (default 10000)
+```
+
+Exit codes: `0` pass, `1` error, `2` usage or parse failure, `3` solver timeout.
+
+Findings print as `CODE  check  file:line`, a message, and a `fix:` hint, so they
+are greppable and stable.
+
+---
+
+## Cost
+
+A 14-clue 5×5 puzzle is roughly 170 solver calls and well under 1.5 s. Measured:
+a synthetic 5×5 with 55 clues took 220 calls in 0.69 s, and minimisation 0.36 s.
+The only superlinear pass is pairwise semantic duplication (`C(n,2)`), which has
+`--no-deep-dup` and an automatic skip above a pair limit.
+
+---
+
+## Layout
 
 ```
 checker/
-├── pyproject.toml
-├── puzzles/
-│   ├── 001-tutorial.yaml
-│   └── 002-the-lockup.yaml
-├── zebra_checker/
-│   ├── __init__.py
-│   ├── loader.py
-│   ├── encoder.py
-│   ├── clues.py
-│   └── verifier.py
-└── check_puzzle.py
+  check_puzzle.py          CLI shim
+  make_puzzle.py           authoring aid: solution -> minimal clue set
+  check_rendered_grid.py   verify a built page's grid structure
+  check_continuity.py      ledger, reveal order, link chain, meta-language
+  puzzles/                 one YAML per chapter
+  tests/                   pytest; fixtures/ holds one puzzle per failure mode
+  zebra_checker/
+    model.py       Puzzle, Category, Clue, Endpoint, PostRef
+    errors.py      schema errors with file:line and suggestions
+    loader.py      YAML -> Puzzle, full validation
+    encoder.py     variables and axioms as pure values
+    clues.py       encoding, canonical keys, conjuncts, descriptions
+    analysis.py    vacuity, contradiction, duplication, entailment, minimality
+    postlint.py    post <-> yaml sync
+    findings.py    Finding and the code table
+    report.py      text and JSON rendering, exit codes
+    verifier.py    orchestration
+    cli.py         argument parsing
 ```
-
-## Adding New Puzzles
-
-1. Create `checker/puzzles/NNN-slug.yaml` following the schema above
-2. Run `cd checker && uv run check_puzzle.py puzzles/NNN-slug.yaml`
-3. All three checks must pass before the puzzle ships

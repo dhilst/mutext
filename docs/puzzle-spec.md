@@ -9,25 +9,49 @@ The player solves by elimination and cross-referencing, then submits a D-tuple a
 
 ## Dimensions
 
-| Difficulty | Categories (D) | Items (N) | Grid size         | Active blocks | Active cells |
-|------------|----------------|-----------|-------------------|---------------|--------------|
-| Easy       | 3              | 3         | 6×6               | 3             | 27           |
-| Medium     | 4              | 4         | 12×12             | 6             | 96           |
-| Hard       | 5              | 5         | 20×20             | 10            | 250          |
+D and N are independent — nothing couples the number of categories to the number
+of items, so the ladder is finer than three rungs:
 
-### 5D compact labels
+| D×N | Grid size | Active blocks | Active cells | Minimal clues (typical) |
+|-----|-----------|---------------|--------------|-------------------------|
+| 3×3 | 6×6       | 3             | 27           | 4–6                     |
+| 3×4 | 8×8       | 3             | 48           | 6–8                     |
+| 4×4 | 12×12     | 6             | 96           | 7–12                    |
+| 4×5 | 15×15     | 6             | 150          | 11–16                   |
+| 5×4 | 16×16     | 10            | 160          | 12–18                   |
+| 5×5 | 20×20     | 10            | 250          | 15–20                   |
 
-With 20 columns, items need short labels (≤3 chars). Use a shape prefix per category:
+Grid is `(D-1)N × (D-1)N`; active blocks are `C(D,2)`; active cells are
+`C(D,2) × N²`. The clue counts are measured minimal sets using only
+`direct`/`negation`; richer clue types bring them down.
 
-| Category | Prefix | Items                     |
-|----------|--------|---------------------------|
-| Service  | ◆      | ◆1  ◆2  ◆3  ◆4  ◆5       |
-| Token    | ▲      | ▲a  ▲b  ▲c  ▲d  ▲e       |
-| Resource | ●      | ●α  ●β  ●γ  ●δ  ●ε       |
-| Host     | ■      | ■Ⅰ  ■Ⅱ  ■Ⅲ  ■Ⅳ  ■Ⅴ       |
-| Error    | ✦      | ✦1  ✦2  ✦3  ✦4  ✦5       |
+### Compact labels at 5D
 
-Formula: grid is `(D-1)×N` rows by `(D-1)×N` columns.
+With 16–20 columns, items need short labels (≤3 chars). Prefer a **two-character
+alphanumeric token** per category over a glyph:
+
+| Category | Token | Items |
+|----------|-------|-------|
+| Replica  | `r`   | `r1 r2 r3 r4 r5` |
+| Digest   | `d`   | `d1 d2 d3 d4 d5` |
+| Epoch    | `e`   | `e1 e2 e3 e4 e5` |
+| Key      | `k`   | `k1 k2 k3 k4 k5` |
+| Stream   | `s`   | `s1 s2 s3 s4 s5` |
+
+Tokens are typeable and speakable, and — unlike glyphs — they can be reused
+verbatim as `<option value>` attributes, so the grid and the answer widget
+cannot drift apart. Keep the readable name in the option *text*:
+
+```html
+<option value="k4">k4 — r.sato</option>
+```
+
+Pair a 5D grid with a **registry panel** in the same column: a plain
+`panel.html` holding a token → name table. It removes the memory load and reads
+as an in-world lookup table rather than a legend.
+
+Glyph prefixes (`◆ ▲ ● ■ ✦`) still render, but they cannot be typed and make the
+answer values illegible in the page source.
 
 ---
 
@@ -88,35 +112,51 @@ Disabled blocks render as dark empty cells with no interaction.
 
 ## Category-to-Block Mapping
 
-Given D categories numbered 1 through D:
+Pick a grid order `G1 … GD` for the puzzle's categories — it does not have to be
+the order they appear in the YAML. Then:
 
-- **Column groups** (left to right): Category 1, Category 2, ..., Category D-1
-- **Row groups** (top to bottom): Category 2, Category 3, ..., Category D
+- **Column groups** (left to right): `G1, G2, …, G(D-1)`
+- **Row groups** (top to bottom): `GD, G(D-1), …, G2` — **reverse order**
 
-Each active block represents a pairwise relationship between two different categories.
-The disabled blocks sit where a category would cross itself.
+The reverse row order is load-bearing, not a style choice. The include disables a
+block at `row_idx + col_idx >= number of column groups`, so listing the rows
+forward puts a category against itself in an *active* block and leaves other
+pairs uncrossed. Listing them in reverse makes the active blocks cover each of
+the `C(D,2)` category pairs exactly once, which is the property the checker
+enforces (`E407`).
 
-### Example: 3 categories (Process, Token, Resource)
+Each active block represents a pairwise relationship between two different
+categories. The disabled blocks sit where a category would cross itself.
 
-- Columns: Process (group 0), Token (group 1)
-- Rows: Token (group 0), Resource (group 1)
-- Block (0,0): Token × Process — active
-- Block (0,1): Token × Token — disabled
-- Block (1,0): Resource × Process — active
-- Block (1,1): Resource × Token — active
+### Example: 3 categories, grid order Process, Token, Resource
 
-### Example: 4 categories (Process, Token, Resource, Host)
+- Columns: Process, Token
+- Rows: Resource, Token  (reverse of G3, G2)
+- Block (0,0): Resource × Process — active
+- Block (0,1): Resource × Token — active
+- Block (1,0): Token × Process — active
+- Block (1,1): Token × Token — disabled
 
-- Columns: Process (0), Token (1), Resource (2)
-- Rows: Token (0), Resource (1), Host (2)
-- Disabled: (0,1) Token×Token, (1,2) Resource×Resource, (2,2+) out of bounds — but using the formula: disabled at (0,1), (1,2), (2,1), (2,2)... 
+Three active blocks, three category pairs, no self-pairing.
 
-Correction using the formula `row_idx + col_idx >= D-1 = 3`:
-- (0,0)=0 active, (0,1)=1 active, (0,2)=2 active
-- (1,0)=1 active, (1,1)=2 active, (1,2)=3 **disabled**
-- (2,0)=2 active, (2,1)=3 **disabled**, (2,2)=4 **disabled**
+### Example: 4 categories, grid order Process, Token, Resource, Host
 
-Active blocks: 6 ✓
+- Columns: Process, Token, Resource
+- Rows: Host, Resource, Token  (reverse of G4, G3, G2)
+
+Applying `row_idx + col_idx >= 3`:
+
+| | Process | Token | Resource |
+|---|---|---|---|
+| **Host** | active | active | active |
+| **Resource** | active | active | disabled |
+| **Token** | active | disabled | disabled |
+
+Six active blocks covering all six pairs: Host×Process, Host×Token,
+Host×Resource, Resource×Process, Resource×Token, Token×Process. ✓
+
+Listing the rows forward (Token, Resource, Host) instead gives an active
+Token×Token block and never crosses Host with Token or Resource.
 
 ---
 
@@ -187,9 +227,23 @@ const correct = expected.length === selected.length
   && expected.every((val, i) => val === selected[i]);
 ```
 
+### Multi-stage chapters
+
+An answer block may name the section it unhides:
+
+```html
+<div data-puzzle-answer="r3, d2, e4, k1, s5" data-reveal="#lore-reveal-2">
+```
+
+`data-reveal` defaults to `#lore-reveal`, so every single-stage chapter is
+unaffected. Put the second stage's answer block *inside* the first stage's
+reveal section: it is then invisible — and unspoilable — until stage one is
+solved, and the NEXT INCIDENT link lives in the second reveal so the chapter
+gates on both.
+
 ### Behavior
 
-- On correct: button shows "CORRECT" with `button-correct` class, confetti fires, `#lore-reveal` unhides
+- On correct: button shows "CORRECT" with `button-correct` class, confetti fires, the reveal target unhides
 - On incorrect: button shows "INCORRECT" with `button-incorrect` class for 3s, then resets
 - Multiple answer sections per page are supported independently
 
@@ -299,15 +353,15 @@ File: `_includes/zebra-table.html`
 %}
 ```
 
-4D puzzle:
+4D puzzle (rows in reverse grid order — host, res, tok):
 ```liquid
 {% include zebra-table.html
    cols_a="proc-A|proc-B|proc-C|proc-D"
    cols_b="tok-1|tok-2|tok-3|tok-4"
    cols_c="res-W|res-X|res-Y|res-Z"
-   rows_a="tok-1|tok-2|tok-3|tok-4"
+   rows_a="host-α|host-β|host-γ|host-δ"
    rows_b="res-W|res-X|res-Y|res-Z"
-   rows_c="host-α|host-β|host-γ|host-δ"
+   rows_c="tok-1|tok-2|tok-3|tok-4"
 %}
 ```
 
@@ -321,17 +375,17 @@ File: `_includes/zebra-table.html`
 
 The include accepts `cols_d`/`rows_d` for 5D grids. The disable rule generalizes: disabled when `row_group_idx + col_group_idx >= num_col_groups`.
 
-5D example (compact labels):
+5D example (compact labels, rows reversed):
 ```liquid
 {% include zebra-table.html
    cols_a="◆1|◆2|◆3|◆4|◆5"
    cols_b="▲a|▲b|▲c|▲d|▲e"
    cols_c="●α|●β|●γ|●δ|●ε"
    cols_d="■Ⅰ|■Ⅱ|■Ⅲ|■Ⅳ|■Ⅴ"
-   rows_a="▲a|▲b|▲c|▲d|▲e"
-   rows_b="●α|●β|●γ|●δ|●ε"
-   rows_c="■Ⅰ|■Ⅱ|■Ⅲ|■Ⅳ|■Ⅴ"
-   rows_d="✦1|✦2|✦3|✦4|✦5"
+   rows_a="✦1|✦2|✦3|✦4|✦5"
+   rows_b="■Ⅰ|■Ⅱ|■Ⅲ|■Ⅳ|■Ⅴ"
+   rows_c="●α|●β|●γ|●δ|●ε"
+   rows_d="▲a|▲b|▲c|▲d|▲e"
 %}
 ```
 
@@ -347,9 +401,14 @@ Each puzzle is a Jekyll post in `_posts/` with this structure:
 ---
 title: "INC-XXXX Title"
 description: "One-line description for meta tags"
-permalink: /puzzles/slug.html
+permalink: /puzzles/NNN-slug.html
 ---
 ```
+
+The post date in the filename sets archive order; chapter N is
+`2026-05-(14+N)`. Every puzzle post is paired with `checker/puzzles/NNN-slug.yaml`,
+which names the post and carries each clue's prose. The checker fails the build
+if the two disagree — see `docs/sat-checker.md`.
 
 ### Required sections
 
@@ -485,23 +544,48 @@ The answer is always a D-tuple for a D-dimensional puzzle:
 
 ## Examples
 
-### 3D puzzle (tutorial)
+| Chapter | Categories | D×N | Clues |
+|---|---|---|---|
+| 001 tutorial | process, token, resource | 3×3 | 5 encoded + 1 narrative |
+| 002 the lockup | process, lock, call target | 3×3 | 5 |
+| 003 race condition | process, queue, result | 3×3 | 5 encoded over 6 items |
+| 004 cache poisoning | tenant, edge, route | 3×3 | 5 encoded + 1 narrative |
 
-- Categories: Process (parser, crawler, renderer), Token (alpha, beta, gamma), Resource (/cache, /logs, /models)
-- Grid: 6×6, 27 active cells
-- Answer: 3 selects (process, token, resource)
-- Clues: 6 (direct + relational)
+---
 
-### 3D puzzle (the lockup)
+## Authoring order
 
-- Categories: Process (P1, P2, P3), Lock (L1, L2, L3), Call Target (→P1, →P2, →P3)
-- Grid: 6×6, 27 active cells
-- Answer: 3 selects (process, lock, call target)
-- Clues: 5
+Each chapter is written in this order, and never out of it — the puzzle is made
+to work before a word of prose is written around it.
 
-### 4D puzzle (future)
+1. **`docs/puzzles/NNN-slug.md`** — the design doc. Lore start; grid
+   instantiation (D, N, grid order, the exact include line, a category → token →
+   option-text table); the identification rule that singles out the answer row
+   and where the player meets it; entities; clues in final wording; the solve
+   path; the answer tuple; continuity (what the chapter consumes from
+   `_data/evidence.yml` and what it plants); the reveal.
+2. **`checker/puzzles/NNN-slug.yaml`** — categories, answer, clues with
+   `post_number` and `prose`. `checker/make_puzzle.py` turns an intended
+   solution into a minimal clue set.
+3. **`npm run check:puzzles`** until green. Iterate here, never in the post.
+4. **Back-port** any clue change into the design doc.
+5. **`_posts/2026-05-DD-slug.md`** — prose copied verbatim from the YAML, the
+   include line pasted from the design doc.
+6. **Ledger** — add or consume `_data/evidence.yml` entries. Every string two
+   chapters must agree on is rendered from there, never typed twice.
+7. **`npm run check:puzzles`** again, now with the post lint, then load the page
+   and solve it once.
+8. **Link the chain** — point the previous chapter's NEXT INCIDENT at this one.
 
-- Categories: Process, Token, Resource, Host — each with 4 items
-- Grid: 12×12, 96 active cells
-- Answer: 4 selects (one per category)
-- Clues: 8–12
+### Things that bite
+
+- **Never change a shipped grid's shape.** Grid marks are a positional array in
+  `localStorage["mutext-grid-" + pathname]`, so reordering items, or changing D
+  or N, silently re-maps a returning player's marks onto the wrong cells. If a
+  shipped grid really must change, change the permalink. While authoring, hit
+  CLEAR BOARD after every edit.
+- **One clear button per page.** `main.js` wires `[data-clear-grid]` with
+  `querySelector`, not `querySelectorAll`, and the button is emitted by the grid
+  include — so a page with two grids only clears the first.
+- **One grid's marks per pathname.** Two grids on one page share a single saved
+  array.

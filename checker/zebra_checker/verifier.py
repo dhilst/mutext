@@ -1,103 +1,102 @@
-from z3 import Solver, Or, sat
-from .encoder import build_variables, add_axioms
-from .clues import encode_all_clues
+"""Orchestration: load -> analyse -> post lint, returning a report."""
+
+from dataclasses import dataclass, field
+from pathlib import Path
+
+from .analysis import AnalysisResult, analyse
+from .errors import PuzzleSchemaError
+from .findings import Finding, Severity
+from .loader import load_puzzle
+from .model import Puzzle
+from .postlint import lint_post
+
+CHECK_ORDER = ["schema", "satisfiable", "answer", "uniqueness", "quality", "post_sync"]
 
 
-def verify_puzzle(puzzle: dict, verbose: bool = False) -> bool:
-    n = puzzle["size"]
-    name = puzzle["name"]
-    d = puzzle["dimensions"]
+@dataclass
+class PuzzleReport:
+    path: str
+    name: str
+    dimensions: int = 0
+    size: int = 0
+    findings: list[Finding] = field(default_factory=list)
+    analysis: AnalysisResult | None = None
+    puzzle: Puzzle | None = None
+    solver_calls: int = 0
+    elapsed_ms: int = 0
 
-    print(f"\n=== {name} ({d}×{n}) ===")
-    cat_summary = ", ".join(
-        f"{c['name']}({n})" for c in puzzle["categories"]
+    def by_severity(self, severity: Severity) -> list[Finding]:
+        return [f for f in self.findings if f.severity is severity]
+
+    @property
+    def errors(self) -> list[Finding]:
+        return self.by_severity(Severity.ERROR)
+
+    @property
+    def warnings(self) -> list[Finding]:
+        return self.by_severity(Severity.WARN)
+
+    @property
+    def infos(self) -> list[Finding]:
+        return self.by_severity(Severity.INFO)
+
+    def failed(self, *, strict: bool) -> bool:
+        return bool(self.errors) or (strict and bool(self.warnings))
+
+    def timed_out(self) -> bool:
+        return any(f.code == "E205" for f in self.findings)
+
+    def check_status(self, check: str, *, strict: bool) -> str:
+        relevant = [f for f in self.findings if f.check == check]
+        if any(f.severity is Severity.ERROR for f in relevant):
+            return "error"
+        if any(f.severity is Severity.WARN for f in relevant):
+            return "error" if strict else "warn"
+        return "ok"
+
+
+def check_puzzle_file(path: Path, *, repo_root: Path, timeout_ms: int = 10_000,
+                      semantic_dup: bool = True, post_lint: bool = True,
+                      checks: set[str] | None = None) -> PuzzleReport:
+    import time
+
+    started = time.time()
+    path = Path(path)
+    try:
+        puzzle = load_puzzle(path)
+    except PuzzleSchemaError as exc:
+        return PuzzleReport(path=str(path), name=path.stem, findings=exc.findings,
+                            elapsed_ms=int((time.time() - started) * 1000))
+
+    report = PuzzleReport(
+        path=str(path), name=puzzle.name, dimensions=puzzle.dimensions,
+        size=puzzle.size, puzzle=puzzle,
     )
-    print(f"Categories: {cat_summary}")
-    print(f"Clues: {len(puzzle['clues'])}")
+    report.findings.extend(getattr(puzzle, "schema_findings", []))
 
-    solver = Solver()
-    assign = build_variables(puzzle)
-    add_axioms(solver, assign, puzzle)
-    encode_all_clues(solver, assign, puzzle)
+    result = analyse(puzzle, timeout_ms=timeout_ms, semantic_dup=semantic_dup, checks=checks)
+    report.analysis = result
+    report.findings.extend(result.findings)
+    report.solver_calls = result.solver_calls
 
-    print(f"\n[1/3] Solving...", end=" ")
-    result = solver.check()
-    if result != sat:
-        print("UNSAT")
-        print("FAIL — no solution exists (puzzle is over-constrained)")
-        return False
-    print("SAT ✓")
+    if post_lint and (checks is None or "postsync" in checks):
+        report.findings.extend(lint_post(puzzle, repo_root))
 
-    model = solver.model()
-
-    if verbose:
-        print_solution(model, assign, puzzle)
-
-    print(f"[2/3] Answer check...", end=" ")
-    answer_ok = check_answer(model, assign, puzzle)
-    if not answer_ok:
-        print("MISMATCH")
-        print("FAIL — model does not match expected answer")
-        return False
-    print("MATCH ✓")
-
-    print(f"[3/3] Uniqueness...", end=" ")
-    solver.push()
-    block = Or(*[
-        assign[cat["name"]][item] != model.eval(assign[cat["name"]][item])
-        for cat in puzzle["categories"]
-        for item in cat["items"]
-    ])
-    solver.add(block)
-    uniqueness = solver.check()
-
-    if uniqueness == sat:
-        print("NOT UNIQUE")
-        alt = solver.model()
-        print("FAIL — multiple solutions exist (puzzle is under-constrained)")
-        if verbose:
-            print("\nAlternate solution:")
-            print_solution(alt, assign, puzzle)
-        solver.pop()
-        return False
-    solver.pop()
-    print("UNIQUE ✓")
-
-    print("\nPASS")
-    return True
+    report.elapsed_ms = int((time.time() - started) * 1000)
+    return report
 
 
-def check_answer(model, assign: dict, puzzle: dict) -> bool:
-    answer = puzzle["answer"]
-    entity_numbers = {}
-    for cat_name, item_name in answer.items():
-        val = model.eval(assign[cat_name][item_name])
-        entity_numbers[cat_name] = val.as_long()
+def verify_puzzle(puzzle, verbose: bool = False) -> bool:
+    """Back-compatible entry point: True when the puzzle has no errors."""
+    from .report import render_text
 
-    values = set(entity_numbers.values())
-    return len(values) == 1
-
-
-def print_solution(model, assign: dict, puzzle: dict):
-    n = puzzle["size"]
-    entities = {}
-    for cat in puzzle["categories"]:
-        for item in cat["items"]:
-            e = model.eval(assign[cat["name"]][item]).as_long()
-            if e not in entities:
-                entities[e] = {}
-            entities[e][cat["name"]] = item
-
-    print()
-    for e in sorted(entities):
-        parts = [f"{cat}={entities[e][cat]}" for cat in entities[e]]
-        label = " ANSWER" if is_answer_entity(e, assign, puzzle, model) else ""
-        print(f"  Entity {e}: {', '.join(parts)}{label}")
-    print()
-
-
-def is_answer_entity(entity_num: int, assign: dict, puzzle: dict, model) -> bool:
-    answer = puzzle["answer"]
-    first_cat = next(iter(answer))
-    first_item = answer[first_cat]
-    return model.eval(assign[first_cat][first_item]).as_long() == entity_num
+    if isinstance(puzzle, (str, Path)):
+        report = check_puzzle_file(Path(puzzle), repo_root=Path.cwd().parent)
+    else:
+        report = PuzzleReport(path=str(getattr(puzzle, "path", "?")),
+                              name=getattr(puzzle, "name", "?"))
+        result = analyse(puzzle)
+        report.analysis = result
+        report.findings.extend(result.findings)
+    print(render_text(report, verbose=verbose, strict=False))
+    return not report.errors

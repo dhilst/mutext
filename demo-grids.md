@@ -44,7 +44,7 @@ permalink: /demo-grids.html
   <div class="panel-header">
     <span>4 categories × 4 items</span>
   </div>
-{% include zebra-table.html cols_a="proc-A|proc-B|proc-C|proc-D" cols_b="tok-1|tok-2|tok-3|tok-4" cols_c="res-W|res-X|res-Y|res-Z" rows_a="tok-1|tok-2|tok-3|tok-4" rows_b="res-W|res-X|res-Y|res-Z" rows_c="host-α|host-β|host-γ|host-δ" %}
+{% include zebra-table.html cols_a="proc-A|proc-B|proc-C|proc-D" cols_b="tok-1|tok-2|tok-3|tok-4" cols_c="res-W|res-X|res-Y|res-Z" rows_a="host-α|host-β|host-γ|host-δ" rows_b="res-W|res-X|res-Y|res-Z" rows_c="tok-1|tok-2|tok-3|tok-4" %}
 
 <div class="border-t border-slate-700/70 p-4" data-puzzle-answer="proc-B, tok-3, res-X, host-γ">
   <p class="font-mono text-xs uppercase text-slate-mutext mb-2">answer — 4 selects</p>
@@ -89,7 +89,7 @@ permalink: /demo-grids.html
   <div class="panel-header">
     <span>5 categories × 5 items</span>
   </div>
-{% include zebra-table.html cols_a="◆1|◆2|◆3|◆4|◆5" cols_b="▲a|▲b|▲c|▲d|▲e" cols_c="●α|●β|●γ|●δ|●ε" cols_d="■Ⅰ|■Ⅱ|■Ⅲ|■Ⅳ|■Ⅴ" rows_a="▲a|▲b|▲c|▲d|▲e" rows_b="●α|●β|●γ|●δ|●ε" rows_c="■Ⅰ|■Ⅱ|■Ⅲ|■Ⅳ|■Ⅴ" rows_d="✦1|✦2|✦3|✦4|✦5" %}
+{% include zebra-table.html cols_a="◆1|◆2|◆3|◆4|◆5" cols_b="▲a|▲b|▲c|▲d|▲e" cols_c="●α|●β|●γ|●δ|●ε" cols_d="■Ⅰ|■Ⅱ|■Ⅲ|■Ⅳ|■Ⅴ" rows_a="✦1|✦2|✦3|✦4|✦5" rows_b="■Ⅰ|■Ⅱ|■Ⅲ|■Ⅳ|■Ⅴ" rows_c="●α|●β|●γ|●δ|●ε" rows_d="▲a|▲b|▲c|▲d|▲e" %}
 
 <div class="border-t border-slate-700/70 p-4" data-puzzle-answer="◆3, ▲b, ●δ, ■Ⅱ, ✦4">
   <p class="font-mono text-xs uppercase text-slate-mutext mb-2">answer — 5 selects</p>

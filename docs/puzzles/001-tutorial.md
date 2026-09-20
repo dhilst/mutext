@@ -43,6 +43,8 @@ Example:
 
 ```txt crawler + token-beta + /cache ```
 
+(the shape of an answer, not this puzzle's answer)
+
 ## Puzzle Entities
 
 ### Processes
@@ -76,20 +78,24 @@ Example:
 
 Bob explains:
 
-1. Start with the known invalid token: `token-beta`.
-2. The crashed process must be the one using `token-beta`.
-3. The `renderer` was not using `token-beta`.
-4. The `parser` was not using `token-alpha`.
-5. Since `/models` used `token-gamma`, that leaves `token-beta` for another
-resource.
-6. `crawler` was accessing `/cache`.
-7. The crash did not happen in `/logs`.
-8. Therefore, the crash happened while accessing `/cache`.
-9. Since `crawler` accessed `/cache`, and `token-beta` was invalid, the answer
-is:
+1. `crawler` was accessing `/cache` (clue 3), and the process on `/cache` was
+using `token-gamma` (clue 2). So `crawler` holds `token-gamma`.
+2. The process using `token-alpha` was accessing `/logs` (clue 4). That cannot
+be `crawler`, and it cannot be `parser` (clue 1). So `renderer` holds
+`token-alpha` and is on `/logs`.
+3. That leaves `parser` with `token-beta`, on `/models` — the only resource
+left. Clue 6 agrees: `renderer` was not using `token-beta`.
+4. `token-beta` was invalid (clue 5), so the crash is the `parser`'s.
 
-``` crawler + token-beta + /cache ```
+``` parser + token-beta + /models ```
 
 ## Solution
 
-```crawler, token-beta, /cache ```
+```parser, token-beta, /models ```
+
+## Checker
+
+`checker/puzzles/001-tutorial.yaml`. Clues 1 and 6 are marked `keep_redundant`:
+they are implied by the rest, and are kept because this is the chapter that
+teaches elimination. Clue 5 is `narrative_only` — it names the answer row rather
+than constraining the grid.

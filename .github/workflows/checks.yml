@@ -1,0 +1,25 @@
+name: Checks
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  puzzles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Checker unit tests
+        run: uv run --project checker pytest
+
+      - name: Verify every puzzle
+        run: uv run --project checker checker/check_puzzle.py checker/puzzles --strict --posts _posts
+
+      - name: Verify story continuity
+        run: uv run --project checker checker/check_continuity.py

@@ -1,0 +1,42 @@
+name: "fixture post_missing_number"
+dimensions: 3
+size: 3
+
+categories:
+  - name: proc
+    items: ["p1", "p2", "p3"]
+  - name: tok
+    items: ["t1", "t2", "t3"]
+  - name: res
+    items: ["r1", "r2", "r3"]
+
+answer:
+  proc: p2
+  tok: t2
+  res: r2
+post:
+  path: posts/post_missing_number.md
+  panel_title: evidence
+  answer_order: [proc, tok, res]
+
+clues:
+  - type: direct
+    post_number: 1
+    prose: "`p1` ran with `t1`."
+    subject: { category: proc, item: "p1" }
+    object: { category: tok, item: "t1" }
+  - type: direct
+    post_number: 2
+    prose: "`p2` ran with `t2`."
+    subject: { category: proc, item: "p2" }
+    object: { category: tok, item: "t2" }
+  - type: direct
+    post_number: 3
+    prose: "`p1` touched `r1`."
+    subject: { category: proc, item: "p1" }
+    object: { category: res, item: "r1" }
+  - type: direct
+    post_number: 4
+    prose: "`p2` touched `r2`."
+    subject: { category: proc, item: "p2" }
+    object: { category: res, item: "r2" }

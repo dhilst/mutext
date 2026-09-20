@@ -30,6 +30,17 @@ jobs:
           node-version: "20"
           cache: npm
 
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      # A broken puzzle must not reach the site.
+      - name: Verify every puzzle
+        run: uv run --project checker checker/check_puzzle.py checker/puzzles --strict --posts _posts
+
+      - name: Verify story continuity
+        run: uv run --project checker checker/check_continuity.py
+
       - run: npm ci
 
       - run: npm run build

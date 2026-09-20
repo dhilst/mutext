@@ -2,11 +2,16 @@ name: "INC-0002 The Lockup"
 dimensions: 3
 size: 3
 
+post:
+  path: _posts/2026-05-16-the-lockup.md
+  panel_title: evidence
+  answer_order: [process, lock, call_target]
+
 categories:
   - name: process
-    items: [P1, P2, P3]
+    items: ["P1", "P2", "P3"]
   - name: lock
-    items: [L1, L2, L3]
+    items: ["L1", "L2", "L3"]
   - name: call_target
     items: ["→P1", "→P2", "→P3"]
 
@@ -16,8 +21,9 @@ answer:
   call_target: "→P1"
 
 clues:
-  # 1. No process calls itself.
   - type: self_exclusion
+    post_number: 1
+    prose: "No process calls itself."
     category_a: process
     category_b: call_target
     mapping:
@@ -25,22 +31,29 @@ clues:
       P2: "→P2"
       P3: "→P3"
 
-  # 2. The process holding L1 calls P3.
-  - type: conditional
-    if: { category: lock, item: L1 }
+  - type: link
+    post_number: 2
+    prose: "The process holding L1 calls P3."
+    if: { category: lock, item: "L1" }
     then: { category: call_target, item: "→P3" }
 
-  # 3. P2 does not hold L3.
   - type: negation
-    subject: { category: process, item: P2 }
-    object: { category: lock, item: L3 }
+    post_number: 3
+    prose: "P2 does not hold L3."
+    keep_redundant: true
+    note: "Andy's first real incident: the lock assignment is restated so the player
+      can close the cycle by elimination instead of assuming it."
+    subject: { category: process, item: "P2" }
+    object: { category: lock, item: "L3" }
 
-  # 4. P3 does not call P1.
   - type: negation
-    subject: { category: process, item: P3 }
+    post_number: 4
+    prose: "P3 does not call P1."
+    subject: { category: process, item: "P3" }
     object: { category: call_target, item: "→P1" }
 
-  # 5. The process calling P1 holds L2.
-  - type: conditional
+  - type: link
+    post_number: 5
+    prose: "The process calling P1 holds L2."
     if: { category: call_target, item: "→P1" }
-    then: { category: lock, item: L2 }
+    then: { category: lock, item: "L2" }

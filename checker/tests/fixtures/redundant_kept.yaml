@@ -1,0 +1,35 @@
+name: "fixture redundant kept"
+dimensions: 3
+size: 3
+
+categories:
+  - name: proc
+    items: ["p1", "p2", "p3"]
+  - name: tok
+    items: ["t1", "t2", "t3"]
+  - name: res
+    items: ["r1", "r2", "r3"]
+
+answer:
+  proc: p2
+  tok: t2
+  res: r2
+
+clues:
+  - type: direct
+    subject: { category: proc, item: "p1" }
+    object: { category: tok, item: "t1" }
+  - type: direct
+    subject: { category: proc, item: "p2" }
+    object: { category: tok, item: "t2" }
+  - type: direct
+    subject: { category: proc, item: "p1" }
+    object: { category: res, item: "r1" }
+  - type: direct
+    subject: { category: proc, item: "p2" }
+    object: { category: res, item: "r2" }
+  - type: negation
+    keep_redundant: true
+    note: "Bob restates this in chat."
+    subject: { category: proc, item: "p3" }
+    object: { category: tok, item: "t1" }

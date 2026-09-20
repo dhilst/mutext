@@ -3,6 +3,9 @@ description: AI-generated software troubleshooting simulator
 theme: null
 markdown: kramdown
 
+# Incidents the case file is expected to hold once the arc is complete.
+case_file_total: 16
+
 baseurl: "/mutext"
 url: "https://dhilst.github.io"
 
@@ -26,6 +29,9 @@ exclude:
   - AGENTS.md
   - CLAUDE.md
   - bin/
+  - checker/
+  - demo-grids.md
+  - docs/
   - node_modules/
   - vendor/
   - assets/css/main.css

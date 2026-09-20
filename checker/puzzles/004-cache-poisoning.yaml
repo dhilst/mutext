@@ -2,13 +2,19 @@ name: "INC-0004 Cache Poisoning"
 dimensions: 3
 size: 3
 
+post:
+  path: _posts/2026-05-18-cache-poisoning.md
+  panel_title: evidence
+  answer_order: [tenant, edge, route]
+  narrative_only: [6]
+
 categories:
   - name: tenant
-    items: [helios, orion, atlas]
+    items: ["helios", "orion", "atlas"]
   - name: edge
-    items: [edge-01, edge-02, edge-03]
+    items: ["edge-01", "edge-02", "edge-03"]
   - name: route
-    items: [/config, /session, /feature]
+    items: ["/config", "/session", "/feature"]
 
 answer:
   tenant: atlas
@@ -16,22 +22,38 @@ answer:
   route: /session
 
 clues:
-  # 1. /session did not originate from edge-01
   - type: negation
-    subject: { category: route, item: /session }
-    object: { category: edge, item: edge-01 }
+    post_number: 1
+    prose: "The poisoned `/session` route did not originate from `edge-01`."
+    subject: { category: route, item: "/session" }
+    object: { category: edge, item: "edge-01" }
 
-  # 3. Rin's maintenance log: edge-03 had /config invalidated
-  - type: direct
-    subject: { category: edge, item: edge-03 }
-    object: { category: route, item: /config }
+  - type: negation
+    post_number: 2
+    prose: "`atlas` was not affected through `/feature`."
+    keep_redundant: true
+    note: "Security's thread says it outright, so the page shows it; the audit
+      fragment in item 5 already forces it."
+    subject: { category: tenant, item: "atlas" }
+    object: { category: route, item: "/feature" }
 
-  # 4. edge-03 only served corrupted data to helios
   - type: direct
-    subject: { category: edge, item: edge-03 }
-    object: { category: tenant, item: helios }
+    post_number: 3
+    prose: "A recovered fragment from Rin's maintenance log: `node=edge-03 route=/config — invalidated`. Bob: \"Funny how nobody can explain when exactly Rin left.\""
+    subject: { category: edge, item: "edge-03" }
+    object: { category: route, item: "/config" }
 
-  # 5. Audit fragment: orion = /feature
   - type: direct
-    subject: { category: tenant, item: orion }
-    object: { category: route, item: /feature }
+    post_number: 4
+    prose: "`edge-03` only served corrupted data to `helios`."
+    subject: { category: edge, item: "edge-03" }
+    object: { category: tenant, item: "helios" }
+
+  - type: direct
+    post_number: 5
+    prose: "A partial audit fragment recovered from backup: `tenant=orion route=/feature`"
+    subject: { category: tenant, item: "orion" }
+    object: { category: route, item: "/feature" }
+
+  # 6 is the second Nix fragment (cache.invalidate("truth")) — atmosphere, not a
+  # constraint, so it is declared narrative-only above.
