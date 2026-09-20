@@ -45,7 +45,7 @@ clues:
 
   - type: direct
     post_number: 4
-    prose: "`edge-03` only served corrupted data to `helios`."
+    prose: "`edge-03` served only `helios`."
     subject: { category: edge, item: "edge-03" }
     object: { category: tenant, item: "helios" }
 

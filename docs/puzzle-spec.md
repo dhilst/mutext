@@ -454,12 +454,33 @@ The JS is fully generic. All puzzle-specific data lives in the HTML (grid struct
 
 ---
 
+## Stored state
+
+Two keys, both per-browser and both optional — nothing the site does depends on
+them being present.
+
+| Key | Holds | Written when |
+|---|---|---|
+| `mutext-grid-<pathname>` | the grid marks on that page, as a positional array | any cell is clicked |
+| `mutext-solved` | the slugs of closed incidents, e.g. `["005-starvation"]` | a chapter's **final** answer block is solved |
+
+`mutext-solved` stores slugs rather than pathnames so a local build and the
+deployed site (which carries a `/mutext` baseurl) agree. A two-stage chapter is
+recorded only once its last answer block is solved, so solving chapter 10's grid
+without the archive query does not close it.
+
+The archive and the operator panel render from it: rows carry `data-chapter`
+plus a `[data-solved-badge]`, the panel carries `[data-progress-count]`,
+`[data-progress-bar]` and a `[data-clear-progress]` reset. All of it is wired
+generically in `main.js` — there is still no per-chapter JavaScript.
+
 ## Constraints
 
 - No note-taking required — all deduction must be trackable on the grid alone
 - No backend — all validation is client-side
 - Answer is visible in page source (acceptable for prototype)
-- Grid state persists across page reloads via localStorage
+- Grid marks and closed-incident state persist via localStorage (see above); a
+  reveal is not persisted, so returning to a solved chapter means solving it again
 - Each puzzle page must be self-contained (no shared state between puzzles)
 
 ---

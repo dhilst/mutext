@@ -60,7 +60,65 @@
     });
   }
 
+  // --- case file -----------------------------------------------------------
+  // Which incidents the operator has closed. Slugs, not pathnames, so a local
+  // build and the deployed site agree.
+  const solvedKey = "mutext-solved";
+
+  function loadSolved() {
+    try { return JSON.parse(localStorage.getItem(solvedKey)) || []; }
+    catch { return []; }
+  }
+
+  function slugOf(path) {
+    return path.split("/").pop().replace(/\.html$/, "");
+  }
+
+  function markSolved(slug) {
+    if (!slug) return;
+    const solved = loadSolved();
+    if (solved.includes(slug)) return;
+    solved.push(slug);
+    try { localStorage.setItem(solvedKey, JSON.stringify(solved)); } catch { /* ignore */ }
+    renderProgress();
+  }
+
+  function renderProgress() {
+    const solved = loadSolved();
+
+    document.querySelectorAll("[data-chapter]").forEach((row) => {
+      const done = solved.includes(row.dataset.chapter);
+      row.classList.toggle("is-closed", done);
+      const badge = row.querySelector("[data-solved-badge]");
+      if (badge) badge.textContent = done ? "closed" : "";
+    });
+
+    const counter = document.querySelector("[data-progress-count]");
+    if (counter) {
+      const total = Number(counter.dataset.progressTotal) || 0;
+      const closed = solved.length > total ? total : solved.length;
+      counter.textContent = closed + "/" + total;
+      const bar = document.querySelector("[data-progress-bar]");
+      if (bar && total) bar.style.width = Math.round((closed / total) * 100) + "%";
+    }
+
+    const reset = document.querySelector("[data-clear-progress]");
+    if (reset) reset.hidden = solved.length === 0;
+  }
+
+  const resetBtn = document.querySelector("[data-clear-progress]");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      if (!confirm("Reopen every incident? This clears your case file.")) return;
+      localStorage.removeItem(solvedKey);
+      renderProgress();
+    });
+  }
+
+  renderProgress();
+
   const submitButtons = new Set();
+  const answerBlocks = Array.from(document.querySelectorAll("[data-puzzle-answer]"));
 
   document.querySelectorAll("[data-puzzle-answer]").forEach((answerEl) => {
     const answer = answerEl.getAttribute("data-puzzle-answer").split(",").map(s => s.trim().toLowerCase());
@@ -89,6 +147,10 @@
         submitBtn.classList.remove("button-primary");
         submitBtn.classList.add("button-correct");
         spawnConfetti();
+        // A two-stage chapter is only closed once its final block is solved.
+        if (answerBlocks.indexOf(answerEl) === answerBlocks.length - 1) {
+          markSolved(slugOf(location.pathname));
+        }
         const reveal = document.querySelector(revealSel);
         if (reveal) {
           reveal.classList.remove("hidden");

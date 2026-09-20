@@ -84,6 +84,14 @@
     @apply border border-slate-mutext/15 bg-black/20 p-4;
   }
 
+  .archive-row.is-closed {
+    @apply bg-phosphor/[0.03];
+  }
+
+  .archive-row.is-closed .text-cyan-trace {
+    @apply text-phosphor;
+  }
+
   .log-line {
     @apply border-b border-slate-700/35 px-3 py-2 font-mono text-xs leading-relaxed text-slate-300 last:border-0;
   }

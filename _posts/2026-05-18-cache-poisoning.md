@@ -40,7 +40,7 @@ Andy searched for Rin in the company directory. No results.
 1. The poisoned `/session` route did not originate from `edge-01`.
 2. `atlas` was not affected through `/feature`.
 3. A recovered fragment from Rin's maintenance log: `node=edge-03 route=/config — invalidated`. Bob: "Funny how nobody can explain when exactly Rin left."
-4. `edge-03` only served corrupted data to `helios`.
+4. `edge-03` served only `helios`.
 5. A partial audit fragment recovered from backup: `tenant=orion route=/feature`
 6. A malformed telemetry line appears in the edge-03 log: `cache.invalidate("truth")`. Bob dismisses it as junk data. Andy does not.
 
