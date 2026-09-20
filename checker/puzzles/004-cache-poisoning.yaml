@@ -6,8 +6,8 @@ post:
   path: _posts/2026-05-18-cache-poisoning.md
   panel_title: evidence
   answer_order: [tenant, edge, route]
-  narrative_only: [6]
-
+  narrative_only:
+    6: "A malformed telemetry line appears in the edge-03 log: `cache.invalidate(\"truth\")`. Bob dismisses it as junk data. Andy does not."
 categories:
   - name: tenant
     items: ["helios", "orion", "atlas"]

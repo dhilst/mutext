@@ -6,8 +6,8 @@ post:
   path: _posts/2026-05-20-livelock.md
   panel_title: evidence
   answer_order: [worker, backoff, progress]
-  narrative_only: [6]
-
+  narrative_only:
+    6: "A recovery transition line the audit index says was never written: `[recovery] transition rejected — nx::epoch=…`. Bob reads it, shrugs, and calls it a torn write."
 categories:
   - name: worker
     items: ["w-reap", "w-drain", "w-merge"]

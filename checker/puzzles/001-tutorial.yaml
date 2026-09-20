@@ -6,8 +6,8 @@ post:
   path: _posts/2026-05-15-tutorial.md
   panel_title: clues
   answer_order: [process, token, resource]
-  narrative_only: [5]
-
+  narrative_only:
+    5: "`token-beta` was invalid."
 categories:
   - name: process
     items: ["parser", "crawler", "renderer"]

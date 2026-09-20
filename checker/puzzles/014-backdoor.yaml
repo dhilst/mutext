@@ -6,8 +6,8 @@ post:
   path: _posts/2026-05-28-backdoor.md
   panel_title: evidence
   answer_order: [commit, key, module, window, trigger]
-  narrative_only: [12]
-
+  narrative_only:
+    12: "Every one of the four commits passed review. Three reviewers, one of whom has left."
 categories:
   - name: commit
     items: ["c-4a1", "c-9f2", "c-2de", "c-77b"]

@@ -212,6 +212,28 @@ clues:
 
 Omit the `post:` block and the sync lint is skipped (`I401`).
 
+### narrative_only
+
+An evidence item the encoding does not carry — a Nix fragment, one of Bob's
+asides, a count the metadata already states. Either form works:
+
+```yaml
+  narrative_only: [6]                     # declared, unchecked
+
+  narrative_only:                         # declared and checked
+    6: "A malformed telemetry line appears in the edge-03 log."
+```
+
+Prefer the mapping. A bare list only asserts that the item is *allowed* to be
+unencoded; the post then becomes the item's only source, and an edit to it
+drifts silently — which is how chapter 16's "renewed at 02:44" survived a
+change to 02:14 in three other places. The mapping pins the text the same way
+an encoded clue's `prose` is pinned, and all eleven declarations now use it.
+
+Keys are unquoted integers. That is the one place in these files where a bare
+number is wanted: elsewhere, quote everything (`"08:05"` is parsed as an
+integer otherwise).
+
 ### Authoring rules the checker enforces
 
 - **Quote every item.** PyYAML turns `08:05` into an integer and `no`/`on`/`off`

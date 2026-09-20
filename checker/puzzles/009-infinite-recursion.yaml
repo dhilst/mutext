@@ -6,8 +6,8 @@ post:
   path: _posts/2026-05-23-infinite-recursion.md
   panel_title: evidence
   answer_order: [frame, calls, depth, stack]
-  narrative_only: [9]
-
+  narrative_only:
+    9: "Recovered from frame 4096 of the cascade, between two identical stack traces: `nx::src=…`"
 categories:
   - name: frame
     items: ["resolve", "expand", "inline", "emit"]

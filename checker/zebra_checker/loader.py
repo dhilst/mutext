@@ -300,7 +300,7 @@ class _Validator:
         if isinstance(raw_flavour, dict):
             numbers = []
             for key, text in raw_flavour.items():
-                if not isinstance(key, int):
+                if not isinstance(key, int) or isinstance(key, bool):
                     self.add("E110", f"narrative_only key {key!r} is not a number",
                              line=_line(raw)); continue
                 numbers.append(key)

@@ -110,10 +110,14 @@ def main() -> int:
 
     # 2. ledger text renders raw - evidence-card.html emits {{ item.note }}
     #    into a <p>, so markdown in a note reaches the page as literal characters
+    # `fragment` is exempt: it is verbatim log text, where punctuation is real.
     for key, entry in ledger.items():
-        for field in ("note", "fragment", "source"):
+        for field in ("note", "source"):
             value = str(entry.get(field, ""))
-            if field != "fragment" and ("`" in value or "**" in value):
+            # a code span and bold are what an author actually types into a note;
+            # "](" catches a markdown link. `_` is deliberately NOT tested - three
+            # ledger values legitimately contain underscores, including mu_ctx_t.
+            if "`" in value or "**" in value or "](" in value:
                 failures.append(
                     f"ledger entry '{key}' has markdown in {field}; the card renders "
                     f"it as plain text, so it will show the characters themselves")

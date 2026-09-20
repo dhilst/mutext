@@ -6,8 +6,8 @@ post:
   path: _posts/2026-05-29-sandbox-escape.md
   panel_title: evidence
   answer_order: [sandbox, syscall, path, capability, host]
-  narrative_only: [13]
-
+  narrative_only:
+    13: "Three of these four attempts were denied and logged. The report does not say which."
 categories:
   - name: sandbox
     items: ["sbx-01", "sbx-02", "sbx-03", "sbx-04"]

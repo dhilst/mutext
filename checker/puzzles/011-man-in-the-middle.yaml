@@ -6,8 +6,8 @@ post:
   path: _posts/2026-05-25-man-in-the-middle.md
   panel_title: evidence
   answer_order: [session, fingerprint, hop]
-  narrative_only: [7]
-
+  narrative_only:
+    7: "Andy's sent buffer and Nix's received transcript differ by two sentences. Neither end saw an error."
 categories:
   - name: session
     items: ["sx-01", "sx-02", "sx-03", "sx-04"]
