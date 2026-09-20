@@ -1,0 +1,80 @@
+name: "INC-0008 Split Brain"
+dimensions: 4
+size: 4
+
+post:
+  path: _posts/2026-05-22-split-brain.md
+  panel_title: evidence
+  answer_order: [node, monitor, term, votes]
+  narrative_only: [10]
+
+categories:
+  - name: monitor
+    items: ["mon-01", "mon-02", "mon-03", "mon-04"]
+  - name: node
+    items: ["n-alpha", "n-beta", "n-gamma", "n-delta"]
+  - name: term
+    items: ["t-41", "t-42", "t-43", "t-44"]
+  - name: votes
+    items: ["v=1", "v=2", "v=3", "v=4"]
+
+answer:
+  monitor: mon-02
+  node: n-alpha
+  term: t-44
+  votes: "v=4"
+
+clues:
+  - type: direct
+    post_number: 1
+    prose: "`mon-04` recorded its observation in term `t-43`."
+    subject: { category: monitor, item: "mon-04" }
+    object: { category: term, item: "t-43" }
+
+  - type: link
+    post_number: 2
+    prose: "The observation made in term `t-43` carried three votes."
+    if: { category: term, item: "t-43" }
+    then: { category: votes, item: "v=3" }
+
+  - type: link
+    post_number: 3
+    prose: "Term `t-42` carries two votes."
+    if: { category: term, item: "t-42" }
+    then: { category: votes, item: "v=2" }
+
+  - type: direct
+    post_number: 4
+    prose: "`n-gamma` was recorded with two votes."
+    subject: { category: node, item: "n-gamma" }
+    object: { category: votes, item: "v=2" }
+
+  - type: direct
+    post_number: 5
+    prose: "`n-delta`'s claim carried a single vote."
+    subject: { category: node, item: "n-delta" }
+    object: { category: votes, item: "v=1" }
+
+  - type: direct
+    post_number: 6
+    prose: "`mon-03` recorded a single-vote claim."
+    subject: { category: monitor, item: "mon-03" }
+    object: { category: votes, item: "v=1" }
+
+  - type: negation
+    post_number: 7
+    prose: "The term `t-44` observation did not carry a single vote."
+    subject: { category: term, item: "t-44" }
+    object: { category: votes, item: "v=1" }
+
+  - type: negation
+    post_number: 8
+    prose: "`mon-01` did not record term `t-44`."
+    subject: { category: monitor, item: "mon-01" }
+    object: { category: term, item: "t-44" }
+
+  - type: negation
+    post_number: 9
+    prose: "`n-beta` was not the node that reached four votes."
+    subject: { category: node, item: "n-beta" }
+    object: { category: votes, item: "v=4" }

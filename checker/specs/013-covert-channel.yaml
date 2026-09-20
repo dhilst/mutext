@@ -1,0 +1,20 @@
+name: "INC-0013 Covert Channel"
+dimensions: 4
+size: 5
+categories:
+  - name: job
+    items: ["j-mint", "j-index", "j-thumb", "j-purge", "j-sync"]
+  - name: carrier
+    items: ["ttl-jitter", "log-pad", "dns-txt", "hdr-order", "retry-gap"]
+  - name: sink
+    items: ["cdn-edge", "ntp-pool", "crash-relay", "font-cdn", "status-page"]
+  - name: rate
+    items: ["2 B/s", "11 B/s", "40 B/s", "96 B/s", "310 B/s"]
+solution:
+  - { job: "j-mint", carrier: "hdr-order", sink: "font-cdn", rate: "11 B/s" }
+  - { job: "j-index", carrier: "retry-gap", sink: "status-page", rate: "2 B/s" }
+  - { job: "j-thumb", carrier: "ttl-jitter", sink: "crash-relay", rate: "96 B/s" }
+  - { job: "j-purge", carrier: "dns-txt", sink: "cdn-edge", rate: "310 B/s" }
+  - { job: "j-sync", carrier: "log-pad", sink: "ntp-pool", rate: "40 B/s" }
+answer: { job: "j-thumb", carrier: "ttl-jitter", sink: "crash-relay", rate: "96 B/s" }
+avoid_direct_answer: true

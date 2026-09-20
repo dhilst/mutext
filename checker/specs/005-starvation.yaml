@@ -1,0 +1,18 @@
+name: "INC-0005 Starvation"
+dimensions: 3
+size: 3
+categories:
+  - name: consumer
+    items: ["ingest", "settle", "notify"]
+  - name: ack
+    items: ["14s", "9m", "19h"]
+  - name: lane
+    items: ["q-hot", "q-warm", "q-dead"]
+solution:
+  - { consumer: ingest, ack: "14s", lane: "q-dead" }
+  - { consumer: settle, ack: "19h", lane: "q-warm" }
+  - { consumer: notify, ack: "9m", lane: "q-hot" }
+answer: { consumer: settle, ack: "19h", lane: "q-warm" }
+
+# The answer row must be reached by elimination, never stated.
+avoid_direct_answer: true

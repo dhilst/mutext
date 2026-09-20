@@ -1,0 +1,94 @@
+name: "INC-0013 Covert Channel"
+dimensions: 4
+size: 5
+
+post:
+  path: _posts/2026-05-27-covert-channel.md
+  panel_title: evidence
+  answer_order: [job, carrier, sink, rate]
+  narrative_only: [12]
+
+categories:
+  - name: job
+    items: ["j-mint", "j-index", "j-thumb", "j-purge", "j-sync"]
+  - name: carrier
+    items: ["ttl-jitter", "log-pad", "dns-txt", "hdr-order", "retry-gap"]
+  - name: sink
+    items: ["cdn-edge", "ntp-pool", "crash-relay", "font-cdn", "status-page"]
+  - name: rate
+    items: ["2 B/s", "11 B/s", "40 B/s", "96 B/s", "310 B/s"]
+
+answer:
+  job: j-thumb
+  carrier: ttl-jitter
+  sink: crash-relay
+  rate: "96 B/s"
+
+clues:
+  - type: direct
+    post_number: 1
+    prose: "`j-mint` reaches `font-cdn`."
+    subject: { category: job, item: "j-mint" }
+    object: { category: sink, item: "font-cdn" }
+
+  - type: direct
+    post_number: 2
+    prose: "`j-purge` reaches `cdn-edge`."
+    subject: { category: job, item: "j-purge" }
+    object: { category: sink, item: "cdn-edge" }
+
+  - type: direct
+    post_number: 3
+    prose: "`j-purge` rides `dns-txt`."
+    subject: { category: job, item: "j-purge" }
+    object: { category: carrier, item: "dns-txt" }
+
+  - type: direct
+    post_number: 4
+    prose: "`j-index` rides `retry-gap`."
+    subject: { category: job, item: "j-index" }
+    object: { category: carrier, item: "retry-gap" }
+
+  - type: direct
+    post_number: 5
+    prose: "`j-sync` moves `40 B/s`."
+    subject: { category: job, item: "j-sync" }
+    object: { category: rate, item: "40 B/s" }
+
+  - type: link
+    post_number: 6
+    prose: "What rides `log-pad` arrives at `ntp-pool`."
+    if: { category: carrier, item: "log-pad" }
+    then: { category: sink, item: "ntp-pool" }
+
+  - type: link
+    post_number: 7
+    prose: "Traffic reaching `cdn-edge` runs at `310 B/s`."
+    if: { category: sink, item: "cdn-edge" }
+    then: { category: rate, item: "310 B/s" }
+
+  - type: link
+    post_number: 8
+    prose: "Traffic reaching `status-page` runs at `2 B/s`."
+    if: { category: sink, item: "status-page" }
+    then: { category: rate, item: "2 B/s" }
+
+  - type: negation
+    post_number: 9
+    prose: "`ttl-jitter` does not reach `font-cdn`."
+    subject: { category: carrier, item: "ttl-jitter" }
+    object: { category: sink, item: "font-cdn" }
+
+  - type: negation
+    post_number: 10
+    prose: "`j-thumb` does not ride `log-pad`."
+    subject: { category: job, item: "j-thumb" }
+    object: { category: carrier, item: "log-pad" }
+
+  - type: not_equal_any
+    post_number: 11
+    prose: "`j-thumb` is moving more than a trickle: neither `2 B/s` nor `11 B/s`."
+    subject: { category: job, item: "j-thumb" }
+    none_of:
+      - { category: rate, item: "2 B/s" }
+      - { category: rate, item: "11 B/s" }

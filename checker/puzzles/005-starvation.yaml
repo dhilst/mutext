@@ -1,0 +1,46 @@
+name: "INC-0005 Starvation"
+dimensions: 3
+size: 3
+
+post:
+  path: _posts/2026-05-19-starvation.md
+  panel_title: evidence
+  answer_order: [consumer, lane, ack]
+
+categories:
+  - name: consumer
+    items: ["ingest", "settle", "notify"]
+  - name: ack
+    items: ["14s", "9m", "19h"]
+  - name: lane
+    items: ["q-hot", "q-warm", "q-dead"]
+
+answer:
+  consumer: settle
+  ack: "19h"
+  lane: q-warm
+
+clues:
+  - type: link
+    post_number: 1
+    prose: "The consumer whose last acknowledgement was `14s` is the one attached to `q-dead`."
+    if: { category: ack, item: "14s" }
+    then: { category: lane, item: "q-dead" }
+
+  - type: negation
+    post_number: 2
+    prose: "`notify` did not record the `19h` acknowledgement."
+    subject: { category: consumer, item: "notify" }
+    object: { category: ack, item: "19h" }
+
+  - type: negation
+    post_number: 3
+    prose: "No consumer on `q-hot` has been silent for `19h`."
+    subject: { category: ack, item: "19h" }
+    object: { category: lane, item: "q-hot" }
+
+  - type: direct
+    post_number: 4
+    prose: "`ingest` consumes from `q-dead`."
+    subject: { category: consumer, item: "ingest" }
+    object: { category: lane, item: "q-dead" }

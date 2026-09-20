@@ -1,0 +1,28 @@
+name: "INC-0009 Infinite Recursion"
+dimensions: 4
+size: 4
+categories:
+  - name: frame
+    items: ["resolve", "expand", "inline", "emit"]
+  - name: calls
+    items: ["→resolve", "→expand", "→inline", "→emit"]
+  - name: depth
+    items: ["d-128", "d-512", "d-4k", "d-∞"]
+  - name: stack
+    items: ["4 MB", "32 MB", "256 MB", "2 GB"]
+solution:
+  - { frame: "resolve", calls: "→expand", depth: "d-128", stack: "4 MB" }
+  - { frame: "expand", calls: "→inline", depth: "d-4k", stack: "256 MB" }
+  - { frame: "inline", calls: "→emit", depth: "d-∞", stack: "2 GB" }
+  - { frame: "emit", calls: "→resolve", depth: "d-512", stack: "32 MB" }
+answer: { frame: "inline", calls: "→emit", depth: "d-∞", stack: "2 GB" }
+avoid_direct_answer: true
+pool:
+  - type: self_exclusion
+    category_a: frame
+    category_b: calls
+    mapping:
+      resolve: "→resolve"
+      expand: "→expand"
+      inline: "→inline"
+      emit: "→emit"

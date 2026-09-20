@@ -1,0 +1,142 @@
+name: "INC-0010 Byzantine Fault"
+dimensions: 5
+size: 5
+
+post:
+  path: _posts/2026-05-24-byzantine-fault.md
+  panel_title: evidence
+  answer_order: [replica, digest, epoch, key, stream]
+
+categories:
+  - name: replica
+    items: ["r1", "r2", "r3", "r4", "r5"]
+  - name: digest
+    items: ["d1", "d2", "d3", "d4", "d5"]
+  - name: epoch
+    items: ["e1", "e2", "e3", "e4", "e5"]
+  - name: key
+    items: ["k1", "k2", "k3", "k4", "k5"]
+  - name: stream
+    items: ["s1", "s2", "s3", "s4", "s5"]
+
+answer:
+  replica: r3
+  digest: d5
+  epoch: e4
+  key: k4
+  stream: s4
+
+clues:
+  - type: direct
+    post_number: 1
+    prose: "`r1` countersigns with `k1`."
+    subject: { category: replica, item: "r1" }
+    object: { category: key, item: "k1" }
+
+  - type: direct
+    post_number: 2
+    prose: "`r1` attested in epoch `e5`."
+    subject: { category: replica, item: "r1" }
+    object: { category: epoch, item: "e5" }
+
+  - type: direct
+    post_number: 3
+    prose: "`r1` produced digest `d2`."
+    subject: { category: replica, item: "r1" }
+    object: { category: digest, item: "d2" }
+
+  - type: link
+    post_number: 4
+    prose: "The `k1` attestation goes out on `s3`."
+    if: { category: key, item: "k1" }
+    then: { category: stream, item: "s3" }
+
+  - type: direct
+    post_number: 5
+    prose: "`r5` publishes into `s2`."
+    subject: { category: replica, item: "r5" }
+    object: { category: stream, item: "s2" }
+
+  - type: link
+    post_number: 6
+    prose: "Whatever is countersigned `k3` publishes into `s2`."
+    if: { category: key, item: "k3" }
+    then: { category: stream, item: "s2" }
+
+  - type: link
+    post_number: 7
+    prose: "Epoch `e3` is countersigned `k3`."
+    if: { category: epoch, item: "e3" }
+    then: { category: key, item: "k3" }
+
+  - type: link
+    post_number: 8
+    prose: "Digest `d4` is countersigned `k5`."
+    if: { category: digest, item: "d4" }
+    then: { category: key, item: "k5" }
+
+  - type: link
+    post_number: 9
+    prose: "The attestation countersigned `k2` went out on `s5`."
+    if: { category: key, item: "k2" }
+    then: { category: stream, item: "s5" }
+
+  - type: negation
+    post_number: 10
+    prose: "Digest `d5` was not produced in epoch `e3`."
+    subject: { category: digest, item: "d5" }
+    object: { category: epoch, item: "e3" }
+
+  - type: negation
+    post_number: 11
+    prose: "Nothing on `s5` carries the epoch `e4` mark."
+    subject: { category: epoch, item: "e4" }
+    object: { category: stream, item: "s5" }
+
+  - type: negation
+    post_number: 12
+    prose: "The `e4` attestation is not countersigned `k5`."
+    subject: { category: epoch, item: "e4" }
+    object: { category: key, item: "k5" }
+
+  - type: negation
+    post_number: 13
+    prose: "`r2` did not attest in epoch `e4`."
+    subject: { category: replica, item: "r2" }
+    object: { category: epoch, item: "e4" }
+
+  - type: negation
+    post_number: 14
+    prose: "`r4` does not countersign with `k4`."
+    subject: { category: replica, item: "r4" }
+    object: { category: key, item: "k4" }
+
+  - type: negation
+    post_number: 15
+    prose: "The `e2` attestation did not go out on `s1`."
+    subject: { category: epoch, item: "e2" }
+    object: { category: stream, item: "s1" }
+
+  - type: negation
+    post_number: 16
+    prose: "`r3` does not publish into `s1`."
+    subject: { category: replica, item: "r3" }
+    object: { category: stream, item: "s1" }
+
+  - type: negation
+    post_number: 17
+    prose: "`r4` does not publish into `s1`."
+    subject: { category: replica, item: "r4" }
+    object: { category: stream, item: "s1" }
+
+  - type: negation
+    post_number: 18
+    prose: "`r5` did not produce digest `d1`."
+    subject: { category: replica, item: "r5" }
+    object: { category: digest, item: "d1" }
+
+  - type: negation
+    post_number: 19
+    prose: "Digest `d1` did not appear on `s4`."
+    subject: { category: digest, item: "d1" }
+    object: { category: stream, item: "s4" }

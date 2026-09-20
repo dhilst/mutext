@@ -1,0 +1,59 @@
+name: "INC-0011 Man in the Middle"
+dimensions: 3
+size: 4
+
+post:
+  path: _posts/2026-05-25-man-in-the-middle.md
+  panel_title: evidence
+  answer_order: [session, fingerprint, hop]
+  narrative_only: [7]
+
+categories:
+  - name: session
+    items: ["sx-01", "sx-02", "sx-03", "sx-04"]
+  - name: fingerprint
+    items: ["fp-3a", "fp-7c", "fp-b1", "fp-e9"]
+  - name: hop
+    items: ["hop-ams", "hop-fra", "hop-sfo", "hop-nrt"]
+
+answer:
+  session: sx-02
+  fingerprint: fp-b1
+  hop: hop-nrt
+
+clues:
+  - type: direct
+    post_number: 1
+    prose: "`sx-01` terminated at `hop-fra`."
+    subject: { category: session, item: "sx-01" }
+    object: { category: hop, item: "hop-fra" }
+
+  - type: direct
+    post_number: 2
+    prose: "`sx-01` was presented `fp-7c`."
+    subject: { category: session, item: "sx-01" }
+    object: { category: fingerprint, item: "fp-7c" }
+
+  - type: direct
+    post_number: 3
+    prose: "`sx-04` was presented `fp-3a`."
+    subject: { category: session, item: "sx-04" }
+    object: { category: fingerprint, item: "fp-3a" }
+
+  - type: link
+    post_number: 4
+    prose: "The session shown `fp-e9` exited through `hop-ams`."
+    if: { category: fingerprint, item: "fp-e9" }
+    then: { category: hop, item: "hop-ams" }
+
+  - type: negation
+    post_number: 5
+    prose: "`fp-3a` was not presented on the `hop-nrt` path."
+    subject: { category: fingerprint, item: "fp-3a" }
+    object: { category: hop, item: "hop-nrt" }
+
+  - type: negation
+    post_number: 6
+    prose: "`sx-03` did not exit through `hop-nrt`."
+    subject: { category: session, item: "sx-03" }
+    object: { category: hop, item: "hop-nrt" }

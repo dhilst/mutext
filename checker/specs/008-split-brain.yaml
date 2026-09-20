@@ -1,0 +1,19 @@
+name: "INC-0008 Split Brain"
+dimensions: 4
+size: 4
+categories:
+  - name: monitor
+    items: ["mon-01", "mon-02", "mon-03", "mon-04"]
+  - name: node
+    items: ["n-alpha", "n-beta", "n-gamma", "n-delta"]
+  - name: term
+    items: ["t-41", "t-42", "t-43", "t-44"]
+  - name: votes
+    items: ["v=1", "v=2", "v=3", "v=4"]
+solution:
+  - { monitor: "mon-01", node: "n-gamma", term: "t-42", votes: "v=2" }
+  - { monitor: "mon-02", node: "n-alpha", term: "t-44", votes: "v=4" }
+  - { monitor: "mon-03", node: "n-delta", term: "t-41", votes: "v=1" }
+  - { monitor: "mon-04", node: "n-beta", term: "t-43", votes: "v=3" }
+answer: { monitor: "mon-02", node: "n-alpha", term: "t-44", votes: "v=4" }
+avoid_direct_answer: true

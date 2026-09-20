@@ -1,0 +1,97 @@
+name: "INC-0014 Backdoor"
+dimensions: 5
+size: 4
+
+post:
+  path: _posts/2026-05-28-backdoor.md
+  panel_title: evidence
+  answer_order: [commit, key, module, window, trigger]
+  narrative_only: [12]
+
+categories:
+  - name: commit
+    items: ["c-4a1", "c-9f2", "c-2de", "c-77b"]
+  - name: key
+    items: ["k.ops", "r.sato", "k.bot", "k.rel"]
+  - name: module
+    items: ["auth", "ingest", "harness", "export"]
+  - name: window
+    items: ["02:40", "03:15", "04:35", "05:10"]
+  - name: trigger
+    items: ["x-mu-trace", "x-mu-replay", "x-mu-debug", "x-mu-drain"]
+
+answer:
+  commit: c-2de
+  key: r.sato
+  module: harness
+  window: "02:40"
+  trigger: x-mu-replay
+
+clues:
+  - type: direct
+    post_number: 1
+    prose: "`c-4a1` touches `auth`."
+    subject: { category: commit, item: "c-4a1" }
+    object: { category: module, item: "auth" }
+
+  - type: direct
+    post_number: 2
+    prose: "`c-9f2` touches `export`."
+    subject: { category: commit, item: "c-9f2" }
+    object: { category: module, item: "export" }
+
+  - type: direct
+    post_number: 3
+    prose: "`c-9f2` answers `x-mu-drain`."
+    subject: { category: commit, item: "c-9f2" }
+    object: { category: trigger, item: "x-mu-drain" }
+
+  - type: link
+    post_number: 4
+    prose: "Whatever `k.rel` signed answers `x-mu-drain`."
+    if: { category: key, item: "k.rel" }
+    then: { category: trigger, item: "x-mu-drain" }
+
+  - type: link
+    post_number: 5
+    prose: "Whatever `k.ops` signed answers `x-mu-debug`."
+    if: { category: key, item: "k.ops" }
+    then: { category: trigger, item: "x-mu-debug" }
+
+  - type: link
+    post_number: 6
+    prose: "The change that landed in the `03:15` window answers `x-mu-debug`."
+    if: { category: window, item: "03:15" }
+    then: { category: trigger, item: "x-mu-debug" }
+
+  - type: link
+    post_number: 7
+    prose: "The change that landed in the `04:35` window answers `x-mu-trace`."
+    if: { category: window, item: "04:35" }
+    then: { category: trigger, item: "x-mu-trace" }
+
+  - type: link
+    post_number: 8
+    prose: "The path added to `ingest` answers `x-mu-trace`."
+    if: { category: module, item: "ingest" }
+    then: { category: trigger, item: "x-mu-trace" }
+
+  - type: negation
+    post_number: 9
+    prose: "The path added to `auth` does not answer `x-mu-replay`."
+    subject: { category: module, item: "auth" }
+    object: { category: trigger, item: "x-mu-replay" }
+
+  - type: negation
+    post_number: 10
+    prose: "`c-77b` is not signed `r.sato`."
+    subject: { category: commit, item: "c-77b" }
+    object: { category: key, item: "r.sato" }
+
+  - type: not_equal_any
+    post_number: 11
+    prose: "`c-2de` landed early: not in the `04:35` window, and not in the `05:10` one."
+    subject: { category: commit, item: "c-2de" }
+    none_of:
+      - { category: window, item: "04:35" }
+      - { category: window, item: "05:10" }

@@ -1,0 +1,97 @@
+name: "INC-0016 Dead Man Switch"
+dimensions: 5
+size: 4
+
+post:
+  path: _posts/2026-05-30-dead-man-switch.md
+  panel_title: evidence
+  answer_order: [heartbeat, key, deadline, action, target]
+  narrative_only: [12]
+
+categories:
+  - name: heartbeat
+    items: ["hb-arc", "hb-hrn", "hb-reg", "hb-brd"]
+  - name: key
+    items: ["k.ops", "r.sato", "k.bot", "k.jeff"]
+  - name: deadline
+    items: ["03:00", "03:10", "03:40", "04:00"]
+  - name: action
+    items: ["publish", "wipe", "rotate", "seal"]
+  - name: target
+    items: ["archive", "harness", "registry", "board"]
+
+answer:
+  heartbeat: hb-hrn
+  key: r.sato
+  deadline: "03:00"
+  action: wipe
+  target: harness
+
+clues:
+  - type: direct
+    post_number: 1
+    prose: "`hb-arc` is armed against the `archive`."
+    subject: { category: heartbeat, item: "hb-arc" }
+    object: { category: target, item: "archive" }
+
+  - type: direct
+    post_number: 2
+    prose: "`hb-brd` is armed against the `board`."
+    subject: { category: heartbeat, item: "hb-brd" }
+    object: { category: target, item: "board" }
+
+  - type: link
+    post_number: 3
+    prose: "The switch on the `board` fires `publish`."
+    if: { category: target, item: "board" }
+    then: { category: action, item: "publish" }
+
+  - type: link
+    post_number: 4
+    prose: "The switch on the `board` has a `04:00` deadline."
+    if: { category: target, item: "board" }
+    then: { category: deadline, item: "04:00" }
+
+  - type: link
+    post_number: 5
+    prose: "The switch that fires `rotate` is armed against the `registry`."
+    if: { category: action, item: "rotate" }
+    then: { category: target, item: "registry" }
+
+  - type: link
+    post_number: 6
+    prose: "The switch held by `k.bot` fires `rotate`."
+    if: { category: key, item: "k.bot" }
+    then: { category: action, item: "rotate" }
+
+  - type: link
+    post_number: 7
+    prose: "The switch held by `k.ops` has a `03:40` deadline."
+    if: { category: key, item: "k.ops" }
+    then: { category: deadline, item: "03:40" }
+
+  - type: negation
+    post_number: 8
+    prose: "`hb-arc` does not fire `wipe`."
+    subject: { category: heartbeat, item: "hb-arc" }
+    object: { category: action, item: "wipe" }
+
+  - type: negation
+    post_number: 9
+    prose: "`hb-hrn` does not fire `rotate`."
+    subject: { category: heartbeat, item: "hb-hrn" }
+    object: { category: action, item: "rotate" }
+
+  - type: negation
+    post_number: 10
+    prose: "`k.jeff` does not hold the switch that fires `wipe`."
+    subject: { category: key, item: "k.jeff" }
+    object: { category: action, item: "wipe" }
+
+  - type: not_equal_any
+    post_number: 11
+    prose: "The `03:00` deadline is neither `k.bot`'s nor the one armed against the `archive`."
+    subject: { category: deadline, item: "03:00" }
+    none_of:
+      - { category: key, item: "k.bot" }
+      - { category: target, item: "archive" }

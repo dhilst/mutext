@@ -1,0 +1,21 @@
+name: "INC-0016 Dead Man Switch"
+dimensions: 5
+size: 4
+categories:
+  - name: heartbeat
+    items: ["hb-arc", "hb-hrn", "hb-reg", "hb-brd"]
+  - name: key
+    items: ["k.ops", "r.sato", "k.bot", "k.jeff"]
+  - name: deadline
+    items: ["03:00", "03:10", "03:40", "04:00"]
+  - name: action
+    items: ["publish", "wipe", "rotate", "seal"]
+  - name: target
+    items: ["archive", "harness", "registry", "board"]
+solution:
+  - { heartbeat: "hb-arc", key: "k.ops", deadline: "03:40", action: "seal", target: "archive" }
+  - { heartbeat: "hb-hrn", key: "r.sato", deadline: "03:00", action: "wipe", target: "harness" }
+  - { heartbeat: "hb-reg", key: "k.bot", deadline: "03:10", action: "rotate", target: "registry" }
+  - { heartbeat: "hb-brd", key: "k.jeff", deadline: "04:00", action: "publish", target: "board" }
+answer: { heartbeat: "hb-hrn", key: "r.sato", deadline: "03:00", action: "wipe", target: "harness" }
+avoid_direct_answer: true

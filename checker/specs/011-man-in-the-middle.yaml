@@ -1,0 +1,17 @@
+name: "INC-0011 Man in the Middle"
+dimensions: 3
+size: 4
+categories:
+  - name: session
+    items: ["sx-01", "sx-02", "sx-03", "sx-04"]
+  - name: fingerprint
+    items: ["fp-3a", "fp-7c", "fp-b1", "fp-e9"]
+  - name: hop
+    items: ["hop-ams", "hop-fra", "hop-sfo", "hop-nrt"]
+solution:
+  - { session: "sx-01", fingerprint: "fp-7c", hop: "hop-fra" }
+  - { session: "sx-02", fingerprint: "fp-b1", hop: "hop-nrt" }
+  - { session: "sx-03", fingerprint: "fp-e9", hop: "hop-ams" }
+  - { session: "sx-04", fingerprint: "fp-3a", hop: "hop-sfo" }
+answer: { session: "sx-02", fingerprint: "fp-b1", hop: "hop-nrt" }
+avoid_direct_answer: true

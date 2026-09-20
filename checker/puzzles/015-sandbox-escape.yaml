@@ -1,0 +1,101 @@
+name: "INC-0015 Sandbox Escape"
+dimensions: 5
+size: 4
+
+post:
+  path: _posts/2026-05-29-sandbox-escape.md
+  panel_title: evidence
+  answer_order: [sandbox, syscall, path, capability, host]
+  narrative_only: [13]
+
+categories:
+  - name: sandbox
+    items: ["sbx-01", "sbx-02", "sbx-03", "sbx-04"]
+  - name: syscall
+    items: ["ptrace", "mount", "io_uring", "kexec"]
+  - name: path
+    items: ["/proc/self/exe", "/dev/shm", "/run/host", "/var/lib/pods"]
+  - name: capability
+    items: ["cap_sys_admin", "cap_ptrace", "cap_net_raw", "cap_dac_read"]
+  - name: host
+    items: ["host-01", "host-02", "host-03", "host-04"]
+
+answer:
+  sandbox: sbx-02
+  syscall: io_uring
+  path: /run/host
+  capability: cap_sys_admin
+  host: host-01
+
+clues:
+  - type: direct
+    post_number: 1
+    prose: "`sbx-03` reached `/dev/shm`."
+    subject: { category: sandbox, item: "sbx-03" }
+    object: { category: path, item: "/dev/shm" }
+
+  - type: direct
+    post_number: 2
+    prose: "`sbx-03` attempted `kexec`."
+    subject: { category: sandbox, item: "sbx-03" }
+    object: { category: syscall, item: "kexec" }
+
+  - type: direct
+    post_number: 3
+    prose: "`sbx-04` attempted `mount`."
+    subject: { category: sandbox, item: "sbx-04" }
+    object: { category: syscall, item: "mount" }
+
+  - type: link
+    post_number: 4
+    prose: "The `mount` attempt ran with `cap_net_raw`."
+    if: { category: syscall, item: "mount" }
+    then: { category: capability, item: "cap_net_raw" }
+
+  - type: link
+    post_number: 5
+    prose: "The attempt that reached `/var/lib/pods` held `cap_net_raw`."
+    if: { category: path, item: "/var/lib/pods" }
+    then: { category: capability, item: "cap_net_raw" }
+
+  - type: link
+    post_number: 6
+    prose: "The `ptrace` attempt reached `/proc/self/exe`."
+    if: { category: syscall, item: "ptrace" }
+    then: { category: path, item: "/proc/self/exe" }
+
+  - type: link
+    post_number: 7
+    prose: "The `ptrace` attempt landed on `host-03`."
+    if: { category: syscall, item: "ptrace" }
+    then: { category: host, item: "host-03" }
+
+  - type: link
+    post_number: 8
+    prose: "The attempt holding `cap_dac_read` landed on `host-04`."
+    if: { category: capability, item: "cap_dac_read" }
+    then: { category: host, item: "host-04" }
+
+  - type: negation
+    post_number: 9
+    prose: "Nothing holding `cap_net_raw` reached `host-01`."
+    subject: { category: capability, item: "cap_net_raw" }
+    object: { category: host, item: "host-01" }
+
+  - type: negation
+    post_number: 10
+    prose: "`sbx-02` did not reach `/proc/self/exe`."
+    subject: { category: sandbox, item: "sbx-02" }
+    object: { category: path, item: "/proc/self/exe" }
+
+  - type: negation
+    post_number: 11
+    prose: "Whatever reached `/proc/self/exe` was not holding `cap_sys_admin`."
+    subject: { category: path, item: "/proc/self/exe" }
+    object: { category: capability, item: "cap_sys_admin" }
+
+  - type: negation
+    post_number: 12
+    prose: "`sbx-03` did not land on `host-01`."
+    subject: { category: sandbox, item: "sbx-03" }
+    object: { category: host, item: "host-01" }

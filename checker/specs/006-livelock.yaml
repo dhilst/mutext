@@ -1,0 +1,16 @@
+name: "INC-0006 Livelock"
+dimensions: 3
+size: 3
+categories:
+  - name: worker
+    items: ["w-reap", "w-drain", "w-merge"]
+  - name: backoff
+    items: ["50ms", "500ms", "5s"]
+  - name: progress
+    items: ["0 ops", "3 ops", "41k ops"]
+solution:
+  - { worker: "w-reap", backoff: "5s", progress: "41k ops" }
+  - { worker: "w-drain", backoff: "50ms", progress: "3 ops" }
+  - { worker: "w-merge", backoff: "500ms", progress: "0 ops" }
+answer: { worker: "w-merge", backoff: "500ms", progress: "0 ops" }
+avoid_direct_answer: true

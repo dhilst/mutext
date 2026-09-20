@@ -1,0 +1,22 @@
+name: "INC-0010 Byzantine Fault"
+dimensions: 5
+size: 5
+categories:
+  - name: replica
+    items: ["r1", "r2", "r3", "r4", "r5"]
+  - name: digest
+    items: ["d1", "d2", "d3", "d4", "d5"]
+  - name: epoch
+    items: ["e1", "e2", "e3", "e4", "e5"]
+  - name: key
+    items: ["k1", "k2", "k3", "k4", "k5"]
+  - name: stream
+    items: ["s1", "s2", "s3", "s4", "s5"]
+solution:
+  - { replica: "r1", digest: "d2", epoch: "e5", key: "k1", stream: "s3" }
+  - { replica: "r2", digest: "d4", epoch: "e1", key: "k5", stream: "s1" }
+  - { replica: "r3", digest: "d5", epoch: "e4", key: "k4", stream: "s4" }
+  - { replica: "r4", digest: "d1", epoch: "e2", key: "k2", stream: "s5" }
+  - { replica: "r5", digest: "d3", epoch: "e3", key: "k3", stream: "s2" }
+answer: { replica: "r3", digest: "d5", epoch: "e4", key: "k4", stream: "s4" }
+avoid_direct_answer: true

@@ -1,0 +1,55 @@
+name: "INC-0006 Livelock"
+dimensions: 3
+size: 3
+
+post:
+  path: _posts/2026-05-20-livelock.md
+  panel_title: evidence
+  answer_order: [worker, backoff, progress]
+  narrative_only: [6]
+
+categories:
+  - name: worker
+    items: ["w-reap", "w-drain", "w-merge"]
+  - name: backoff
+    items: ["50ms", "500ms", "5s"]
+  - name: progress
+    items: ["0 ops", "3 ops", "41k ops"]
+
+answer:
+  worker: w-merge
+  backoff: 500ms
+  progress: "0 ops"
+
+clues:
+  - type: not_equal_any
+    post_number: 1
+    prose: "The `50ms` backoff window was never entered by `w-merge` or `w-reap`."
+    subject: { category: backoff, item: "50ms" }
+    none_of:
+      - { category: worker, item: "w-merge" }
+      - { category: worker, item: "w-reap" }
+
+  - type: negation
+    post_number: 2
+    prose: "The worker in the `50ms` window committed something: it is not the one sitting at `0 ops`."
+    subject: { category: backoff, item: "50ms" }
+    object: { category: progress, item: "0 ops" }
+
+  - type: negation
+    post_number: 3
+    prose: "`w-drain` is not the worker that committed `41k ops`."
+    subject: { category: worker, item: "w-drain" }
+    object: { category: progress, item: "41k ops" }
+
+  - type: negation
+    post_number: 4
+    prose: "The `500ms` window does not belong to `w-reap`."
+    subject: { category: backoff, item: "500ms" }
+    object: { category: worker, item: "w-reap" }
+
+  - type: negation
+    post_number: 5
+    prose: "`w-merge` did not commit `41k ops`."
+    subject: { category: worker, item: "w-merge" }
+    object: { category: progress, item: "41k ops" }

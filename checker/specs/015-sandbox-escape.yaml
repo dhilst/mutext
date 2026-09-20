@@ -1,0 +1,21 @@
+name: "INC-0015 Sandbox Escape"
+dimensions: 5
+size: 4
+categories:
+  - name: sandbox
+    items: ["sbx-01", "sbx-02", "sbx-03", "sbx-04"]
+  - name: syscall
+    items: ["ptrace", "mount", "io_uring", "kexec"]
+  - name: path
+    items: ["/proc/self/exe", "/dev/shm", "/run/host", "/var/lib/pods"]
+  - name: capability
+    items: ["cap_sys_admin", "cap_ptrace", "cap_net_raw", "cap_dac_read"]
+  - name: host
+    items: ["host-01", "host-02", "host-03", "host-04"]
+solution:
+  - { sandbox: "sbx-01", syscall: "ptrace", path: "/proc/self/exe", capability: "cap_ptrace", host: "host-03" }
+  - { sandbox: "sbx-02", syscall: "io_uring", path: "/run/host", capability: "cap_sys_admin", host: "host-01" }
+  - { sandbox: "sbx-03", syscall: "kexec", path: "/dev/shm", capability: "cap_dac_read", host: "host-04" }
+  - { sandbox: "sbx-04", syscall: "mount", path: "/var/lib/pods", capability: "cap_net_raw", host: "host-02" }
+answer: { sandbox: "sbx-02", syscall: "io_uring", path: "/run/host", capability: "cap_sys_admin", host: "host-01" }
+avoid_direct_answer: true

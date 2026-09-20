@@ -1,0 +1,64 @@
+name: "INC-0007 Priority Inversion"
+dimensions: 3
+size: 4
+
+post:
+  path: _posts/2026-05-21-priority-inversion.md
+  panel_title: evidence
+  answer_order: [task, priority, mutex]
+
+categories:
+  - name: task
+    items: ["t-audit", "t-render", "t-billing", "t-gc"]
+  - name: priority
+    items: ["P0", "P1", "P2", "P3"]
+  - name: mutex
+    items: ["m-io", "m-db", "m-log", "m-tmp"]
+
+answer:
+  task: t-gc
+  priority: P3
+  mutex: m-db
+
+clues:
+  - type: link
+    post_number: 1
+    prose: "The task running at `P1` holds `m-tmp`."
+    if: { category: priority, item: "P1" }
+    then: { category: mutex, item: "m-tmp" }
+
+  - type: negation
+    post_number: 2
+    prose: "`m-log` is not held by the `P0` task."
+    subject: { category: priority, item: "P0" }
+    object: { category: mutex, item: "m-log" }
+
+  - type: direct
+    post_number: 3
+    prose: "`t-render` holds `m-io`."
+    subject: { category: task, item: "t-render" }
+    object: { category: mutex, item: "m-io" }
+
+  - type: negation
+    post_number: 4
+    prose: "`t-audit` does not run at `P3`."
+    subject: { category: task, item: "t-audit" }
+    object: { category: priority, item: "P3" }
+
+  - type: negation
+    post_number: 5
+    prose: "Whatever holds `m-log`, it is not running at `P3`."
+    subject: { category: priority, item: "P3" }
+    object: { category: mutex, item: "m-log" }
+
+  - type: direct
+    post_number: 6
+    prose: "`t-billing` runs at `P1`."
+    subject: { category: task, item: "t-billing" }
+    object: { category: priority, item: "P1" }
+
+  - type: negation
+    post_number: 7
+    prose: "The `P0` task does not hold `m-db` — it is waiting on it."
+    subject: { category: priority, item: "P0" }
+    object: { category: mutex, item: "m-db" }

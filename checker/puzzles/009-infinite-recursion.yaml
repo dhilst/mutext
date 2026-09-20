@@ -1,0 +1,79 @@
+name: "INC-0009 Infinite Recursion"
+dimensions: 4
+size: 4
+
+post:
+  path: _posts/2026-05-23-infinite-recursion.md
+  panel_title: evidence
+  answer_order: [frame, calls, depth, stack]
+  narrative_only: [9]
+
+categories:
+  - name: frame
+    items: ["resolve", "expand", "inline", "emit"]
+  - name: calls
+    items: ["→resolve", "→expand", "→inline", "→emit"]
+  - name: depth
+    items: ["d-128", "d-512", "d-4k", "d-∞"]
+  - name: stack
+    items: ["4 MB", "32 MB", "256 MB", "2 GB"]
+
+answer:
+  frame: inline
+  calls: "→emit"
+  depth: "d-∞"
+  stack: "2 GB"
+
+clues:
+  - type: self_exclusion
+    post_number: 1
+    prose: "No frame re-enters itself directly. Every call in the trace is to a different frame."
+    category_a: frame
+    category_b: calls
+    mapping:
+      resolve: "→resolve"
+      expand: "→expand"
+      inline: "→inline"
+      emit: "→emit"
+
+  - type: direct
+    post_number: 2
+    prose: "`resolve` bottomed out at `d-128`."
+    subject: { category: frame, item: "resolve" }
+    object: { category: depth, item: "d-128" }
+
+  - type: direct
+    post_number: 3
+    prose: "`resolve` calls `expand`."
+    subject: { category: frame, item: "resolve" }
+    object: { category: calls, item: "→expand" }
+
+  - type: direct
+    post_number: 4
+    prose: "`emit` peaked at `32 MB` of stack."
+    subject: { category: frame, item: "emit" }
+    object: { category: stack, item: "32 MB" }
+
+  - type: link
+    post_number: 5
+    prose: "The frame that reached `d-4k` peaked at `256 MB`."
+    if: { category: depth, item: "d-4k" }
+    then: { category: stack, item: "256 MB" }
+
+  - type: link
+    post_number: 6
+    prose: "Whatever calls `inline` also peaked at `256 MB`."
+    if: { category: calls, item: "→inline" }
+    then: { category: stack, item: "256 MB" }
+
+  - type: negation
+    post_number: 7
+    prose: "The frame that calls `expand` did not reach `2 GB`."
+    subject: { category: calls, item: "→expand" }
+    object: { category: stack, item: "2 GB" }
+
+  - type: negation
+    post_number: 8
+    prose: "`inline` did not stop at `d-512`."
+    subject: { category: frame, item: "inline" }
+    object: { category: depth, item: "d-512" }

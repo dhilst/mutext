@@ -1,0 +1,17 @@
+name: "INC-0007 Priority Inversion"
+dimensions: 3
+size: 4
+categories:
+  - name: task
+    items: ["t-audit", "t-render", "t-billing", "t-gc"]
+  - name: priority
+    items: ["P0", "P1", "P2", "P3"]
+  - name: mutex
+    items: ["m-io", "m-db", "m-log", "m-tmp"]
+solution:
+  - { task: "t-audit", priority: "P2", mutex: "m-log" }
+  - { task: "t-render", priority: "P0", mutex: "m-io" }
+  - { task: "t-billing", priority: "P1", mutex: "m-tmp" }
+  - { task: "t-gc", priority: "P3", mutex: "m-db" }
+answer: { task: "t-gc", priority: "P3", mutex: "m-db" }
+avoid_direct_answer: true
