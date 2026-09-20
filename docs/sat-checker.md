@@ -131,6 +131,14 @@ line instead.
 | `E409` | the declared post file does not exist |
 | `W404` | evidence numbering is not contiguous |
 | `W408` | the permalink does not contain the puzzle slug |
+| `E411` | a chat message describes the grid wrongly — calls a row a column, or the reverse |
+| `E412` | a `Format:` hint in a message disagrees with the dropdown order |
+
+`E411` exists because INC-0001 shipped telling the player "the left three
+columns are tokens" when the columns were processes and the tokens were rows.
+The check only fires on a sentence that talks about one axis and names a
+category living exclusively on the other, so a category on both axes — which is
+normal, the shared category appears twice — is never flagged.
 
 **Grid validation is structural.** `zebra-table.html` disables a block when
 `row_group + col_group >= number of column groups`, so the covering rule is what

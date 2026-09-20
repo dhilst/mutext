@@ -18,6 +18,8 @@ ANSWER_SPLIT_RE = re.compile(r'data-puzzle-answer="')
 SELECT_RE = re.compile(r'<select[^>]*data-answer-dim="(\d+)"(.*?)</select>', re.S)
 OPTION_RE = re.compile(r'<option value="([^"]*)"[^>]*>(.*?)</option>', re.S)
 ZEBRA_RE = re.compile(r"{%\s*include\s+zebra-table\.html(.*?)%}", re.S)
+CHAT_RE = re.compile(r'chat-message\.html[^%]*?message="([^"]*)"')
+FORMAT_RE = re.compile(r"Format:\s*([^.\"]+)", re.I)
 ARG_RE = re.compile(r'(\w+)="([^"]*)"')
 PERMALINK_RE = re.compile(r"^permalink:\s*(\S+)\s*$", re.M)
 
@@ -82,7 +84,7 @@ def parse_selects(body: str) -> list[tuple[int, list[str], str]]:
         values = []
         for value, label in options:
             if value == "":
-                placeholder = re.sub(r"[—\-\s]", "", label).strip()
+                placeholder = re.sub(r"^[\s—\-]+|[\s—\-]+$", "", label).strip()
             else:
                 values.append(value)
         out.append((dim, values, placeholder))
@@ -168,6 +170,54 @@ def _grid_findings(puzzle: Puzzle, grid: dict[str, list[str]], rel: str) -> list
             "grid blocks do not cover each category pair exactly once: " + "; ".join(detail),
             file=rel,
             hint="cols = G1..G(D-1), rows = GD..G2 (reverse)"))
+    return out
+
+
+def _names(category: str) -> set[str]:
+    """How a category is likely to be written in prose."""
+    base = category.replace("_", " ")
+    return {base, base + "s", base.replace(" ", "")}
+
+
+def _message_findings(puzzle: Puzzle, text: str, rel: str,
+                      col_names: list[str], row_names: list[str]) -> list[Finding]:
+    """Chat messages explain the board; check they describe the real one."""
+    out: list[Finding] = []
+    col_only = set(col_names) - set(row_names)
+    row_only = set(row_names) - set(col_names)
+
+    for message in CHAT_RE.findall(text):
+        # a Format: hint must list the dropdowns, in their order
+        hit = FORMAT_RE.search(message)
+        if hit:
+            claimed = [v.strip().lower() for v in hit.group(1).split(",") if v.strip()]
+            labels = [p.lower() for _, _, p in parse_selects(text) if p]
+            wanted = labels[:len(claimed)]
+            if claimed and wanted and claimed != wanted:
+                out.append(finding(
+                    "E412",
+                    f"a message says \"Format: {', '.join(claimed)}\" but the dropdowns "
+                    f"read {', '.join(wanted)}",
+                    file=rel,
+                    hint="the format hint is what the player types; it must match the widget"))
+
+        # layout sentences: "left columns are ...", "rows are ..."
+        for sentence in re.split(r"(?<=[.!?])\s+", message):
+            low = sentence.lower()
+            says_col, says_row = "column" in low, "row" in low
+            if says_col == says_row:
+                continue                      # neither, or both - too ambiguous to judge
+            wrong = row_only if says_col else col_only
+            axis = "columns" if says_col else "rows"
+            other = "rows" if says_col else "columns"
+            for cat in sorted(wrong):
+                if any(re.search(rf"\b{re.escape(n)}\b", low) for n in _names(cat)):
+                    out.append(finding(
+                        "E411",
+                        f"a message calls '{cat}' one of the {axis}, but it is only on "
+                        f"the {other}: \"{sentence.strip()}\"",
+                        file=rel,
+                        hint=f"columns are {', '.join(col_names)}; rows are {', '.join(row_names)}"))
     return out
 
 
@@ -313,6 +363,11 @@ def lint_post(puzzle: Puzzle, repo_root: Path) -> list[Finding]:
         out.append(finding("E407", "no zebra-table include found", file=rel))
     else:
         out.extend(_grid_findings(puzzle, grid, rel))
+        by_items = {tuple(c.items): c.name for c in puzzle.categories}
+        groups = lambda prefix: [by_items[tuple(grid[k])]
+                                 for k in (f"{prefix}_{s}" for s in "abcd")
+                                 if k in grid and tuple(grid[k]) in by_items]
+        out.extend(_message_findings(puzzle, text, rel, groups("cols"), groups("rows")))
 
     # --- permalink --------------------------------------------------------
     permalink = PERMALINK_RE.search(text)

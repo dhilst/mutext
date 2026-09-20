@@ -58,6 +58,8 @@ CODES: dict[str, tuple[Severity, str, str]] = {
     "W404": (Severity.WARN, "post_sync", "evidence numbering is not contiguous"),
     "W408": (Severity.WARN, "post_sync", "permalink does not match the puzzle slug"),
     "I410": (Severity.INFO, "post_sync", "extra answer blocks belong to story stages"),
+    "E411": (Severity.ERROR, "post_sync", "a chat message describes the grid wrongly"),
+    "E412": (Severity.ERROR, "post_sync", "a Format: line disagrees with the dropdowns"),
 }
 
 
