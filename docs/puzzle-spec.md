@@ -474,6 +474,29 @@ plus a `[data-solved-badge]`, the panel carries `[data-progress-count]`,
 `[data-progress-bar]` and a `[data-clear-progress]` reset. All of it is wired
 generically in `main.js` — there is still no per-chapter JavaScript.
 
+## Incident routing
+
+Incidents are released one at a time: incident N is reachable only once N-1 is
+closed. The layout emits the ordered queue as JSON in `#incident-queue`, and
+`main.js` uses it three ways - to hide archive rows that have not been routed,
+to point the operator panel's "active incident" at the next open one, and to
+replace the body of a page that is reached before its turn with an in-world
+"not routed" notice.
+
+A page outside the incident sequence can opt into the same gate with front
+matter, which is how the epilogue stays sealed until the last chapter:
+
+```yaml
+requires: 016-dead-man-switch
+```
+
+A two-stage chapter releases the next one only when its second stage is solved,
+because routing reads the same `mutext-solved` list.
+
+This is client-side, like everything else here - the pages are static and a
+determined player can read the source. It shapes the intended path; it is not
+an access control.
+
 ## Constraints
 
 - No note-taking required — all deduction must be trackable on the grid alone

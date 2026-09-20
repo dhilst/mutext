@@ -1,6 +1,7 @@
 ---
 title: Post-Incident Review
 description: Internal review record for an incident that was never filed.
+requires: 016-dead-man-switch
 ---
 
 <article class="shell-panel">

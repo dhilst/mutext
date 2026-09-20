@@ -84,6 +84,19 @@
     @apply border border-slate-mutext/15 bg-black/20 p-4;
   }
 
+  /* Long fenced blocks and terminal dumps scroll inside their panel instead of
+     widening the page. Without this every chapter overflows on a phone. */
+  .highlighter-rouge,
+  .shell-panel pre,
+  .lore-pre {
+    @apply max-w-full overflow-x-auto;
+  }
+
+  /* Inline code may wrap; preformatted code must not - it scrolls instead. */
+  :not(pre) > code {
+    @apply break-words;
+  }
+
   .archive-row.is-closed {
     @apply bg-phosphor/[0.03];
   }

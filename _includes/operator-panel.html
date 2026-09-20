@@ -25,13 +25,14 @@
       <button type="button" class="mt-3 font-mono text-[0.68rem] uppercase text-slate-mutext transition hover:text-red-fault" data-clear-progress hidden>reopen all incidents</button>
     </section>
 
-    {% assign latest = site.posts | sort: "date" | last %}
-    {% assign latest_id = latest.title | split: " " | first %}
+    {% assign first = site.posts | sort: "date" | first %}
+    {% assign first_id = first.title | split: " " | first %}
     <section class="space-y-2">
       <p class="font-mono text-xs uppercase text-slate-mutext">Active incident</p>
-      <a class="block border border-amber-warn/25 bg-amber-warn/10 p-3 hover:border-amber-warn/60" href="{{ latest.url | relative_url }}">
-        <span class="block font-mono text-xs text-amber-warn">{{ latest_id }}</span>
-        <span class="mt-1 block text-sm text-white">{{ latest.title | remove_first: latest_id | strip }}</span>
+      <a class="block border border-amber-warn/25 bg-amber-warn/10 p-3 hover:border-amber-warn/60"
+         href="{{ first.url | relative_url }}" data-active-incident>
+        <span class="block font-mono text-xs text-amber-warn" data-active-id>{{ first_id }}</span>
+        <span class="mt-1 block text-sm text-white" data-active-title>{{ first.title | remove_first: first_id | strip }}</span>
       </a>
     </section>
 
