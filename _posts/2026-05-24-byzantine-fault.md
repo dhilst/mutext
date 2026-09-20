@@ -93,13 +93,13 @@ Five countersigning keys. Four of them were service identities.
     {% include panel.html title="registry" subtitle="attestation fabric" subtitle_class="text-slate-mutext" raw=true %}
 <div class="overflow-x-auto p-4">
 <pre class="font-mono text-xs leading-6 text-slate-300 whitespace-pre">
-  replica            digest           epoch          key              stream
-  ─────────────────────────────────────────────────────────────────────────────────
-  r1  repl-aurora    d1  0x41ae…      e1  0411       k1  att.ops      s1  tel/hrs-02
-  r2  repl-borealis  d2  0x7c02…      e2  0412       k2  att.rel      s2  tel/hrs-03
-  r3  repl-cinder    d3  0x9f31…      e3  0414       k3  att.bot      s3  tel/hrs-05
-  r4  repl-dune      d4  0xb4d8…      e4  0416       k4  <span class="text-amber-warn">r.sato</span>       s4  tel/hrs-07
-  r5  repl-ember     d5  0xe016…      e5  0419       k5  att.arc      s5  tel/hrs-11
+  short forms by field — a row lists what that field can hold, nothing more
+  ──────────────────────────────────────────────────────────────────────────────────────
+  replica   r1 repl-aurora   r2 repl-borealis  r3 repl-cinder   r4 repl-dune     r5 repl-ember
+  digest    d1 0x41ae…       d2 0x7c02…        d3 0x9f31…       d4 0xb4d8…       d5 0xe016…
+  epoch     e1 0411          e2 0412           e3 0414          e4 0416          e5 0419
+  key       k1 att.ops       k2 att.rel        k3 att.bot       k4 <span class="text-amber-warn">r.sato</span>        k5 att.arc
+  stream    s1 tel/hrs-02    s2 tel/hrs-03     s3 tel/hrs-05    s4 tel/hrs-07    s5 tel/hrs-11
 </pre>
 </div>
     {% include panel_end.html raw=true %}

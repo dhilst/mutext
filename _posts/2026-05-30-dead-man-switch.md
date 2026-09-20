@@ -12,9 +12,9 @@ undo.
 
 ```
 [INFO ] harness-04: heartbeat monitor, 4 switches armed
-[INFO ] hb-arc  renewed 02:44  next deadline 03:40
-[INFO ] hb-reg  renewed 02:44  next deadline 03:10
-[INFO ] hb-brd  renewed 02:44  next deadline 04:00
+[INFO ] hb-arc  renewed 02:44
+[INFO ] hb-reg  renewed 02:44
+[INFO ] hb-brd  renewed 02:44
 [WARN ] hb-hrn  no renewal record in window
 [WARN ] renewals recorded: 3 of 4
 ```
@@ -22,7 +22,8 @@ undo.
 Three of the four switches were being renewed every fifteen minutes by the
 scheduler, the way a dead-man switch is supposed to be: somebody says *still
 here, still here, still here*, and if they ever stop, the switch does the thing
-it was armed to do.
+it was armed to do. The monitor logs the renewal and nothing else — what each
+switch is armed against, and when it comes due, lives in the switch table.
 
 The fourth had no renewal record at all. Not a missed one. None, all week, going
 back as far as the monitor kept data.
